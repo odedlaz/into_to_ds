@@ -1,7 +1,4 @@
-//
-// Created by shraga89@st.technion.ac.il on 3/5/17.
-//
-#include "Cluster.h"
+#include "include/Cluster.h"
 
 using std::vector;
 using std::string;
@@ -9,12 +6,9 @@ using std::cout;
 using std::endl;
 
 
-bool Cluster::removePoint(size_t pointID)
-{
-    for(vector<Point>::size_type i = 0; i < _points.size(); i++)
-    {
-        if(_points[i] == pointID)
-        {
+bool Cluster::removePoint(size_t pointID) {
+    for (vector<Point>::size_type i = 0; i < _points.size(); i++) {
+        if (_points[i] == pointID) {
             _points.erase(_points.begin() + i);
             return true;
         }
@@ -23,11 +17,9 @@ bool Cluster::removePoint(size_t pointID)
 }
 
 
-void Cluster::print(const vector<Point>& allPoints) const
-{
+void Cluster::print(const vector<Point> &allPoints) const {
     cout << "Cluster " << _idCluster + 1 << endl;
-    for(vector<Point>::size_type j = 0; j < _points.size(); j++)
-    {
+    for (vector<Point>::size_type j = 0; j < _points.size(); j++) {
         cout << "Point " << allPoints[_points[j]].getID() + 1 << ": ";
         allPoints[_points[j]].print();
     }
@@ -36,14 +28,14 @@ void Cluster::print(const vector<Point>& allPoints) const
     _prototype.print();
 }
 
-Cluster::Cluster(int idCluster, const Point &point):
+Cluster::Cluster(int idCluster, const Point &point) :
         _idCluster(idCluster),
         _prototype(point) {
 
 }
 
 void Cluster::addPoint(size_t pointID) {
-   _points.push_back(pointID);
+    _points.push_back(pointID);
 }
 
 void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
