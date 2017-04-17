@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <tr1/tuple>
+#include <cmath>
 
 using std::string;
 using std::vector;
@@ -62,9 +63,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    double min, max;
+    double min = 1.0;
+    double max = 0.0;
     // create seed correlation for min and max values
-    min = max = (*data.begin()).getCorrelation(*(data.begin() + 1));
 
     std::tr1::tuple<FeatureVector, FeatureVector> minTuple, maxTuple;
 
@@ -80,13 +81,14 @@ int main(int argc, char *argv[]) {
         for (vector<FeatureVector>::iterator iterB = iterA + 1; iterB != data.end(); ++iterB) {
             FeatureVector fvB = (*iterB);
             double correlation = fvA.getCorrelation(fvB);
+            double absCorrelation = fabs(correlation);
 
-            if (correlation > max) {
+            if (absCorrelation > fabs(max)) {
                 max = correlation;
                 maxTuple = std::tr1::tuple<FeatureVector, FeatureVector>(fvA, fvB);
             }
 
-            if (correlation < min) {
+            if (absCorrelation < fabs(min)) {
                 min = correlation;
                 minTuple = std::tr1::tuple<FeatureVector, FeatureVector>(fvA, fvB);
             }
