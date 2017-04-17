@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+book_path=${1:-""}
+chapters_dir=$(dirname "$(readlink -f "$0")")/chapters
+
+# remove existing files
+rm -rf "$chapters_dir" && mkdir -p "$chapters_dir" && cd "$chapters_dir" || exit 1
+
+awk '{
+   if ($1 == "CHAPTER") {
+      # extract the chapter
+      chapter = substr($0,9, index($0, ".")-9)
+      l = sprintf("%s.txt", chapter)
+   }
+   if (length(chapter) > 0) {
+      print $0 >> l
+   }
+}' "$book_path"
+
+
+# iterate all files and remove blank lines - this is NOT mandatory
+for f in *; do
+   echo "$(<"$f")" > "$f"
+done
+
+echo "$chapters_dir"

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+book_path=${1:-""}
+
+# 1. replace all punctuation and spaces with new line
+# 2. remove all non alphanumeric characters
+# 3. make everything lowercase
+# 4. sort
+
+grep -oE "\w+" "$book_path" | \
+   awk '
+   {
+      words[tolower($0)]
+      sum += length($0);
+   } END {
+      average_word_length = sum/NR
+      words_longer_than_average = 0
+
+      for (word in words)
+         if (length(word) >= average_word_length)
+            words_longer_than_average++
+
+      printf "There are %d words that are longer \
+than the average word length (%0.3f)\n", \
+words_longer_than_average, average_word_length
+   }'

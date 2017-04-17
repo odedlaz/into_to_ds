@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+book_path=${1:-""}
+
+# 1. filter allwords next to Alice
+# 2. remove 'Alice' from the grep expression
+# 3. replace all spaces with a new line
+# 4. remove all empty lines
+# 5. sort
+# 6. get all uniq lines, with the amount they appeared
+# 7. sort according to the previous output
+# 8. get only the one that has the highest value
+grep -Po '(\w+\s+)?Alice(\s+\w+)?' "$book_path" | \
+   sed 's/Alice//g' | \
+   tr '[:space:]' '\n' | \
+   tr '[:upper:]' '[:lower:]' | \
+   sed '/^\s*$/d' | \
+   sort | \
+   uniq -c | \
+   sort -rn | \
+   head -n 1 | \
+   awk '{ printf "The most frequent word near \"Alice\" is \"%s\" \
+(appeared %s times)\n", $2, $1 }'

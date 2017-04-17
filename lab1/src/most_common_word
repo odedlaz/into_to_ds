@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+book_path=${1:-""}
+
+# print most frequent word, least frequent word & longest word
+# 1. replace all punctuation and spaces with new line
+# 2. remove all non alphanumeric characters
+# 3. make everything lowercase
+# 4. sort
+grep -oE "\w+" "$book_path" | \
+        awk '{
+               for (i=1; i<=NF; i++){
+                  hist[tolower($i)]++;
+               }
+            }
+      END {
+       min = 1
+       for (word in hist) {
+          if (length(word) > length(longest))
+             longest = word
+
+         times=hist[word]
+
+         if (times >= max) {
+            max = times
+            maxword = word
+         }
+         if (times <= min) {
+            min = times
+            minword = word
+         }
+      }
+      printf "Most frequent word is \"%s\" (appeared %d times)\n", maxword, max
+      printf "Least frequent word is \"%s\" (appeared %d times)\n", minword, min
+      printf "Longest word is \"%s\" (%d characters)\n",longest, length(longest)
+    }'
