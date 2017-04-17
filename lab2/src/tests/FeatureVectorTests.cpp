@@ -20,5 +20,7 @@ bool testCorrelationSymmetry() {
 
     FeatureVector a = FeatureVector("a", vecA);
     FeatureVector b = FeatureVector("b", vecB);
+    // Compare doubles in a deterministic manner
+    // http://stackoverflow.com/a/18686946
     return trunc(1000. * a.getCorrelation(b)) == trunc(1000. * b.getCorrelation(a));
 }
