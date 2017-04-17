@@ -2,7 +2,7 @@
 // Created by odedlaz on 4/17/17.
 //
 
-#include "FeatureVector.h"
+#include "include/FeatureVector.h"
 
 FeatureVector::FeatureVector(std::string name) : _name(name) {
     _features = std::vector<double>();

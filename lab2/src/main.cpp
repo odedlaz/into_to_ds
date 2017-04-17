@@ -1,5 +1,5 @@
-#include "Statistics.h"
-#include "FeatureVector.h"
+#include "include/Statistics.h"
+#include "include/FeatureVector.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
