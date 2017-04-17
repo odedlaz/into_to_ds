@@ -1,7 +1,3 @@
-//
-// Created by shraga89@st.technion.ac.il on 3/5/17.
-//
-
 #ifndef LAB3_KMEANS_POINT_H
 #define LAB3_KMEANS_POINT_H
 
@@ -10,8 +6,7 @@
 #include <string>
 
 
-class Point
-{
+class Point {
 private:
     size_t _idPoint;
     int _idCluster;
@@ -21,7 +16,7 @@ public:
     static int _notAssignedToCluster;
 
 public:
-    Point(size_t id_point, const std::vector<double>& values, const std::string& name = "");
+    Point(size_t id_point, const std::vector<double> &values, const std::string &name = "");
 
     size_t getID() const { return _idPoint; }
 
@@ -29,20 +24,20 @@ public:
 
     int getCluster() const { return _idCluster; }
 
-    const std::string& getName() const { return _name;}
+    const std::string &getName() const { return _name; }
 
     size_t getDimension() const { return _values.size(); }
 
     double getValue(size_t dim) const { return _values[dim]; }
 
-    void setValue(double value, size_t dim) { _values[dim]=value; }
+    void setValue(double value, size_t dim) { _values[dim] = value; }
 
-    double euclideanDistance( const Point &other_point ) const;
+    double euclideanDistance(const Point &other_point) const;
 
 
     void print() const;
 
-    void setName( const std::string& name){ _name=name; }
+    void setName(const std::string &name) { _name = name; }
 
 };
 
