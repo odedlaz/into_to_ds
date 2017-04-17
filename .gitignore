@@ -30,4 +30,7 @@
 
 # CLion
 
-.idea
+*.cbp
+.idea/
+cmake_install.cmake
+cmake-build-debug/
