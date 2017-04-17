@@ -1,10 +1,13 @@
-#include "include/Statistics.h"
-#include "include/FeatureVector.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <tr1/tuple>
 #include <cmath>
+
+
+#include "include/Statistics.h"
+#include "include/FeatureVector.h"
+#include "tests/include/TestRunner.h"
 
 using std::string;
 using std::vector;
@@ -12,6 +15,7 @@ using std::ifstream;
 using std::stringstream;
 using std::cout;
 using std::endl;
+
 
 bool loadDataset(const string &fileName, vector<FeatureVector> &data) {
     ifstream infile(fileName);
@@ -48,13 +52,16 @@ bool loadDataset(const string &fileName, vector<FeatureVector> &data) {
     return true;
 }
 
-
 int main(int argc, char *argv[]) {
+    //Running Tests of functions...
+    runTests();
+
     string fileName = "/mnt/share/students/LAB2/winequality.csv";
     // if the filename was passed as an argument, use that instead.
     if (argc == 2) {
         fileName = argv[1];
     }
+
 
     vector<FeatureVector> data;
 
@@ -104,6 +111,5 @@ int main(int argc, char *argv[]) {
            std::tr1::get<0>(minTuple).getName().c_str(),
            std::tr1::get<1>(minTuple).getName().c_str(),
            min);
-
     return 0;
 }
