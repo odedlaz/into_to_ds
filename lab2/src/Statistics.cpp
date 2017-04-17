@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+
 using std::vector;
 
 double statistics::median(const vector<double> &xv) {
@@ -50,17 +51,17 @@ double statistics::standardDeviation(const std::vector<double> &xv) {
 double statistics::covariance(const std::vector<double> &xv, const std::vector<double> &yv) {
     double meanX = mean(xv);
     double meanY = mean(yv);
-    double cov = 0;
+    double sum = 0;
 
     // splitting initialization for better readability
     vector<double>::const_iterator iterY = yv.begin();
     vector<double>::const_iterator iterX = xv.begin();
 
     for (iterX, iterY; iterX != xv.end(); ++iterX, ++iterY) {
-        cov += (*iterX - meanX) * (*iterY - meanY);
+        sum += (*iterX - meanX) * (*iterY - meanY);
     }
 
-    return cov / xv.size();
+    return sum / xv.size();
 }
 
 double statistics::correlation(const std::vector<double> &xv, const std::vector<double> &yv) {
