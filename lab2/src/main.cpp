@@ -47,9 +47,15 @@ bool loadDataset(const string &fileName, vector<FeatureVector> &data) {
     return true;
 }
 
-int main() {
+
+int main(int argc, char *argv[]) {
+    string fileName = "/mnt/share/students/LAB2/winequality.csv";
+    // if the filename was passed as an argument, use that instead.
+    if (argc == 2) {
+        fileName = argv[1];
+    }
+
     vector<FeatureVector> data;
-    string fileName = "C:\\Users\\Afik\\Documents\\GitHub\\intro_to_ds\\lab2\\winequality.csv";
 
     if (!loadDataset(fileName, data)) {
         printf("Couldn't load the dataset from :%s\n", fileName.c_str());
