@@ -34,14 +34,11 @@ public:
 
     double euclideanDistance(const Point &other_point) const;
 
-
     void print() const;
 
     void setName(const std::string &name) { _name = name; }
 
 };
-
-
 //    _points.assign(allPoints.begin(), allPoints.end());
 
 #endif //LAB2_POINT_H
