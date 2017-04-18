@@ -1,15 +1,10 @@
-//
-// Created by shraga89@st.technion.ac.il on 3/5/17.
-//
-
 #ifndef LAB3_KMEANS_CLUSTER_H
 #define LAB3_KMEANS_CLUSTER_H
 
 #include <vector>
 #include "Point.h"
 
-class Cluster
-{
+class Cluster {
 private:
     int _idCluster;
     Point _prototype;
@@ -17,17 +12,17 @@ private:
     std::vector<size_t> _points;
 
 public:
-    Cluster(int idCluster, const Point& prototype );
+    Cluster(int idCluster, const Point &point);
 
-    void addPoint( size_t pointID );
+    void addPoint(size_t pointID);
 
-    bool removePoint( size_t pointID );
+    bool removePoint(size_t pointID);
 
-    void updatePrototype( const std::vector<Point>& allPoints );
+    void updatePrototype(const std::vector<Point> &allPoints);
 
-    double getDistanceToPrototype( const Point& point ) const;
+    double getDistanceToPrototype(const Point &point) const;
 
-    void print( const std::vector<Point>& allPoints ) const;
+    void print(const std::vector<Point> &allPoints) const;
 };
 
 #endif
