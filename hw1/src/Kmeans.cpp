@@ -3,8 +3,8 @@
 //
 
 #include <cstdlib>
-#include "Kmeans.h"
-#include "SeedsGenerator.h"
+#include "include/Kmeans.h"
+#include "include/SeedsGenerator.h"
 #include <algorithm>
 
 

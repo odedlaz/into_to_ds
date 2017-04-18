@@ -6,8 +6,8 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include "Tests.h"
-#include "SeedsGenerator.h"
+#include "tests/include/Tests.h"
+#include "include/SeedsGenerator.h"
 
 using std::vector;
 using std::string;

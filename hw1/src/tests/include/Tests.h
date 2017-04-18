@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include "Point.h"
+#include "../../include/Point.h"
 
 class Tests {
 

@@ -2,9 +2,9 @@
 // Created by annabel@staff.technion.ac.il on 4/6/17.
 //
 
-#include "Tests.h"
-#include "Kmeans.h"
-#include "KMedoids.h"
+#include "include/Tests.h"
+#include "../include/Kmeans.h"
+#include "../include/KMedoids.h"
 
 using std::vector;
 using std::cout;

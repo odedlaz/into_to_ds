@@ -1,7 +1,7 @@
 //
 // Created by shraga89@st.technion.ac.il on 3/5/17.
 //
-#include "Cluster.h"
+#include "include/Cluster.h"
 #include <cmath>
 
 using std::vector;

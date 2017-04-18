@@ -2,8 +2,8 @@
 // Created by shraga89@st.technion.ac.il on 3/5/17.
 //
 
-#include "Point.h"
-#include "Cluster.h"
+#include "include/Point.h"
+#include "include/Cluster.h"
 #include <cmath>
 
 using std::vector;
