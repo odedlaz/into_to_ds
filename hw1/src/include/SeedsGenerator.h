@@ -2,8 +2,8 @@
 // Created by annabel@staff.technion.ac.il on 4/5/17.
 //
 
-#ifndef LAB3_KMEANS_SEEDSGENERATOR_H
-#define LAB3_KMEANS_SEEDSGENERATOR_H
+#ifndef HW1_SEEDSGENERATOR_H
+#define HW1_SEEDSGENERATOR_H
 
 #include <cstdlib>
 
@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //LAB3_KMEANS_SEEDSGENERATOR_H
+#endif //HW1_SEEDSGENERATOR_H
