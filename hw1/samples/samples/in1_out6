@@ -1,0 +1,14 @@
+/mnt/share/teachers/HWs/HW1/samples/in1
+Cluster 1
+Point 2: 1.5 2  - 2
+Point 1: 1 1  - 1
+Cluster prototype: 1.5 2  - 2
+Cluster 2
+Point 5: 3.5 5  - 5
+Point 4: 5 7  - 4
+Point 6: 4.5 5  - 6
+Point 7: 3.5 4.5  - 7
+Cluster prototype: 3.5 5  - 5
+Cluster 3
+Point 3: 3 4  - 3
+Cluster prototype: 3 4  - 3
