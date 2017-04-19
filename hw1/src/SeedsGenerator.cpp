@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 4/5/17.
-//
-
 #include "include/SeedsGenerator.h"
 #include <ctime>
 

@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 4/6/17.
-//
-
 #ifndef HW1_TESTS_H
 #define HW1_TESTS_H
 

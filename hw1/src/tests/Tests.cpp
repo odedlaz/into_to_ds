@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 4/6/17.
-//
-
 #include "include/Tests.h"
 #include "../include/Kmeans.h"
 #include "../include/KMedoids.h"
