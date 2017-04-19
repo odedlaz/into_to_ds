@@ -1,0 +1,17 @@
+samples/in2
+Cluster 1
+Point 4: 4  - d
+Point 1: 1  - a
+Point 2: 2  - b
+Point 3: 3  - c
+Point 5: 5  - e
+Cluster prototype: 3  - c
+Cluster 2
+Point 7: 7  - g
+Point 6: 6  - f
+Point 8: 8  - h
+Cluster prototype: 7  - g
+Cluster 3
+Point 9: 9  - i
+Point 10: 10  - j
+Cluster prototype: 9  - i
