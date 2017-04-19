@@ -36,7 +36,7 @@ Cluster::Cluster(int idCluster, const Point &point) :
 }
 
 void Cluster::addPoint(size_t pointID) {
-    vector<unsigned long>::iterator it;
+    vector<size_t>::iterator it;
     for (it = _points.begin(); it != _points.end(); ++it) {
         if ((*it) == pointID) {
             return;
@@ -46,14 +46,15 @@ void Cluster::addPoint(size_t pointID) {
 }
 
 void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
-    double dimension = allPoints.front().getDimension();
-    vector<unsigned long>::iterator iter;
-    for (size_t i = 0; i < dimension; i++) {
+    double numOfDimensions = allPoints.front().getDimension();
+    vector<size_t>::iterator iter;
+
+    for (size_t dimension = 0; dimension < numOfDimensions; dimension++) {
         double sum = 0;
         for (iter = _points.begin(); iter != _points.end(); ++iter) {
-            sum += allPoints[*iter].getValue(i);
+            sum += allPoints[*iter].getValue(dimension);
         }
-        _prototype.setValue(sum / _points.size(), i);
+        _prototype.setValue(sum / _points.size(), dimension);
     }
 }
 
