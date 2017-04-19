@@ -2,8 +2,8 @@
 // Created by shraga89@st.technion.ac.il on 3/5/17.
 //
 
-#ifndef LAB3_KMEANS_CLUSTER_H
-#define LAB3_KMEANS_CLUSTER_H
+#ifndef HW1_CLUSTER_H
+#define HW1_CLUSTER_H
 
 #include <vector>
 #include "Point.h"
