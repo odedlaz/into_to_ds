@@ -1,7 +1,3 @@
-//
-// Created by shraga89@st.technion.ac.il on 3/5/17.
-//
-
 #ifndef HW1_CLUSTER_H
 #define HW1_CLUSTER_H
 
