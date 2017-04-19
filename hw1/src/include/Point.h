@@ -2,8 +2,8 @@
 // Created by shraga89@st.technion.ac.il on 3/5/17.
 //
 
-#ifndef LAB3_KMEANS_POINT_H
-#define LAB3_KMEANS_POINT_H
+#ifndef HW1_POINT_H
+#define HW1_POINT_H
 
 #include <iostream>
 #include <vector>

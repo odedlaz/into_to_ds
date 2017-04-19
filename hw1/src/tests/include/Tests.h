@@ -2,8 +2,8 @@
 // Created by annabel@staff.technion.ac.il on 4/6/17.
 //
 
-#ifndef LAB3_KMEANS_TESTS_H
-#define LAB3_KMEANS_TESTS_H
+#ifndef HW1_TESTS_H
+#define HW1_TESTS_H
 
 #include <vector>
 #include <string>
@@ -31,4 +31,4 @@ private:
 
 };
 
-#endif //LAB3_KMEANS_TESTS_H
+#endif //HW1_TESTS_H

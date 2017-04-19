@@ -2,8 +2,8 @@
 // Created by shraga89@st.technion.ac.il on 3/5/17.
 //
 
-#ifndef LAB3_KMEANS_KMEANS_H
-#define LAB3_KMEANS_KMEANS_H
+#ifndef HW1_KMEANS_H
+#define HW1_KMEANS_H
 
 #include <vector>
 #include "Cluster.h"
