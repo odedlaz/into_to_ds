@@ -1,7 +1,3 @@
-//
-// Created by shraga89@st.technion.ac.il on 3/5/17.
-//
-
 #include <cstdlib>
 #include "include/Kmeans.h"
 #include "include/SeedsGenerator.h"
