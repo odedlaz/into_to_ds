@@ -3,7 +3,10 @@
 
 #include <cstdlib>
 #include <vector>
-
+/**
+ * Statistics
+ * handles statistics calculations for vector<double> types.
+ */
 namespace statistics {
 
     double median(const std::vector<double> &xv);
