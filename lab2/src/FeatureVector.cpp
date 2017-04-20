@@ -5,7 +5,7 @@
 /**
  * Constructor
  * construct a FeatureVector using Feature Name only.
- * @param name string
+ * @param name string the name of the Feature Vector
  */
 FeatureVector::FeatureVector(std::string name) : _name(name) {
     _features = std::vector<double>();
@@ -14,8 +14,8 @@ FeatureVector::FeatureVector(std::string name) : _name(name) {
 /**
  * Constructor
  * construct a FeatureVector using name and vector of data.
- * @param name string
- * @param features vector<double>
+ * @param name string the name of the Feature Vector
+ * @param features vector<double> the vector holding the data for the feature.
  */
 FeatureVector::FeatureVector(std::string name, std::vector<double> &features) :
         _name(name), _features(features) {

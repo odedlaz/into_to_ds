@@ -47,7 +47,7 @@ double statistics::mean(const std::vector<double> &xv) {
 /**
  * Variance
  * calculates the variance of given vector
- * @param xv Type vector<double>
+ * @param xv vector<double>
  * @return double result of variance
  */
 double statistics::variance(const std::vector<double> &xv) {
@@ -65,7 +65,7 @@ double statistics::variance(const std::vector<double> &xv) {
 /**
  * Standard Deviation
  * calculates the standard deviation of given vector
- * @param xv Type vector<double>
+ * @param xv vector<double>
  * @return double result of Standard Deviation
  */
 double statistics::standardDeviation(const std::vector<double> &xv) {
@@ -75,8 +75,8 @@ double statistics::standardDeviation(const std::vector<double> &xv) {
 /**
  * Covariance
  * calculates the covariance between two vectors
- * @param xv Type vector<double>
- * @param yv Type vector<double>
+ * @param xv vector<double>
+ * @param yv vector<double>
  * @return double result of covariance
  */
 double statistics::covariance(const std::vector<double> &xv, const std::vector<double> &yv) {
@@ -94,7 +94,13 @@ double statistics::covariance(const std::vector<double> &xv, const std::vector<d
 
     return sum / xv.size();
 }
-
+/**
+ * Correlation
+ * calculates the correlation between two vectors
+ * @param xv vector<double>
+ * @param yv vector<double>
+ * @return double result of correlation
+ */
 double statistics::correlation(const std::vector<double> &xv, const std::vector<double> &yv) {
     return covariance(xv, yv) / (standardDeviation(xv) * standardDeviation(yv));
 }
