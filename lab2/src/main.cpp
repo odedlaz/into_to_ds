@@ -74,8 +74,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    double min = 1.0;//starting from strongest correlation possible
-    double max = 0.0;//starting from weakest correlation possible
+    double min = 1.0; //starting from strongest correlation possible
+    double max = 0.0; //starting from weakest correlation possible
 
     //Tuple of FeatureVector to keep strongest and weakest correlations
     std::tr1::tuple<FeatureVector, FeatureVector> minTuple, maxTuple;
