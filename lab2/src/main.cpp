@@ -44,9 +44,8 @@ bool loadDataset(const string &fileName, vector<FeatureVector> &data) {
         string featureText;
         vector<FeatureVector>::iterator it = data.begin();
 
-        while (getline(lineStream, featureText, ',')) {
+        for (it; getline(lineStream, featureText, ','); ++it) {
             (*it).append(std::stod(featureText));
-            ++it;
         }
 
         if (it != data.end()) {
