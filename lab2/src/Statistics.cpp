@@ -8,7 +8,8 @@ using std::vector;
 /**
  * Median
  * calculates the median of given vector.
- * @param xv Type vector<double>
+ * @param xv vector<double> vector of values.
+ * Median: the value separates half of the amount of values.
  * @return double result of median
  */
 double statistics::median(const vector<double> &xv) {
@@ -30,7 +31,8 @@ double statistics::median(const vector<double> &xv) {
 /**
  * Mean
  * calculates the mean of given vector
- * @param xv Type vector<double>
+ * Mean: the average (sum/amount_of_values) of dataset
+ * @param xv Type vector<double> vector of values.
  * @return double result of mean
  */
 double statistics::mean(const std::vector<double> &xv) {
@@ -47,7 +49,8 @@ double statistics::mean(const std::vector<double> &xv) {
 /**
  * Variance
  * calculates the variance of given vector
- * @param xv vector<double>
+ * Variance: quantify the random-ness of the values in the dataset.
+ * @param xv vector<double> vector of values.
  * @return double result of variance
  */
 double statistics::variance(const std::vector<double> &xv) {
@@ -65,7 +68,8 @@ double statistics::variance(const std::vector<double> &xv) {
 /**
  * Standard Deviation
  * calculates the standard deviation of given vector
- * @param xv vector<double>
+ * Standard Deviation: quantify the amount variation of dataset
+ * @param xv vector<double> vector of values.
  * @return double result of Standard Deviation
  */
 double statistics::standardDeviation(const std::vector<double> &xv) {
@@ -75,8 +79,9 @@ double statistics::standardDeviation(const std::vector<double> &xv) {
 /**
  * Covariance
  * calculates the covariance between two vectors
- * @param xv vector<double>
- * @param yv vector<double>
+ * Covariance: defines the mutual variance of two datasets.
+ * @param xv vector<double> vector A of values.
+ * @param yv vector<double> vector B of values.
  * @return double result of covariance
  */
 double statistics::covariance(const std::vector<double> &xv, const std::vector<double> &yv) {
@@ -97,8 +102,9 @@ double statistics::covariance(const std::vector<double> &xv, const std::vector<d
 /**
  * Correlation
  * calculates the correlation between two vectors
- * @param xv vector<double>
- * @param yv vector<double>
+ * Correlation: describe the strength and direction of relationship between two dataset.
+ * @param xv vector<double> vector A of values.
+ * @param yv vector<double> vector B of values.
  * @return double result of correlation
  */
 double statistics::correlation(const std::vector<double> &xv, const std::vector<double> &yv) {
