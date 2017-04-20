@@ -7,8 +7,7 @@
  * construct a FeatureVector using Feature Name only.
  * @param name string the name of the Feature Vector
  */
-FeatureVector::FeatureVector(std::string name) : _name(name) {
-    _features = std::vector<double>();
+FeatureVector::FeatureVector(std::string name) : _name(name), _features() {
 }
 
 /**
