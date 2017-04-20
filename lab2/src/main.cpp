@@ -16,7 +16,11 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-
+/** load features from Dataset to a a vector of FeatureVector
+ *  @param data Type vector<FeatureVector>
+ *  @param fileName Type string
+ *  @return boolean result (load successful or not)
+ */
 bool loadDataset(const string &fileName, vector<FeatureVector> &data) {
     ifstream infile(fileName);
     if (!infile.is_open()) {
@@ -70,10 +74,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    double min = 1.0;
-    double max = 0.0;
-    // create seed correlation for min and max values
+    double min = 1.0;//starting from strongest correlation possible
+    double max = 0.0;//starting from weakest correlation possible
 
+    //Tuple of FeatureVector to keep strongest and weakest correlations
     std::tr1::tuple<FeatureVector, FeatureVector> minTuple, maxTuple;
 
     for (vector<FeatureVector>::iterator iterA = data.begin(); iterA != data.end(); ++iterA) {

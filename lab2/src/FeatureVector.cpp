@@ -2,10 +2,21 @@
 #include "include/FeatureVector.h"
 #include "include/Statistics.h"
 
+/**
+ * Constructor
+ * construct a FeatureVector using Feature Name only.
+ * @param name string
+ */
 FeatureVector::FeatureVector(std::string name) : _name(name) {
     _features = std::vector<double>();
 }
 
+/**
+ * Constructor
+ * construct a FeatureVector using name and vector of data.
+ * @param name string
+ * @param features vector<double>
+ */
 FeatureVector::FeatureVector(std::string name, std::vector<double> &features) :
         _name(name), _features(features) {
 }

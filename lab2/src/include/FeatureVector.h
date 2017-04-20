@@ -5,12 +5,18 @@
 #include <vector>
 #include <string>
 
+
+/**
+ * FeatureVector
+ * Handles the data from a given dataset.
+ * keeps the feature name, and vector of data(double).
+ */
 class FeatureVector {
 private:
     std::string _name;
     std::vector<double> _features;
 public:
-    FeatureVector(): _name("n/a") {};
+    FeatureVector() : _name("n/a") {};
 
     FeatureVector(std::string name);
 
