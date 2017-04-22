@@ -36,9 +36,11 @@ public:
 
     void print() const;
 
+    friend std::ostream& operator<<(std::ostream & os, const Point & point);
+
     void setName(const std::string &name) { _name = name; }
 
 };
 
-
+std::ostream& operator<<(std::ostream & os, const Point & point);
 #endif //LAB2_POINT_H
