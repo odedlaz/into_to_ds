@@ -103,12 +103,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    printf("test '%s' | k: %d | max iterations: %d | num of points: %ld\n",
+    /*printf("test '%s' | k: %d | max iterations: %d | num of points: %ld\n",
            testName.c_str(),
            K,
            max_iterations,
            points.size());
-
+    */
     readInput(fileName, points);
 
     if (testName == Tests::testNames[Tests::eTestKMeans])

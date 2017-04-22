@@ -21,12 +21,13 @@ bool Cluster::removePoint(size_t pointID) {
 void Cluster::print(const vector<Point> &allPoints) const {
     cout << "Cluster " << _idCluster + 1 << endl;
     for (vector<Point>::size_type j = 0; j < _points.size(); j++) {
-        cout << "Point " << allPoints[_points[j]].getID() + 1 << ": ";
-        allPoints[_points[j]].print();
+        int pID = allPoints[_points[j]].getID() + 1;
+        cout << "Point " << pID << ": ";
+        cout << allPoints[_points[j]];
+        cout << " - " << pID << endl;
     }
 
-    cout << "Cluster prototype: ";
-    _prototype.print();
+    cout << "Cluster prototype: " << _prototype << endl;
 }
 
 Cluster::Cluster(int idCluster, const Point &point) :
