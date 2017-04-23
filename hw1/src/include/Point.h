@@ -42,6 +42,6 @@ public:
 
 };
 
-std::ostream &operator<<(std::ostream &os, const Point &point);
+//std::ostream &operator<<(std::ostream &os, const Point &point);
 
 #endif //LAB2_POINT_H

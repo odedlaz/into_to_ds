@@ -9,13 +9,18 @@ using std::endl;
 
 
 bool Cluster::removePoint(size_t pointID) {
-    for (vector<Point>::size_type i = 0; i < _points.size(); i++) {
+    std::vector<size_t>::iterator iter = find(pointID);
+    if (iter == _points.end())
+        return false;
+    _points.erase(iter);
+    return true;
+    /*for (vector<Point>::size_type i = 0; i < _points.size(); i++) {
         if (_points[i] == pointID) {
             _points.erase(_points.begin() + i);
             return true;
         }
     }
-    return false;
+    return false;*/
 }
 
 void Cluster::print(const vector<Point> &allPoints) const {
@@ -61,5 +66,25 @@ void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
 
 double Cluster::getDistanceToPrototype(const Point &point) const {
     return _prototype.euclideanDistance(point);
+}
+
+std::vector<size_t>::iterator Cluster::find(size_t pointID) {
+    //std::vector<double>::iterator iter2 = find(_points.begin(),_points.end(), pointID)
+    std::vector<size_t>::iterator iter = _points.begin() + 1;
+    for (iter; iter != _points.end(); iter++) {
+        if (*iter == pointID)
+            return iter;
+    }
+    return _points.end();
+/*    std::vector<size_t >::iterator iter = _points.begin();
+    t
+    std::advance(iter, std::distance());
+    int test = std::distance(_points.begin(), iter);
+
+    for (size_t i = 0; i < _points.size(); i++) {
+        if (_points[i] == pointID) {
+            return (_points.begin() + i);
+        }
+    return ;*/
 }
 
