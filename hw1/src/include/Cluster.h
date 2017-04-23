@@ -23,6 +23,8 @@ public:
     double getDistanceToPrototype(const Point &point) const;
 
     void print(const std::vector<Point> &allPoints) const;
+
+    std::vector<size_t>::iterator find(size_t pointID);
 };
 
 #endif
