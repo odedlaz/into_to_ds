@@ -38,3 +38,23 @@ void Cluster::merge(Cluster &cluster2) {
     _points.insert(_points.end(), cluster2._points.begin(), cluster2._points.end());
     cluster2._idCluster = Cluster::_invalid;
 }
+
+void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
+                                         const Cluster &cluster2,
+                                         std::vector<double> distances) {
+
+    std::vector<Point> pointsA = cluster1._points;
+    std::vector<Point> pointsB = cluster2._points;
+
+    std::vector<Point>::iterator pItA = pointsA.begin();
+    std::vector<Point>::iterator pItB = pointsB.begin();
+
+    for (pItA; pItA != pointsA.end(); ++pItA) {
+        for (pItB; pItB != pointsB.end(); ++pItB) {
+            double dist = (*pItA).euclideanDistance(*pItB);
+            distances.push_back(dist);
+        }
+
+    }
+
+}
