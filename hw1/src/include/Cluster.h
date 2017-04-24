@@ -22,6 +22,8 @@ public:
 
     void updatePrototype(const std::vector<Point> &allPoints);
 
+    void updatePrototypeMedoid(const std::vector<Point> &allPoints);
+
     double getDistanceToPrototype(const Point &point) const;
 
     void print(const std::vector<Point> &allPoints) const;
