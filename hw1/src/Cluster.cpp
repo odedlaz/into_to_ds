@@ -44,6 +44,14 @@ void Cluster::addPoint(size_t pointID) {
     _points.push_back(pointID);
 }
 
+void Point::print() const {
+    std::vector<double>::const_iterator it = _values.begin();
+    for (it; it != _values.end(); ++it) {
+        cout << (*it) << " ";
+    }
+    cout << endl;
+}
+
 void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
     double numOfDimensions = allPoints.front().getDimension();
     vector<size_t>::iterator iter;
@@ -61,7 +69,7 @@ void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
 }
 
 double Cluster::getDistanceToPrototype(const Point &point) const {
-    return _prototype.euclideanDistance(point);
+    return _prototype.euclideanDistance(_prototype, point);
 }
 
 std::vector<size_t>::iterator Cluster::find(size_t pointID) {
