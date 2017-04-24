@@ -41,7 +41,6 @@ void Cluster::merge(Cluster &cluster2) {
 
 void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
                                          const Cluster &cluster2,
-                                         std::vector<double> distances) {
                                          std::vector<double> &distances) {
 
     std::vector<Point> pointsA = cluster1._points;
@@ -58,4 +57,25 @@ void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
 
     }
 
+}
+
+double Cluster::completeLink(const Cluster &cluster1, const Cluster &cluster2) {
+    std::vector<double> distances;
+    calcAllInterPointDistances(cluster1, cluster2, distances);
+    double max = std::numeric_limits<double>::min();//initialize to minimum value.
+    for (vector<double>::iterator iter = distances.begin(); iter != distances.end(); iter++) {
+        if (*iter > max) max = *iter;
+    }
+    return max;
+}
+
+
+double Cluster::averageDistance(const Cluster &cluster1, const Cluster &cluster2) {
+    std::vector<double> distances;
+    calcAllInterPointDistances(cluster1, cluster2, distances);
+    double sum = 0;
+    for (vector<double>::iterator cit = distances.begin(); cit != distances.end(); cit++) {
+        sum += *cit;
+    }
+    return sum / distances.size();
 }
