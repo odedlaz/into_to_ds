@@ -32,7 +32,7 @@ public:
 
     void setValue(double value, size_t dim) { _values[dim] = value; }
 
-    double euclideanDistance(const Point &other_point) const;
+    static double euclideanDistance(const Point &pointA, const Point &pointB);
 
     void print() const;
 
