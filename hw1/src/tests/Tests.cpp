@@ -14,13 +14,13 @@ void Tests::testKMeans(unsigned K, unsigned max_iterations, const std::vector<Po
     kmeans.run(points);
     kmeans.print();
 }
-/*
 void Tests::testKMedoids(unsigned K, unsigned max_iterations, const std::vector<Point> &points) {
     KMedoids kmedoids(K, max_iterations);
     kmedoids.run(points);
     kmedoids.print();
 }
 
+/*
 void Tests::testKMeansSSE(unsigned K, unsigned max_iterations, const std::vector<Point> &points) {
     KMeans kmeans(K, max_iterations);
     kmeans.run(points);
