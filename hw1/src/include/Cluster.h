@@ -11,6 +11,8 @@ private:
     //vector of point indexes in the vector of all points stored in KMeans class
     std::vector<size_t> _points;
 
+    std::vector<size_t>::iterator find(size_t pointID);
+
 public:
     Cluster(int idCluster, const Point &prototype);
 
@@ -24,7 +26,6 @@ public:
 
     void print(const std::vector<Point> &allPoints) const;
 
-    std::vector<size_t>::iterator find(size_t pointID);
 };
 
 #endif
