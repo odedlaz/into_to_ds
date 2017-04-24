@@ -21,6 +21,8 @@ public:
 
 private:
     static const int _invalid;
+
+    static void calcAllInterPointDistances(const Cluster &cluster, const Cluster &cluster2, std::vector<double> vector);
 };
 
 #endif
