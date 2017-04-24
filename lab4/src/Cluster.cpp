@@ -42,6 +42,7 @@ void Cluster::merge(Cluster &cluster2) {
 void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
                                          const Cluster &cluster2,
                                          std::vector<double> distances) {
+                                         std::vector<double> &distances) {
 
     std::vector<Point> pointsA = cluster1._points;
     std::vector<Point> pointsB = cluster2._points;
