@@ -10,23 +10,17 @@ using std::endl;
 
 bool Cluster::removePoint(size_t pointID) {
     std::vector<size_t>::iterator iter = find(pointID);
-    if (iter == _points.end())
-        return false;
-    _points.erase(iter);
-    return true;
-    /*for (vector<Point>::size_type i = 0; i < _points.size(); i++) {
-        if (_points[i] == pointID) {
-            _points.erase(_points.begin() + i);
-            return true;
-        }
+    if (iter != _points.end()) {
+        _points.erase(iter);
     }
-    return false;*/
+
+    return iter != _points.end();
 }
 
 void Cluster::print(const vector<Point> &allPoints) const {
     cout << "Cluster " << _idCluster + 1 << endl;
     for (vector<Point>::size_type j = 0; j < _points.size(); j++) {
-        int pID = allPoints[_points[j]].getID() + 1;
+        size_t pID = allPoints[_points[j]].getID() + 1;
         cout << "Point " << pID << ": ";
         cout << allPoints[_points[j]];
         cout << " - " << pID << endl;
@@ -42,12 +36,11 @@ Cluster::Cluster(int idCluster, const Point &point) :
 }
 
 void Cluster::addPoint(size_t pointID) {
-    vector<size_t>::iterator it;
-    for (it = _points.begin(); it != _points.end(); ++it) {
-        if ((*it) == pointID) {
-            return;
-        }
+    // if the point already exists -> don't add it
+    if (find(pointID) != _points.end()) {
+        return;
     }
+
     _points.push_back(pointID);
 }
 
@@ -57,9 +50,12 @@ void Cluster::updatePrototype(const std::vector<Point> &allPoints) {
 
     for (size_t dimension = 0; dimension < numOfDimensions; dimension++) {
         double sum = 0;
+
         for (iter = _points.begin(); iter != _points.end(); ++iter) {
+            // get the point that belongs to this cluster
             sum += allPoints[*iter].getValue(dimension);
         }
+
         _prototype.setValue(sum / _points.size(), dimension);
     }
 }
@@ -69,22 +65,12 @@ double Cluster::getDistanceToPrototype(const Point &point) const {
 }
 
 std::vector<size_t>::iterator Cluster::find(size_t pointID) {
-    //std::vector<double>::iterator iter2 = find(_points.begin(),_points.end(), pointID)
-    std::vector<size_t>::iterator iter = _points.begin() + 1;
-    for (iter; iter != _points.end(); iter++) {
-        if (*iter == pointID)
-            return iter;
+    std::vector<size_t>::iterator it = _points.begin();
+    for (it; it != _points.end(); it++) {
+        if (*it == pointID) {
+            return it;
+        }
     }
     return _points.end();
-/*    std::vector<size_t >::iterator iter = _points.begin();
-    t
-    std::advance(iter, std::distance());
-    int test = std::distance(_points.begin(), iter);
-
-    for (size_t i = 0; i < _points.size(); i++) {
-        if (_points[i] == pointID) {
-            return (_points.begin() + i);
-        }
-    return ;*/
 }
 
