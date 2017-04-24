@@ -54,10 +54,10 @@ void AgglomerativeClustering::updateDistances(const PairDistance &pdClosest) {
             (it->getClusterID2() == pdClosest.getClusterID1())) {
             if (_type == AgglomerativeClustering::SingleLink)
                 it->setDistance(Cluster::singleLink(_clusters[it->getClusterID1()], _clusters[it->getClusterID2()]));
-            //     else if (_type==AgglomerativeClustering::CompleteLink)
-            //         it->setDistance( Cluster::completeLink(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
-            //     else if (_type==AgglomerativeClustering::AverageLink)
-            //         it->setDistance( Cluster::averageDistance(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
+            else if (_type==AgglomerativeClustering::CompleteLink)
+                it->setDistance( Cluster::completeLink(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
+            else if (_type==AgglomerativeClustering::AverageLink)
+                it->setDistance( Cluster::averageDistance(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
         }
     }
 }

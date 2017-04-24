@@ -10,6 +10,10 @@ private:
 public:
     static double singleLink(const Cluster &cluster1, const Cluster &cluster2);
 
+    static double completeLink(const Cluster &cluster1, const Cluster &cluster2);
+
+    static double averageDistance(const Cluster &cluster1, const Cluster &cluster2);
+
     void merge(Cluster &cluster2);
 
     bool isValid() { return _idCluster != _invalid; }
@@ -22,7 +26,6 @@ public:
 private:
     static const int _invalid;
 
-    static void calcAllInterPointDistances(const Cluster &cluster, const Cluster &cluster2, std::vector<double> vector);
     static void calcAllInterPointDistances(const Cluster &cluster,
                                            const Cluster &cluster2,
                                            std::vector<double> &distance);
