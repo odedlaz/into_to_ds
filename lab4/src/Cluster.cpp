@@ -46,17 +46,12 @@ void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
     std::vector<Point> pointsA = cluster1._points;
     std::vector<Point> pointsB = cluster2._points;
 
-    std::vector<Point>::iterator pItA = pointsA.begin();
-    std::vector<Point>::iterator pItB = pointsB.begin();
-
-    for (pItA; pItA != pointsA.end(); ++pItA) {
-        for (pItB; pItB != pointsB.end(); ++pItB) {
+    for (std::vector<Point>::iterator pItA = pointsA.begin(); pItA != pointsA.end(); ++pItA) {
+        for (std::vector<Point>::iterator pItB = pointsB.begin(); pItB != pointsB.end(); ++pItB) {
             double dist = (*pItA).euclideanDistance(*pItB);
             distances.push_back(dist);
         }
-
     }
-
 }
 
 double Cluster::completeLink(const Cluster &cluster1, const Cluster &cluster2) {
