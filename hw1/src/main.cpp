@@ -114,11 +114,11 @@ int main(int argc, char *argv[]) {
     if (testName == Tests::testNames[Tests::eTestKMeans])
         Tests::testKMeans(K, max_iterations, points);
     else if (testName == Tests::testNames[Tests::eTestKMedoids])
-        Tests::testKMedoids(K, max_iterations, points); /*
+        Tests::testKMedoids(K, max_iterations, points);
     else if (testName == Tests::testNames[Tests::eTestKMeansSSE])
         Tests::testKMeansSSE(K, max_iterations, points);
     else if (testName == Tests::testNames[Tests::eTestKMedoidsSSE])
-        Tests::testKMedoidsSSE(K, max_iterations, points); */
+        Tests::testKMedoidsSSE(K, max_iterations, points);
 
     return 0;
 }

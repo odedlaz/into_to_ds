@@ -88,3 +88,11 @@ void KMeans::print() const {
         _clusters[i].print(_points);
     }
 }
+
+double KMeans::calculateSSE() const {
+   double sum(0.0);
+    for (std::vector<Cluster>::size_type i = 0; i < _K; i++) {
+        sum += _clusters[i].calculateSSE(_points);
+    }
+    return sum;
+}
