@@ -21,18 +21,11 @@ Point::Point(size_t id_point, const std::vector<double> &values, const string &n
 }
 
 
-void Point::print() const {
-    std::vector<double>::const_iterator it = _values.begin();
-    for (it; it != _values.end(); ++it) {
-        cout << (*it) << " ";
-    }
-    cout << endl;
-}
-
 std::ostream &operator<<(std::ostream &os, const Point &point) {
     for (size_t i = 0; i < point.getDimension(); i++) {
         os << point.getValue(i) << " ";
     }
+
     return os;
 }
 
