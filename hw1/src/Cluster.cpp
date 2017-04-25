@@ -105,3 +105,19 @@ void Cluster::updatePrototypeMedoid(const std::vector<Point> &allPoints) {
         }
     }
 }
+
+
+double Cluster::calculateSSE(const std::vector<Point> &allPoints) const {
+    double sse(0.0);
+    vector<size_t >::const_iterator it;
+    for (it = _points.begin(); it != _points.end(); ++it) {
+        const Point &point = allPoints[*it];
+        if (point.getID() == _prototype.getID()) {
+            continue;
+        }
+
+        sse += pow(Point::euclideanDistance(point, _prototype), 2);
+
+    }
+    return sse;
+}
