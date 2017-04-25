@@ -22,6 +22,8 @@ public:
 
     void print() const;
 
+    double calculateSSE() const;
+
 private:
     void setRandomSeeds();
 

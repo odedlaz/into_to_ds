@@ -2,6 +2,7 @@
 #define HW1_CLUSTER_H
 
 #include <vector>
+#include <ostream>
 #include "Point.h"
 
 class Cluster {
@@ -27,6 +28,7 @@ public:
     double getDistanceToPrototype(const Point &point) const;
 
     void print(const std::vector<Point> &allPoints) const;
+    double calculateSSE(const std::vector<Point> &allPoints) const;
 
 };
 
