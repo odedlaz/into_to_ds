@@ -4,9 +4,11 @@ double TSS::calculate() const {
 
     Point overallCentroid(getOverallCenter());
     double tss(0.0);
-    std::vector<Cluster>::const_iterator cIter;
-    for (cIter = _clusters.begin(); cIter != _clusters.end(); ++cIter) {
-        tss += (*cIter).sumSquaresPointToCluster(overallCentroid);
+
+    std::vector<Cluster>::const_iterator iter;
+    for (iter = _clusters.begin(); iter != _clusters.end(); ++iter) {
+        const Cluster & cluster = *iter;
+        tss += cluster.sumSquaresPointToCluster(overallCentroid);
     }
 
     return tss;
