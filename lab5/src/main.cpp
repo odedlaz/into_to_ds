@@ -1,6 +1,5 @@
 #include <iostream>
 #include "include/ClusterReader.h"
-#include <string>
 #include "include/SilhouetteCoeff.h"
 #include "include/WSS.h"
 #include "include/BSS.h"
