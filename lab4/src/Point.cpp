@@ -1,5 +1,4 @@
 #include "include/Point.h"
-#include "include/Cluster.h"
 #include <cmath>
 
 using std::vector;
@@ -14,6 +13,7 @@ Point::Point(size_t id_point, const std::vector<double> &values, const std::stri
 
 double Point::euclideanDistance(const Point &other_point) const {
     double sum = 0.0;
+
     for (vector<double>::size_type i = 0; i < _values.size(); i++) {
         sum += pow(_values[i] - other_point._values[i], 2.0);
     }
@@ -22,6 +22,7 @@ double Point::euclideanDistance(const Point &other_point) const {
 }
 
 void Point::print() const {
+
     for (vector<double>::size_type i = 0; i < _values.size(); i++)
         cout << _values[i] << " ";
 

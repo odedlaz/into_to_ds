@@ -46,11 +46,19 @@ int main(int argc, char *argv[]) {
 
     AgglomerativeClustering aclustering;
     if (type == AgglomerativeClustering::_types[AgglomerativeClustering::SingleLink])
-        aclustering.run(points, clustersToStop, AgglomerativeClustering::SingleLink);
+        aclustering.run(points,
+                        clustersToStop,
+                        AgglomerativeClustering::SingleLink);
+
     else if (type == AgglomerativeClustering::_types[AgglomerativeClustering::AverageLink])
-        aclustering.run(points, clustersToStop, AgglomerativeClustering::AverageLink);
+        aclustering.run(points,
+                        clustersToStop,
+                        AgglomerativeClustering::AverageLink);
+
     else if (type == AgglomerativeClustering::_types[AgglomerativeClustering::CompleteLink])
-        aclustering.run(points, clustersToStop, AgglomerativeClustering::CompleteLink);
+        aclustering.run(points,
+                        clustersToStop,
+                        AgglomerativeClustering::CompleteLink);
     aclustering.print();
     return 0;
 }
