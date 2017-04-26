@@ -40,8 +40,8 @@ void printBSS(const vector<Cluster> &clusters, size_t dimension) {
 
 
 void printTSS(const vector<Cluster> &clusters, size_t dimension) {
-//    TSS tss(clusters, dimension );
-//    std::cout << "TSS: " << tss.calculate() << endl;
+    TSS tss(clusters, dimension );
+    std::cout << "TSS: " << tss.calculate() << endl;
 }
 
 void printPurity(const vector<Cluster> &clusters, size_t dimension) {
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     printSilhouetteCoeff(reader.getClusters(), reader.getPointsDimension());
     printWSS(reader.getClusters(), reader.getPointsDimension());
     printBSS(reader.getClusters(), reader.getPointsDimension());
-//    printTSS(reader.getClusters(), reader.getPointsDimension() );
+    printTSS(reader.getClusters(), reader.getPointsDimension() );
     printPurity(reader.getClusters(), reader.getPointsDimension());
     return 0;
 }
