@@ -29,11 +29,11 @@ void printSilhouetteCoeff(const vector<Cluster>& clusters, size_t dimension)
 
 void printWSS(const vector<Cluster>& clusters, size_t dimension)
 {
-//    WSS wss( clusters, dimension );
-//    std::cout << "WSS: " << wss.calculate() << endl;
-//    for (std::vector<Cluster>::size_type i = 0; i != clusters.size(); i++) {
-//        std::cout << "Cluster " << i << " : " << wss.calculate( clusters[i] ) << endl;
-//    }
+    WSS wss( clusters, dimension );
+    std::cout << "WSS: " << wss.calculate() << endl;
+    for (std::vector<Cluster>::size_type i = 0; i != clusters.size(); i++) {
+        std::cout << "Cluster " << i << " : " << wss.calculate( clusters[i] ) << endl;
+    }
 }
 
 void printBSS(const vector<Cluster>& clusters, size_t dimension)
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     ClusterReader reader( argv[1] );
     if (!reader.loadClusters() ) return 1;
     printSilhouetteCoeff( reader.getClusters(), reader.getPointsDimension() );
-//    printWSS(reader.getClusters(), reader.getPointsDimension() );
+    printWSS(reader.getClusters(), reader.getPointsDimension() );
 //    printBSS(reader.getClusters(), reader.getPointsDimension() );
 //    printTSS(reader.getClusters(), reader.getPointsDimension() );
     printPurity(reader.getClusters(), reader.getPointsDimension() );
