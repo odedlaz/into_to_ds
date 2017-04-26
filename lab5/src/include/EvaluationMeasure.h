@@ -1,7 +1,3 @@
-//
-// Created by anna on 4/22/2017.
-//
-
 #ifndef LAB5_EVALUATIONMEASURE_H
 #define LAB5_EVALUATIONMEASURE_H
 
@@ -11,13 +7,17 @@
 class EvaluationMeasure {
 
 protected:
-    const std::vector<Cluster>& _clusters;
+    const std::vector<Cluster> &_clusters;
     size_t _pointsDimension;
 
-    bool findClusterIDForPoint(const Point& point, std::vector<Cluster>::size_type& index) const;
+    bool findClusterIDForPoint(const Point &point, std::vector<Cluster>::size_type &index) const;
+
     Point getOverallCenter() const;
+
 public:
-    EvaluationMeasure(const std::vector<Cluster>& clusters, size_t pointsDimension):_clusters(clusters),_pointsDimension(pointsDimension){}
+    EvaluationMeasure(const std::vector<Cluster> &clusters, size_t pointsDimension) : _clusters(clusters),
+                                                                                      _pointsDimension(
+                                                                                              pointsDimension) {}
 
 };
 
