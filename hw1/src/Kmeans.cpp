@@ -73,7 +73,7 @@ void KMeans::setRandomSeeds() {
 
         //This is a standard library function that looks for a value inside a vector, if the values is not found - an iterator to the end of vector is returned
         if (std::find(seedIndexes.begin(), seedIndexes.end(), index_point) == seedIndexes.end())
-            seedIndexes.insert(seedIndexes.begin(), index_point);
+            seedIndexes.push_back(index_point);
     }
     for (vector<vector<Point>::size_type>::size_type i = 0; i < seedIndexes.size(); i++) {
         _points[seedIndexes[i]].setCluster((int) i);

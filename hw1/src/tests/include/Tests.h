@@ -14,13 +14,13 @@ public:
     static const std::string testNames[numOfTests];
 
 public:
-    static void testKMeans(unsigned K, unsigned max_iterations, const std::vector<Point> &points);
+    static void testKMeans(unsigned K, unsigned max_iterations, const std::vector <Point> &points);
 
-    static void testKMedoids(unsigned K, unsigned max_iterations, const std::vector<Point> &points);
+    static void testKMedoids(unsigned K, unsigned max_iterations, const std::vector <Point> &points);
 
-    static void testKMeansSSE(unsigned K, unsigned max_iterations, const std::vector<Point> &points);
+    static void testKMeansSSE(unsigned K, unsigned max_iterations, const std::vector <Point> &points);
 
-    static void testKMedoidsSSE(unsigned K, unsigned max_iterations, const std::vector<Point> &points);
+    static void testKMedoidsSSE(unsigned K, unsigned max_iterations, const std::vector <Point> &points);
 
 private:
     Tests();
