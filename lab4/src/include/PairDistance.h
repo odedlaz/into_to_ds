@@ -13,15 +13,14 @@ public:
                                                                           _clusterID2(clusterID2),
                                                                           _distance(distance) {}
 
-    double setDistance(double distance) { _distance = distance; }
+    void setDistance(double distance) { _distance = distance; }
 
     size_t getClusterID1() const { return _clusterID1; }
 
     size_t getClusterID2() const { return _clusterID2; }
 
     bool operator>(const PairDistance &ps) const {
-        if (_distance > ps._distance) return true;
-        return false;
+        return _distance > ps._distance;
     }
 };
 
