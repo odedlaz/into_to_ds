@@ -37,7 +37,7 @@ Cluster::Cluster(int idCluster, const Point &point) :
 }
 
 void Cluster::addPoint(size_t pointID) {
-    // if the point already exists -> don't add it
+    // make sure that we're not adding duplicate points
     if (find(pointID) != _points.end()) {
         return;
     }
