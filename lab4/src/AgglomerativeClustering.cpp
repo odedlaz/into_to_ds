@@ -9,7 +9,7 @@ const string AgglomerativeClustering::_types[countTypes] = {"SingleLink", "Compl
 
 void AgglomerativeClustering::assignClusters(vector<Point> &points) {
     for (vector<Point>::size_type i = 0; i < points.size(); i++) {
-        Cluster cluster(i, points[i]);
+        Cluster cluster((int) i, points[i]);
         _clusters.push_back(cluster);
     }
 }
@@ -53,11 +53,16 @@ void AgglomerativeClustering::updateDistances(const PairDistance &pdClosest) {
         if ((it->getClusterID1() == pdClosest.getClusterID1()) ||
             (it->getClusterID2() == pdClosest.getClusterID1())) {
             if (_type == AgglomerativeClustering::SingleLink)
-                it->setDistance(Cluster::singleLink(_clusters[it->getClusterID1()], _clusters[it->getClusterID2()]));
-            else if (_type==AgglomerativeClustering::CompleteLink)
-                it->setDistance( Cluster::completeLink(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
-            else if (_type==AgglomerativeClustering::AverageLink)
-                it->setDistance( Cluster::averageDistance(_clusters[it->getClusterID1()],_clusters[it->getClusterID2()]));
+                it->setDistance(Cluster::singleLink(_clusters[it->getClusterID1()],
+                                                    _clusters[it->getClusterID2()]));
+
+            else if (_type == AgglomerativeClustering::CompleteLink)
+                it->setDistance(Cluster::completeLink(_clusters[it->getClusterID1()],
+                                                      _clusters[it->getClusterID2()]));
+
+            else if (_type == AgglomerativeClustering::AverageLink)
+                it->setDistance(Cluster::averageDistance(_clusters[it->getClusterID1()],
+                                                 _clusters[it->getClusterID2()]));
         }
     }
 }
