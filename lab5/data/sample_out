@@ -1,0 +1,18 @@
+sample_input
+Cluster 1
+Point 1: 1 2  - A
+Point 2: 3 2.2  - B
+Point 4: 2.7 2.7  - D
+Point 6: 3 3.2  - F
+Point 8: 3 0.5  - H
+Cluster 3
+Point 3: 7 3.1  - C
+Point 9: 6.6 4  - I
+Point 10: 8 4.5  - G
+Cluster 5
+Point 5: 5 5.6  - E
+Point 7: 5 7.6  - G
+Point 11: 6.7 7  - K
+Cluster 12
+Point 12: 1 8  - L
+Point 13: 1 7.6  - M
