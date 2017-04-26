@@ -8,8 +8,8 @@ double WSS::calculate() const {
     std::vector<Cluster>::const_iterator it;
 
     double sumAll(0.0);
-    for (it = _clusters.begin(); it != _clusters.end(); ++ it) {
-       sumAll +=  calculate(*it);
+    for (it = _clusters.begin(); it != _clusters.end(); ++it) {
+        sumAll += calculate(*it);
     }
     return sumAll;
 }
