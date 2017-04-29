@@ -7,6 +7,12 @@
 
 using std::vector;
 
+/*
+ * readInput
+ * read point data from given filename
+ * @param filename path to a file that has the points
+ * @param points a vector<Point> that the point will be loaded into
+ */
 void readInput(const std::string &filename, vector<Point> &points) {
     std::ifstream file;
     file.open(filename.c_str(), std::ifstream::in);
