@@ -15,10 +15,20 @@ public:
     static double averageDistance(const Cluster &cluster1, const Cluster &cluster2);
 
     void merge(Cluster &cluster2);
-
+    /**
+   * Validating cluster's usage.
+   * if cluster was merge, instead of deleting it from vector, mark as invalid because of efficiency reasons.
+   * @return boolean result of cluster's validity.
+   */
     bool isValid() { return _idCluster != _invalid; }
 
 public:
+    /**
+    * Constructor
+     * construct a Cluster
+    * @param id_cluster Type int - the ID of Cluster
+    * @param point Type vector<Point> - vector of points that belong to cluster
+    */
     Cluster(int id_cluster, const Point &point);
 
     void print() const;
