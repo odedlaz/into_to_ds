@@ -22,7 +22,14 @@ void Cluster::print() const {
     }
 }
 
-
+/**
+ * Single Link clustering method.
+ * using Single link method between two clusters.
+ * find the minimum distance between points of 2 clusters.
+ * @param cluster1 Type Cluster
+ * @param cluster2 Type Cluster
+ * @return double result of minimum distance.
+ */
 double Cluster::singleLink(const Cluster &cluster1, const Cluster &cluster2) {
     std::vector<double> distances;
     calcAllInterPointDistances(cluster1, cluster2, distances);
@@ -37,7 +44,11 @@ double Cluster::singleLink(const Cluster &cluster1, const Cluster &cluster2) {
     return min;
 }
 
-
+/**
+ * merge adjacent clusters.
+ * merges the clusters that were chosen by the given method.
+ * @param cluster2 Type Cluster
+ */
 void Cluster::merge(Cluster &cluster2) {
     _points.insert(_points.end(),
                    cluster2._points.begin(),
@@ -45,7 +56,13 @@ void Cluster::merge(Cluster &cluster2) {
 
     cluster2._idCluster = Cluster::_invalid;
 }
-
+/**
+ * calculate distance between two points of different clusters.
+ * for every point in cluster A calculates distances to cluster B points.
+ * @param cluster1 Type Cluster
+ * @param cluster2 Type Cluster
+ * @param distances Type vector<dobule>, holds all the distances.
+ */
 void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
                                          const Cluster &cluster2,
                                          std::vector<double> &distances) {
@@ -61,7 +78,15 @@ void Cluster::calcAllInterPointDistances(const Cluster &cluster1,
         }
     }
 }
-
+/**
+ * Complete Link clustering method.
+ * using Complete Link method between two clusters.
+ * finds the maximum distance between points of 2 clusters.
+ * then "chooses" the minimum value of all maximum distances, and merge these clusters.
+ * @param cluster1 Type Cluster
+ * @param cluster2 Type Cluster
+ * @return double result of maximum distance.
+ */
 double Cluster::completeLink(const Cluster &cluster1, const Cluster &cluster2) {
     std::vector<double> distances;
     calcAllInterPointDistances(cluster1, cluster2, distances);
@@ -73,7 +98,15 @@ double Cluster::completeLink(const Cluster &cluster1, const Cluster &cluster2) {
 
     return max;
 }
-
+/**
+ * Average Link method
+ * using Average Link method between two clusters.
+ * finds the average distance between two clusters.
+ * then "chooses" the minimum value of all average distances, and merge these clusters.
+ * @param cluster1 Type Cluster
+ * @param cluster2 Type Cluster
+ * @return double result of average distance.
+ */
 double Cluster::averageDistance(const Cluster &cluster1, const Cluster &cluster2) {
     double sum = 0;
 
