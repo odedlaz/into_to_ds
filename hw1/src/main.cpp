@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
     SeedsGenerator::init();
 
     vector<Point> points;
-    std::cout << fileName << std::endl;
     readInput(fileName, points);
 
     if (testName == Tests::testNames[Tests::eTestKMeans])
