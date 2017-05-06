@@ -35,8 +35,10 @@ double SilhouetteCoeff::calculate(const Cluster &cluster) const {
 
 double SilhouetteCoeff::calculate() const {
     double avg(0.0);
+    unsigned pointCnt(0);
     for (std::vector<Cluster>::const_iterator cit = _clusters.begin(); cit != _clusters.end(); cit++) {
-        avg += calculate(*cit);
+        avg += calculate(*cit) * (*cit).getSize();
+        pointCnt += (*cit).getSize();
     }
-    return avg / _clusters.size();
+    return avg / pointCnt;
 }
