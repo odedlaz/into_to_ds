@@ -15,16 +15,14 @@ using std::cerr;
 using std::endl;
 
 
-int main(int argc, char *argv[])
-{
-    if (argc<2)
-    {
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
         cerr << "You are missing the input file name" << endl;
         return 1;
     }
     string fileName(argv[1]);
     DataReader dr;
-    vector<Point> allData;
+    vector <Point> allData;
     dr.read(fileName, allData);
     cout << allData.size() << endl;
 
