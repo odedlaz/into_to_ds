@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/9/17.
-//
-
 #ifndef LAB6_DATAREADER_H
 #define LAB6_DATAREADER_H
 
@@ -12,8 +8,7 @@
 
 class DataReader {
 public:
-    void read(const std::string& fileName, std::vector<Point>& data);
-
+    void read(const std::string &fileName, std::vector <Point> &data);
 
 
 };

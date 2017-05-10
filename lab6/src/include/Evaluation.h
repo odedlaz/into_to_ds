@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/4/17.
-//
-
 #ifndef LAB6_EVALUATION_H
 #define LAB6_EVALUATION_H
 
@@ -12,22 +8,24 @@
 class Evaluation {
 
 public:
-    Evaluation(KNN& knn):_knn(knn){}
+    Evaluation(KNN &knn) : _knn(knn) {}
+
     //returns accuracy
-    double crossValidation(std::vector<Point>& data, size_t folds);
+    double crossValidation(std::vector <Point> &data, size_t folds);
 
 private:
 
-    void splitData( const std::vector<Point>& data,
-                    size_t testFoldStart,
-                    size_t testFoldEnd,
-                    std::vector<Point>& trainingSet,
-                    std::vector<Point>& testingSet);
-    void test(std::vector<Point>& testingSet);
+    void splitData(const std::vector <Point> &data,
+                   size_t testFoldStart,
+                   size_t testFoldEnd,
+                   std::vector <Point> &trainingSet,
+                   std::vector <Point> &testingSet);
+
+    void test(std::vector <Point> &testingSet);
 
 
 private:
-    KNN& _knn;
+    KNN &_knn;
 
 };
 
