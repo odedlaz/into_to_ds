@@ -6,7 +6,7 @@
 using std::string;
 using std::vector;
 
-bool KNN::train(const std::vector <Point> &points) {
+bool KNN::train(const std::vector<Point> &points) {
     if (points.size() < _k)
         return false;
     _data = points;
@@ -14,7 +14,7 @@ bool KNN::train(const std::vector <Point> &points) {
 }
 
 
-size_t KNN::maxDistIndex(const std::vector <std::pair<string, double>> &distances, double &max) const {
+size_t KNN::maxDistIndex(const std::vector<std::pair<string, double> > &distances, double &max) const {
     size_t index = 0;
     max = distances[index].second;
     for (size_t sz = 0; sz < distances.size(); sz++) {
@@ -26,9 +26,9 @@ size_t KNN::maxDistIndex(const std::vector <std::pair<string, double>> &distance
     return index;
 }
 
-const std::string KNN::getMajorityClass(const std::vector <std::pair<std::string, double>> &distances) const {
-    vector <string> classes;
-    vector <size_t> counts;
+const std::string KNN::getMajorityClass(const std::vector<std::pair<std::string, double> > &distances) const {
+    vector<string> classes;
+    vector<size_t> counts;
     for (size_t sz = 0; sz < distances.size(); sz++) {
         size_t found = 0;
         //we look for the class
@@ -45,7 +45,7 @@ const std::string KNN::getMajorityClass(const std::vector <std::pair<std::string
         }
     }
     vector<size_t>::iterator it = std::max_element(counts.begin(), counts.end());
-    size_t index = (size_t)(it - counts.begin());
+    size_t index = (size_t) (it - counts.begin());
     return classes[index];
 }
 
@@ -61,7 +61,7 @@ double KNN::euclidianDistance(const Point &p1, const Point &p2) const {
 }
 
 void KNN::predict(Point &newPoint) const {
-    std::vector <std::pair<string, double>> distances;
+    std::vector<std::pair<string, double> > distances;
     //we keep the first k distances as starting neighbours
     for (std::vector<Point *>::size_type sz = 0; sz < _k; sz++) {
         distances.push_back(std::pair<string, double>(_data[sz].getClass(), euclidianDistance(_data[sz], newPoint)));
