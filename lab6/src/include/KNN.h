@@ -11,7 +11,7 @@ class Point;
 
 class KNN {
 public:
-    bool train(const std::vector <Point> &points);
+    bool train(const std::vector<Point> &points);
 
     void predict(Point &newPoint) const;
 
@@ -20,14 +20,14 @@ public:
     KNN(size_t k) : _k(k) {}
 
 private:
-    size_t maxDistIndex(const std::vector <std::pair<std::string, double>> &distances, double &max) const;
+    size_t maxDistIndex(const std::vector<std::pair<std::string, double> > &distances, double &max) const;
 
-    const std::string getMajorityClass(const std::vector <std::pair<std::string, double>> &distances) const;
+    const std::string getMajorityClass(const std::vector<std::pair<std::string, double> > &distances) const;
 
     double euclidianDistance(const Point &p1, const Point &p2) const;
 
 private:
-    std::vector <Point> _data;
+    std::vector<Point> _data;
     size_t _k;
 
 };
