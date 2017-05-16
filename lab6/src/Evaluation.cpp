@@ -46,7 +46,7 @@ double Evaluation::crossValidation(std::vector<Point> &data, size_t folds) {
             return 0;
         test(testing);
         double currTestAccuracy = EvaluationMeasures::accuracy(testing);
-//        cout << "Current testing fold Accuracy: " << currTestAccuracy << endl;
+        cout << "Current testing fold Accuracy: " << currTestAccuracy << endl;
         totalAccuracy += currTestAccuracy;
     }
     return totalAccuracy / (double) folds;
