@@ -40,10 +40,6 @@ int main(int argc, char *argv[]) {
     vector<Point> allData;
     dr.read(fileName, allData);
     cout << allData.size() << endl;
-//    size_t folds = 10;
-//    Evaluation evaluation = new Evaluation()
-//    double accuracy = Evaluation::crossValidation(allData, folds);
-//    cout << accuracy << endl;
     question1(allData);
     question2(allData);
 
