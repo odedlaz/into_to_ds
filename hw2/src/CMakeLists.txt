@@ -5,17 +5,17 @@ set(CMAKE_CXX_STANDARD 98)
 
 set(SOURCE_FILES
         Classifier.cpp
-        Classifier.h
+        include/Classifier.h
         DataReader.cpp
-        DataReader.h
+        include/DataReader.h
         KNNClassifier.cpp
-        KNNClassifier.h
+        include/KNNClassifier.h
         main.cpp
         Perceptron.cpp
-        Perceptron.h
+        include/Perceptron.h
         Point.cpp
-        Point.h
+        include/Point.h
         Tests.cpp
-        Tests.h)
+        include/Tests.h)
 
 add_executable(src ${SOURCE_FILES})

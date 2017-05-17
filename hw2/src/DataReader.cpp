@@ -2,7 +2,7 @@
 // Created by annabel@staff.technion.ac.il on 5/11/17.
 //
 
-#include "DataReader.h"
+#include "include/DataReader.h"
 
 #include <iostream>
 #include <fstream>

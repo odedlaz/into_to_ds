@@ -2,8 +2,8 @@
 // Created by annabel@staff.technion.ac.il on 5/3/17.
 //
 
-#include "Classifier.h"
-#include "Point.h"
+#include "include/Classifier.h"
+#include "include/Point.h"
 #include <iostream>
 
 using std::cout;
