@@ -2,15 +2,15 @@
 // Created by annabel@staff.technion.ac.il on 5/5/17.
 //
 
-#include "Tests.h"
-#include "KNNClassifier.h"
+#include "include/Tests.h"
+#include "include/KNNClassifier.h"
 #include <fstream>
 #include <string>
-#include "KNNClassifier.h"
-#include "Perceptron.h"
+#include "include/KNNClassifier.h"
+#include "include/Perceptron.h"
 #include <iostream>
 #include <algorithm>
-#include "DataReader.h"
+#include "include/DataReader.h"
 #include "EuclideanDistance.h"
 #include "ManhattanDistance.h"
 #include "MetaClassifier.h"

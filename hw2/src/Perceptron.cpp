@@ -2,11 +2,11 @@
 // Created by annabel@staff.technion.ac.il on 5/5/17.
 //
 
-#include "Perceptron.h"
+#include "include/Perceptron.h"
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
-#include "Point.h"
+#include "include/Point.h"
 #include <numeric>
 #include <limits>
 
