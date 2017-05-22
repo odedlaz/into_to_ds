@@ -1,5 +1,5 @@
-#include <iostream>
 #include "include/Point.h"
+#include <iostream>
 
 Point Point::operator-(const Point &otherPoint) const {
     Point outcome(getDimension());
