@@ -36,19 +36,22 @@ void runKNN(KNN &knn, Normalizer &normalizer, const vector<Point> &data) {
 
 void runNormalizers(vector<Point> &allData, KNN &knn) {
     Evaluation eval(knn);
+    size_t dimension = allData[0].getDimension();
     cout << "No normalization: " << eval.crossValidation(allData, 10) << endl;
-    //copy vectors to each normalization method
-    vector<Point> zNallData = allData;
-    vector<Point> sNallData = allData;
-    vector<Point> minMaxNallData = allData;
+
     cout << "ZNormalization: ";
-    ZNormalizer zN(zNallData[0].getDimension());
+    ZNormalizer zN(dimension);
+    vector<Point> zNallData(allData);
     runKNN(knn, zN, zNallData);
+
     cout << "SumNormalization: ";
-    SumNormalizer sN(sNallData[0].getDimension());
+    SumNormalizer sN(dimension);
+    vector<Point> sNallData(allData);
     runKNN(knn, sN, sNallData);
+
     cout << "MinMaxNormalization: ";
-    MinMaxNormalizer minMaxN(minMaxNallData[0].getDimension());
+    MinMaxNormalizer minMaxN(dimension);
+    vector<Point> minMaxNallData(allData);
     runKNN(knn, minMaxN, minMaxNallData);
 }
 
