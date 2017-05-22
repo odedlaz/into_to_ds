@@ -8,8 +8,9 @@ bool SumNormalizer::init(const std::vector<Point> &points) {
     std::vector<Point>::const_iterator iter;
     size_t dimension = points[0].getDimension();
     for (iter = points.begin(); iter != points.end(); iter++) {
+        const Point& point = *iter;
         for (size_t dim = 0; dim < dimension; dim++) {
-            totalSum[dim] += (*iter)[dim];
+            totalSum[dim] += point[dim];
         }
     }
 

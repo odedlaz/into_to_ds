@@ -7,13 +7,12 @@ class MinMaxNormalizer : public Normalizer {
 private:
     Point min;
     Point max;
-    Point delta;
 public:
     /**
      * Receives the point's amount of dimensions initializing min, max and delta to same size.
      * @param dimension size_t amount of dimensions
      */
-    MinMaxNormalizer(size_t dimension) : min(dimension), max(dimension), delta(dimension) {}
+    MinMaxNormalizer(size_t dimension) : min(dimension), max(dimension) {}
     /**
      * initializing the min, max & delta with the given dataset
      * @param points Vector<Points> that contains dataset

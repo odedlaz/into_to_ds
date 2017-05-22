@@ -34,41 +34,57 @@ void runKNN(KNN &knn, Normalizer &normalizer, const vector<Point> &data) {
     cout << eval.crossValidation(normData, 10) << endl;
 }
 
-void runNormalizers(vector<Point> &allData, KNN &knn) {
-    Evaluation eval(knn);
+void runNormalizers(vector<Point> &allData, KNN& knn, char normalizationType) {
+    cout << "No Normalization: " << Evaluation(knn).crossValidation(allData, 10) << endl;
     size_t dimension = allData[0].getDimension();
-    cout << "No normalization: " << eval.crossValidation(allData, 10) << endl;
 
-    cout << "ZNormalization: ";
-    ZNormalizer zN(dimension);
-    vector<Point> zNallData(allData);
-    runKNN(knn, zN, zNallData);
+    // default normalizer
 
-    cout << "SumNormalization: ";
-    SumNormalizer sN(dimension);
-    vector<Point> sNallData(allData);
-    runKNN(knn, sN, sNallData);
+    switch (normalizationType) {
+        case 'z': {
+            cout << "Z Normalization: ";
+            ZNormalizer normalizer = ZNormalizer(dimension);
+            runKNN(knn, normalizer,  allData);
+            break;
+        }
 
-    cout << "MinMaxNormalization: ";
-    MinMaxNormalizer minMaxN(dimension);
-    vector<Point> minMaxNallData(allData);
-    runKNN(knn, minMaxN, minMaxNallData);
+        case 'x': {
+            cout << "Min-Max Normalization: ";
+            MinMaxNormalizer normalizer = MinMaxNormalizer(dimension);
+            runKNN(knn, normalizer, allData);
+            break;
+        }
+        case 's': {
+            cout << "Sum Normalization: ";
+            SumNormalizer normalizer = SumNormalizer(dimension);
+            runKNN(knn, normalizer, allData);
+            break;
+        }
+        default: {
+            cout << "Normalization method invalid" << endl;
+            return;
+        }
+    }
+
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        cerr << "You are missing the input file name" << endl;
+    if (argc < 4) {
+        cerr << "Usage: <filename> <knn> <normalization type>" << endl;
+        cerr << "z: Z Normalization" << endl;
+        cerr << "s: Sum Normalization" << endl;
+        cerr << "x: Min-Max Normalization" << endl;
+
         return 1;
     }
     string fileName(argv[1]);
     DataReader dr;
     vector<Point> allData;
     dr.read(fileName, allData);
-    cout << "=== KNN set to 5 ===" << endl;
-    KNN knn5(5);
-    runNormalizers(allData, knn5);
-    cout << "=== KNN set to 7 ===" << endl;
-    KNN knn7(7);
-    runNormalizers(allData, knn7);
+    size_t iterations = (size_t) atoi(argv[2]);
+    cout << "=== KNN set to " << iterations << " ===" << endl;
+
+    KNN knn(iterations);
+    runNormalizers(allData, knn, argv[3][0]);
     return 0;
 }
