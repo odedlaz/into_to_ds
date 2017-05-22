@@ -8,7 +8,10 @@
 
 class Point {
 public:
+    Point() : _values(0, 0.0) {}
     Point(size_t size) : _values(size, 0.0) {}
+
+    Point( const Point &otherPoint);
 
     void setClass(const std::string &classValue) { _class = classValue; }
 
