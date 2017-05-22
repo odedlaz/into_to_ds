@@ -33,7 +33,24 @@ void runKNN(KNN &knn, Normalizer &normalizer, const vector<Point> &data) {
     Evaluation eval(knn);
     cout << eval.crossValidation(normData, 10) << endl;
 }
+void runNormalizers(vector<Point> &allData ,KNN &knn){
+    Evaluation eval(knn);
+    cout << "No normalization: " << eval.crossValidation(allData, 10) << endl;
+    //copy vectors to each normalization method
+    vector<Point> zNallData=allData;
+    vector<Point> sNallData=allData;
+    vector<Point> minMaxNallData=allData;
+    cout << "ZNormalization: ";
+    ZNormalizer zN(zNallData[0].getDimension());
+    runKNN(knn, zN, zNallData);
+    cout << "SumNormalization: ";
+    SumNormalizer sN(sNallData[0].getDimension());
+    runKNN(knn, sN, sNallData);
+    cout << "MinMaxNormalization: ";
+    MinMaxNormalizer minMaxN(minMaxNallData[0].getDimension());
+    runKNN(knn, minMaxN, minMaxNallData);
 
+}
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         cerr << "You are missing the input file name" << endl;
@@ -43,10 +60,11 @@ int main(int argc, char *argv[]) {
     DataReader dr;
     vector<Point> allData;
     dr.read(fileName, allData);
-    KNN knn(5);
-    Evaluation eval(knn);
-    cout << "No normalization: " << eval.crossValidation(allData, 10) << endl;
-    ZNormalizer zN(allData[0].getDimension());
-    runKNN(knn, zN, allData);
+    cout << "===KNN set to 5===" << endl;
+    KNN knn5(5);
+    runNormalizers(allData, knn5);
+    cout << "===KNN set to 7==" << endl;
+    KNN knn7(7);
+    runNormalizers(allData, knn7);
     return 0;
 }
