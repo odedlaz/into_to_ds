@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/DataReader.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/DataReader.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/DataReader.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/Evaluation.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/Evaluation.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/Evaluation.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/EvaluationMeasures.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/EvaluationMeasures.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/EvaluationMeasures.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/KNN.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/KNN.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/KNN.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/main.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/main.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/main.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/MinMaxNormalizer.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/MinMaxNormalizer.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/MinMaxNormalizer.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/Point.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/Point.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/Point.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/SumNormalizer.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/SumNormalizer.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/SumNormalizer.cpp"
+},
+{
+  "directory": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src",
+  "command": "/usr/bin/c++      -std=gnu++98 -o CMakeFiles/src.dir/ZNormalizer.cpp.o -c /home/odedlaz/Dev/technion/intro_to_ds/lab7/src/ZNormalizer.cpp",
+  "file": "/home/odedlaz/Dev/technion/intro_to_ds/lab7/src/ZNormalizer.cpp"
+}
+]
