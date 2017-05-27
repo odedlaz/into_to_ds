@@ -31,37 +31,41 @@ void runKNN(KNN &knn, Normalizer &normalizer, const vector<Point> &data) {
     normalizeData(normalizer, data, normData);
     knn.reset();
     Evaluation eval(knn);
-    cout << eval.crossValidation(normData, 10) << endl;
+    cout << eval.crossValidation(normData, 10);
 }
 
 void runNormalizers(vector<Point> &allData, KNN& knn, char normalizationType) {
-    cout << "No Normalization: " << Evaluation(knn).crossValidation(allData, 10) << endl;
     size_t dimension = allData[0].getDimension();
 
     // default normalizer
 
     switch (normalizationType) {
+        case 'n': {
+            printf("No Normalization: %f",
+                   Evaluation(knn).crossValidation(allData, 10));
+            break;
+        }
         case 'z': {
-            cout << "Z Normalization: ";
+             printf("Z Normalization: ");
             ZNormalizer normalizer = ZNormalizer(dimension);
             runKNN(knn, normalizer,  allData);
             break;
         }
 
         case 'x': {
-            cout << "Min-Max Normalization: ";
+            printf("Min-Max Normalization: ");
             MinMaxNormalizer normalizer = MinMaxNormalizer(dimension);
             runKNN(knn, normalizer, allData);
             break;
         }
         case 's': {
-            cout << "Sum Normalization: ";
+            printf("Sum Normalization: ");
             SumNormalizer normalizer = SumNormalizer(dimension);
             runKNN(knn, normalizer, allData);
             break;
         }
         default: {
-            cout << "Normalization method invalid" << endl;
+            printf("Normalization method invalid");
             return;
         }
     }
@@ -71,20 +75,24 @@ void runNormalizers(vector<Point> &allData, KNN& knn, char normalizationType) {
 int main(int argc, char *argv[]) {
     if (argc < 4) {
         cerr << "Usage: <filename> <knn> <normalization type>" << endl;
+        cerr << "n: No Normalization" << endl;
         cerr << "z: Z Normalization" << endl;
         cerr << "s: Sum Normalization" << endl;
         cerr << "x: Min-Max Normalization" << endl;
 
+        cerr << endl;
+        cerr << "You can run all in a sh:" << endl;
+        cerr << "$ for norm in n z s x; do <filename> <knn> $norm; done" << endl;
         return 1;
     }
     string fileName(argv[1]);
     DataReader dr;
     vector<Point> allData;
     dr.read(fileName, allData);
-    size_t iterations = (size_t) atoi(argv[2]);
-    cout << "=== KNN set to " << iterations << " ===" << endl;
+    size_t numOfClusters = (size_t) atoi(argv[2]);
 
-    KNN knn(iterations);
+    KNN knn(numOfClusters);
     runNormalizers(allData, knn, argv[3][0]);
+    printf(" (%d-nn)\n", (int)numOfClusters);
     return 0;
 }
