@@ -36,13 +36,13 @@ void runKNN(KNN &knn, Normalizer &normalizer, const vector<Point> &data) {
 
 void runNormalizers(vector<Point> &allData, KNN& knn, char normalizationType) {
     size_t dimension = allData[0].getDimension();
-
-    // default normalizer
+    // same as the original assignment code
+    // the cross validation ran *before* the normalizer
+    double evaluation = Evaluation(knn).crossValidation(allData, 10);
 
     switch (normalizationType) {
         case 'n': {
-            printf("No Normalization: %f",
-                   Evaluation(knn).crossValidation(allData, 10));
+            printf("No Normalization: %f", evaluation);
             break;
         }
         case 'z': {
