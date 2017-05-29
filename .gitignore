@@ -38,3 +38,5 @@ cmake-build-release/
 CMakeCache*
 CMakeFiles
 cmake_install.cmake
+
+*.pyc
