@@ -16,9 +16,6 @@ def training(training_set):
         for i in range(class_size):
             class_centroids[c][i] /= float(class_size)
 
-    print "class 1 centroid {}".format(class_centroids['1'])
-    print "class 0 centroid {}".format(class_centroids['0'])
-
     return class_centroids
 
 
