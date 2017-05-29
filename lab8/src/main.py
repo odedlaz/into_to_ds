@@ -11,6 +11,7 @@ def calc_accuracy(test_set, class_centroids):
         if real == predicted:
             correct += 1.0
     return (correct/total)
+    return (correct / total)
 
 
 if __name__ == '__main__':

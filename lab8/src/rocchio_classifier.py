@@ -9,6 +9,8 @@ def training(training_set):
             class_centroids[doc_class] = training_set[doc][0:-1]
         else:
             class_centroids[doc_class] = [class_centroids[doc_class][i] + training_set[doc][0:-1][i] for i in range(len(training_set[doc]) - 1)]
+            class_centroids[doc_class] = [class_centroids[doc_class][i] + training_set[doc][0:-1][i] for i in
+                                          range(len(training_set[doc]) - 1)]
     for c in class_centroids.keys():
         class_size = len(class_centroids[c])
         for i in range(class_size):
