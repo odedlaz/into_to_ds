@@ -13,7 +13,7 @@ def calc_accuracy(test_set, class_centroids):
             correct += 1.0
     return (correct / total)
 
-
+# creates svm format from given set, to be written to a file
 def get_svm_light_lines(aset):
     for doc, vec in aset.iteritems():
         vec, target = vec[:-1], vec[-1]
@@ -31,7 +31,7 @@ def get_svm_light_lines(aset):
 
         yield " ".join([target, feature_text, "#" + doc])
 
-
+# writes to svm file lines of given set of vectors
 def write_in_svm_light(aset, targetfile):
     with open(targetfile, 'w') as f:
         f.writelines(l + '\n' for l in get_svm_light_lines(aset))
