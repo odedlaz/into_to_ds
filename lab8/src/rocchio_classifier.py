@@ -19,9 +19,11 @@ def training(training_set):
     return class_centroids
 
 
+#
+# predicts a doc_vec sentiment using proximity to centroids
+#
 def predict(class_centroids, doc_vec):
     items = class_centroids.iteritems()
-
     min_cluster, item_vec = next(items)
     min_dist = euclidean_dist(item_vec, doc_vec)
 
@@ -34,6 +36,9 @@ def predict(class_centroids, doc_vec):
 
     return min_cluster
 
+# calculates eculidean distance between vec1 and vec2
+# creates a list of (x-y)^2 where as x and y is values of vec1 & vec2 accordingly.
+# returns the square root of sum of the above list.
 
 def euclidean_dist(vec1, vec2):
     return math.sqrt(sum(starmap(lambda x, y: math.pow(x - y, 2), zip(vec1, vec2))))
