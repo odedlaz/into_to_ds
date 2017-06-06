@@ -12,8 +12,7 @@
 
 class DataReader {
 public:
-    void read(const std::string& fileName, std::vector<Point>& data);
-
+    void read(const std::string &fileName, std::vector<Point> &data);
 
 
 };

@@ -10,15 +10,20 @@
 
 
 class Point;
+
 class Classifier {
 
 public:
-    virtual bool train(const std::vector<Point>& points)=0;
+    virtual bool train(const std::vector<Point> &points)=0;
+
     //The predicted class will be filled inside the point
-    virtual void predict( Point& newPoint) const =0;
-    double accuracy(const std::vector<Point>& subset) const;
-    void printResults(const std::vector<Point>& subset) const;
-    virtual ~Classifier(){}
+    virtual void predict(Point &newPoint) const =0;
+
+    double accuracy(const std::vector<Point> &subset) const;
+
+    void printResults(const std::vector<Point> &subset) const;
+
+    virtual ~Classifier() {}
 
 };
 

@@ -16,6 +16,14 @@ set(SOURCE_FILES
         Point.cpp
         include/Point.h
         Tests.cpp
-        include/Tests.h)
+        include/Tests.h
+        Distance.cpp
+        include/Distance.h
+        EuclideanDistance.cpp
+        include/EuclideanDistance.h
+        ManhattanDistance.cpp
+        include/ManhattanDistance.h
+        MetaClassifier.cpp
+        include/MetaClassifier.h)
 
 add_executable(src ${SOURCE_FILES})
