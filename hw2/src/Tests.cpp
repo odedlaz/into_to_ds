@@ -75,7 +75,7 @@ void Tests::KNNTestEuclidean(const std::vector<Point> &all) {
 
 void Tests::KNNTestManhattan(const std::vector<Point> &all) {
     ManhattanDistance *ptrDistance = new ManhattanDistance();
-    cout << "KNN ManhattanDistance distance accuracy is:" << evaluateKNN(all, ptrDistance) << endl;
+    cout << "KNN Manhattan distance accuracy is:" << evaluateKNN(all, ptrDistance) << endl;
     delete ptrDistance;
 }
 
