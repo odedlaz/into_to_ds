@@ -24,15 +24,20 @@ void Perceptron::init() {
 }
 
 void Perceptron::release() {
-    //implementation is missing
+    delete[]_ptrWeights;
 }
 
 Perceptron::~Perceptron() {
-    //implementation is missing
+    release();
 }
 
 double Perceptron::calculateIn(const Point &point) const {
-    //implementation is missing
+    double in = -1 * _ptrWeights[0];
+    for (int i = 0; i < _inputCount; i++) {
+        in += point[i] * _ptrWeights[i + 1];
+
+    }
+    return in;
 }
 
 double Perceptron::getClassID(const Point &point) const {
@@ -45,7 +50,15 @@ double Perceptron::getClassID(const Point &point) const {
 }
 
 void Perceptron::updateWeights(const Point &point) {
-    //implementation is missing
+
+    double in = calculateIn(point);
+    double cls = getClassID(point);
+
+    _ptrWeights[0] += _alpha * -1 * (cls  - in);
+
+    for (int i = 0; i < _inputCount; i++) {
+        _ptrWeights[i+1] += _alpha * point[i] * (cls  - in);
+    }
 }
 
 bool Perceptron::findClass(const std::string &classname) const {
@@ -63,7 +76,17 @@ void Perceptron::mapClasses(const std::vector<Point> &points) {
 }
 
 double Perceptron::squaredError(const std::vector<Point> &points) const {
-    //implementation is missing
+    double sum(0.0);
+
+    for (int i=0; i < points.size(); i++) {
+        const Point &point = points[i];
+        double in = calculateIn(point);
+        double cls = getClassID(point);
+
+        sum += pow(cls - in, 2);
+    }
+
+    return sum;
 }
 
 void Perceptron::initWeights() {
