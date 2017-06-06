@@ -13,11 +13,9 @@ set(SOURCE_FILES
         main.cpp
         Perceptron.cpp
         include/Perceptron.h
-        Point.cpp
         include/Point.h
         Tests.cpp
         include/Tests.h
-        Distance.cpp
         include/Distance.h
         EuclideanDistance.cpp
         include/EuclideanDistance.h

@@ -9,7 +9,8 @@
 #include "Distance.h"
 
 class ManhattanDistance : public Distance {
-
+public:
+    virtual double calculate(const Point &p1, const Point &p2) const;
 };
 
 

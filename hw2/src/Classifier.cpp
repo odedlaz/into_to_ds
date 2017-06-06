@@ -12,7 +12,8 @@ using std::endl;
 double Classifier::accuracy(const std::vector<Point> &subset) const {
     double correct(0.0);
     for (size_t i = 0; i < subset.size(); i++) {
-        if (subset[i].getClass() == subset[i].getPrediction())
+        const Point & point = subset[i];
+        if (point.getClass() == point.getPrediction())
             correct++;
     }
     return correct / (double) subset.size();
