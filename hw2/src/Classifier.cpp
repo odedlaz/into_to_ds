@@ -9,13 +9,15 @@
 using std::cout;
 using std::endl;
 
-double Classifier::accuracy(const std::vector<Point>& subset) const
-{
+double Classifier::accuracy(const std::vector<Point> &subset) const {
     double correct(0.0);
-    for(size_t i=0; i<subset.size(); i++)
-    {
-        if (subset[i].getClass()==subset[i].getPrediction())
+    for (size_t i = 0; i < subset.size(); i++) {
+        if (subset[i].getClass() == subset[i].getPrediction())
             correct++;
     }
-    return correct/(double)subset.size();
+    return correct / (double) subset.size();
+}
+
+void Classifier::printResults(const std::vector<Point> &subset) const {
+
 }

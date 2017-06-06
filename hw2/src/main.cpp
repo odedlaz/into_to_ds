@@ -9,9 +9,8 @@ using std::string;
 using std::vector;
 
 
-int main(int argc, char* argv[] )
-{
-    if (argc<3)
+int main(int argc, char *argv[]) {
+    if (argc < 3)
         return -1;
 
     string dataFile(argv[1]);
@@ -24,9 +23,9 @@ int main(int argc, char* argv[] )
     else if (testName == Tests::testNames[Tests::testKNNManhattan])
         Tests::KNNTestManhattan(allData);
     else if (testName == Tests::testNames[Tests::testPerceptronLogic])
-        Tests::perceptronLogic(allData,0.001,5000);
+        Tests::perceptronLogic(allData, 0.001, 5000);
     else if (testName == Tests::testNames[Tests::testPerceptron])
-        Tests::perceptronTest(allData,0.0001,5000);
+        Tests::perceptronTest(allData, 0.0001, 5000);
     else if (testName == Tests::testNames[Tests::testMetaClassifier])
         Tests::metaClassifierTest(allData);
 
