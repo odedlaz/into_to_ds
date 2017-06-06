@@ -6,8 +6,11 @@
 #define SRC_DISTANCE_H
 
 
-class Distance {
+#include "Point.h"
 
+class Distance {
+public:
+    virtual double calculate(const Point &p1, const Point &p2) const =0;
 };
 
 
