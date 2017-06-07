@@ -38,7 +38,7 @@ class FileReader:
         line = self.clean_pattern.sub(lambda x: "" if x.group()
                                       in punctuation_marks
                                       else " ", line.strip())
-        return line.split(" ")
+        return line.lower().split(" ")
 
     def build_set(self, *args, **kwargs):
         if self._vector_type == BOOLEAN_TYPE:
