@@ -1,0 +1,5 @@
+1	iphone recommend	the user is looking for comments and recommendations about iphones.
+2	a lot of Problems	the user want to find products that have a lot of problems in order avoid them.
+3	type c	the user is intrested in buying an android phone that has a type-c charger and is intrested to see the comments about it.
+4	low prices	the users wants to find information regarding low price products.
+5	GOOD CAMERA	the user is looking for good cameras and their qualities (all contain the word 'camera' and good qualities).
