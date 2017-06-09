@@ -21,8 +21,18 @@ public:
 
     virtual ~Perceptron();
 
+    /**
+     * Trains the Perceptron using a Training set
+     * @param points Vector<Points> of training set
+     * @return boolean result that indicates if the train was successful.
+     */
     virtual bool train(const std::vector<Point> &points);
 
+    /**
+     * Predicts the class of given Point.
+     * finds a linear function(set of weights) that the SE will converge at.
+     * @param newPoint Point that it's class will be predicted and assigned to.
+     */
     virtual void predict(Point &newPoint) const;
 
     void printWeights() const;
