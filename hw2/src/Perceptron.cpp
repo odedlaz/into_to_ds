@@ -33,7 +33,8 @@ Perceptron::~Perceptron() {
 
 double Perceptron::calculateIn(const Point &point) const {
     double in = -1 * _ptrWeights[0];
-    for (int i = 0; i < _inputCount; i++) {
+    size_t features = point.getDimension();
+    for (int i = 0; i < features; i++) {
         in += point[i] * _ptrWeights[i + 1];
 
     }
@@ -53,10 +54,11 @@ void Perceptron::updateWeights(const Point &point) {
 
     double in = calculateIn(point);
     double cls = getClassID(point);
+    size_t features = point.getDimension();
 
     _ptrWeights[0] += _alpha * -1 * (cls - in);
 
-    for (int i = 0; i < _inputCount; i++) {
+    for (int i = 0; i < features; i++) {
         _ptrWeights[i + 1] += _alpha * point[i] * (cls - in);
     }
 }
@@ -106,8 +108,10 @@ void Perceptron::printWeights() const {
 
 bool Perceptron::train(const std::vector<Point> &points) {
     mapClasses(points);
-    if (_classes.size() != 2)
-        return false;//this is a binary classifier
+    if (_classes.size() != 2) {
+        // this is a binary classifier
+        return false;
+    }
     double epsilon = pow(10, -10); // small number
     double previousSquaredError = squaredError(points);
     for (size_t iter = 0; iter < _epoch; iter++) {
