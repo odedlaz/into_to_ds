@@ -18,7 +18,16 @@ int main(int argc, char *argv[]) {
     Tests::loadData(dataFile, allData);
     string testName(argv[2]);
 
-    Tests::KNNTestEuclidean(allData);
+    if (testName == Tests::testNames[Tests::testKNNEuclidean])
+        Tests::KNNTestEuclidean(allData);
+    else if (testName == Tests::testNames[Tests::testKNNManhattan])
+        Tests::KNNTestManhattan(allData);
+    else if (testName == Tests::testNames[Tests::testPerceptronLogic])
+        Tests::perceptronLogic(allData, 0.001, 5000);
+    else if (testName == Tests::testNames[Tests::testPerceptron])
+        Tests::perceptronTest(allData, 0.0001, 5000);
+    else if (testName == Tests::testNames[Tests::testMetaClassifier])
+        Tests::metaClassifierTest(allData);
 
     return 0;
 }
