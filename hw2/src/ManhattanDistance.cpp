@@ -13,6 +13,7 @@ double ManhattanDistance::calculate(const Point &p1, const Point &p2) const {
     double sum = 0.0;
     for (size_t i = 0; i < p1.getDimension(); i++) {
         sum += abs(p1[i] - p2[i]);
+        sum += fabs(p1[i] - p2[i]);
     }
     return sqrt(sum);
 }
