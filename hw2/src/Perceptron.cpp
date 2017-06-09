@@ -54,10 +54,10 @@ void Perceptron::updateWeights(const Point &point) {
     double in = calculateIn(point);
     double cls = getClassID(point);
 
-    _ptrWeights[0] += _alpha * -1 * (cls  - in);
+    _ptrWeights[0] += _alpha * -1 * (cls - in);
 
     for (int i = 0; i < _inputCount; i++) {
-        _ptrWeights[i+1] += _alpha * point[i] * (cls  - in);
+        _ptrWeights[i + 1] += _alpha * point[i] * (cls - in);
     }
 }
 
@@ -78,7 +78,7 @@ void Perceptron::mapClasses(const std::vector<Point> &points) {
 double Perceptron::squaredError(const std::vector<Point> &points) const {
     double sum(0.0);
 
-    for (int i=0; i < points.size(); i++) {
+    for (int i = 0; i < points.size(); i++) {
         const Point &point = points[i];
         double in = calculateIn(point);
         double cls = getClassID(point);
