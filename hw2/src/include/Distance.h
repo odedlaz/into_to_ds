@@ -10,6 +10,12 @@
 
 class Distance {
 public:
+    /**
+     * Calculates distance between two points using a given method.
+     * @param p1 Point
+     * @param p2 Point
+     * @return dobule value of the distance from given method.
+     */
     virtual double calculate(const Point &p1, const Point &p2) const =0;
 };
 
