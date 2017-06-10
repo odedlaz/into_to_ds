@@ -51,11 +51,11 @@ bool MetaClassifier::train(const std::vector<Point> &points) {
     for (int i = 0; i < points.size(); i++) {
         Point p(points[i].getDimension() - numOfLowest(_weights.size()));
         setPointAccordingToWeights(points[i], p);
-        _training->push_back(p);
+        _training.push_back(p);
     }
 
     // train the knn
-    return _knn->train(*_training);
+    return _knn->train(_training);
 }
 
 
@@ -95,7 +95,6 @@ MetaClassifier::~MetaClassifier() {
     // cleanup
     delete _knn;
     delete _perceptron;
-    delete _training;
 }
 
 MetaClassifier::MetaClassifier(size_t k, const std::vector<Point> &allData, Distance *&distance) : _k(k),
@@ -105,5 +104,5 @@ MetaClassifier::MetaClassifier(size_t k, const std::vector<Point> &allData, Dist
     _perceptron->init();
 
     _knn = new KNNClassifier(k, _distance);
-    _training = new vector<Point>();
+    _training = vector<Point>();
 }

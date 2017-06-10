@@ -114,7 +114,7 @@ void Tests::perceptronLogic(const std::vector<Point> &all,
 }*/
 
 void Tests::metaClassifierTest(const std::vector<Point> &all) {
-    Distance *pdistance = new EuclideanDistance();
+    Distance *pdistance = new ManhattanDistance();
     const size_t kvalues = 5;
     size_t k_neigbours[kvalues] = {1, 3, 5, 7, 10};
     double accuracy[kvalues] = {0, 0, 0, 0, 0};
