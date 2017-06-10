@@ -14,7 +14,7 @@ class MetaClassifier : public Classifier {
     friend class Perceptron;
 
 public:
-    MetaClassifier(size_t k, const std::vector<Point> &allData, Distance *&distance);
+    MetaClassifier(size_t k, size_t size, Distance *&distance);
 
     virtual bool train(const std::vector<Point> &points);
 
@@ -27,7 +27,7 @@ private:
     Perceptron *_perceptron;
     KNNClassifier *_knn;
     size_t _k;
-    std::vector<Point> _data;
+    size_t _size;
     std::vector<Point> _training;
     Distance *_distance;
     std::vector<std::pair<int, double> > _weights;
