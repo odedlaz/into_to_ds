@@ -12,8 +12,9 @@ const int REMOVE_LOWEST = 20;
 
 size_t numOfLowest(size_t size) {
 
-    return (size_t)ceil(REMOVE_LOWEST / 100.0 * size);
+    return (size_t) ceil(REMOVE_LOWEST / 100.0 * size);
 }
+
 bool compareWeights(std::pair<int, double> x, std::pair<int, double> y) {
     return fabs(x.second) > fabs(y.second);
 }
@@ -86,7 +87,7 @@ void MetaClassifier::predict(Point &newPoint) const {
     // predict on the new point according to perceptron weights
     _knn->predict(point);
 
-   // update class and prediction of the "old" point
+    // update class and prediction of the "old" point
     newPoint.setClass(point.getClass());
     newPoint.setPrediction(point.getPrediction());
 }

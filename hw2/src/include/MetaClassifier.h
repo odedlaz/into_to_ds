@@ -12,6 +12,7 @@
 
 class MetaClassifier : public Classifier {
     friend class Perceptron;
+
 public:
     MetaClassifier(size_t k, const std::vector<Point> &allData, Distance *&distance);
 
