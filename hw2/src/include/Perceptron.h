@@ -9,7 +9,7 @@
 #include "Classifier.h"
 
 class Perceptron : public Classifier {
-
+    friend class MetaClassifier;
 public:
 
     Perceptron(size_t dimension, double alpha, size_t epoch) : _inputCount(dimension + 1),
