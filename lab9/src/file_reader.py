@@ -32,7 +32,6 @@ class FileReader:
                                         re.IGNORECASE)
 
         self.words = self.create_words_bank()
-        print(self.clean_pattern.pattern)
 
     def _get_clean_words(self, line):
         line = self.clean_pattern.sub(lambda x: "" if x.group()
