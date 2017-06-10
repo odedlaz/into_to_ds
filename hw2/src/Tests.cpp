@@ -126,12 +126,14 @@ void Tests::metaClassifierTest(const std::vector<Point> &all) {
         MetaClassifier metaClassifier(k_neigbours[i], all, pdistance);
         accuracy[i] = trainTestClassifier(training, testing, metaClassifier);
     }
+    //highest accuracy
+    double *bestAccuracy = std::max_element(accuracy, accuracy + kvalues);
+    cout << "MetaClassifier accuracy is:" << *bestAccuracy << endl;
 
-    double *ptr = std::max_element(accuracy, accuracy + kvalues);
-    size_t k_position = ptr - accuracy;
+    /*size_t k_position = bestAccuracy - accuracy; //highest accuracy position in array
     MetaClassifier cls(k_neigbours[k_position], all, pdistance);
     double acc_final = trainTestClassifier(training, testing, cls);
-    cout << "MetaClassifier accuracy is:" << acc_final << endl;
+    cout << "MetaClassifier accuracy is:" << acc_final << endl;*/
 }
 
 void Tests::fixedSplitThree(const std::vector<Point> &all,
