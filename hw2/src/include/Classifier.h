@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/3/17.
-//
-
 #ifndef CLASSIFICATION_CLASSIFIER_H
 #define CLASSIFICATION_CLASSIFIER_H
 

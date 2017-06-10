@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/5/17.
-//
-
 #include "include/Tests.h"
 #include "include/DataReader.h"
 #include "include/EuclideanDistance.h"
@@ -106,16 +102,6 @@ void Tests::perceptronLogic(const std::vector<Point> &all, double alpha,
   perceptron.train(all);
   perceptron.printWeights();
 }
-
-/*void Tests::metaClassifierTest(const std::vector<Point> &all) {
-    Distance *ptrDistance = new EuclideanDistance();
-    MetaClassifier metaClassifier(3, all, ptrDistance);
-    std::vector<Point> training;
-    std::vector<Point> testing;
-    fixedSplitTwo(all, training, testing);
-    cout << "MetaClassifier accuracy is:" << trainTestClassifier(training,
-testing, metaClassifier) << endl;
-}*/
 
 void Tests::metaClassifierTest(const std::vector<Point> &all) {
   Distance *pdistance = new ManhattanDistance();

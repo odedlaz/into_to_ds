@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/5/17.
-//
-
 #include "include/Perceptron.h"
 #include <iostream>
 #include <math.h>
