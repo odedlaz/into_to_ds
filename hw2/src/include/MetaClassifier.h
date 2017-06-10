@@ -1,7 +1,3 @@
-//
-// Created by odedlaz on 6/6/17.
-//
-
 #ifndef SRC_METACLASSIFER_H
 #define SRC_METACLASSIFER_H
 
