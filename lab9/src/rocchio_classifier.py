@@ -1,5 +1,4 @@
-import math
-import sys
+import similarity
 
 
 class Rocchio_Classifier:
@@ -11,31 +10,30 @@ class Rocchio_Classifier:
     def training(self):
         for doc in self.training_set:
             doc_class = self.training_set[doc][-1]
-            if doc_class not in self.class_centroids.keys():
+            if doc_class not in self.class_centroids:
                 self.class_centroids[doc_class] = self.training_set[doc][0:-1]
-            else:
-                self.class_centroids[doc_class] = [self.class_centroids[doc_class][i] + self.training_set[doc][0:-1][i]
-                                                   for i in range(len(self.training_set[doc]) - 1)]
-        for c in self.class_centroids.keys():
-            class_size = len(self.class_centroids[c])
+                continue
+
+            self.class_centroids[doc_class] = [self.class_centroids[doc_class][i] + self.training_set[doc][0:-1][i]
+                                               for i in range(len(self.training_set[doc]) - 1)]
+
+        for centroid in self.class_centroids:
+            class_size = len(self.class_centroids[centroid])
             for i in range(class_size):
-                self.class_centroids[c][i] /= float(class_size)
+                self.class_centroids[centroid][i] /= float(class_size)
+
         print self.class_centroids.keys()
 
     def predict(self, doc_vec):
-        minC = None
-        minScore = sys.float_info.max
-        for c in self.class_centroids.keys():
-            currScore = self.euclidean_dist(self.class_centroids[c], doc_vec)
-            if currScore < minScore:
-                minScore = currScore
-                minC = c
-        return minC
+        centroids = self.class_centroids.iteritems()
+        min_cluster, centroid_vec = next(centroids)
+        min_score = similarity.euclidean_dist(centroid_vec, doc_vec)
 
-    def euclidean_dist(self, vec1, vec2):
-        vecLen = len(vec1)
-        sum = 0
-        for i in range(vecLen):
-            sum += (vec1[i] - vec2[i]) ** 2
-        return math.sqrt(sum)
+        for item_class, centroid_vec in centroids:
+            score = similarity.euclidean_dist(centroid_vec, doc_vec)
 
+            if score < min_score:
+                min_score = score
+                min_cluster = item_class
+
+        return min_cluster
