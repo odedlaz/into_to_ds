@@ -104,12 +104,34 @@ void Tests::perceptronLogic(const std::vector<Point> &all,
     perceptron.printWeights();
 }
 
-void Tests::metaClassifierTest(const std::vector<Point> &all) {
-    MetaClassifier metaClassifier;
+/*void Tests::metaClassifierTest(const std::vector<Point> &all) {
+    Distance *ptrDistance = new EuclideanDistance();
+    MetaClassifier metaClassifier(3, all, ptrDistance);
     std::vector<Point> training;
     std::vector<Point> testing;
     fixedSplitTwo(all, training, testing);
     cout << "MetaClassifier accuracy is:" << trainTestClassifier(training, testing, metaClassifier) << endl;
+}*/
+
+void Tests::metaClassifierTest(const std::vector<Point> &all) {
+    Distance *pdistance = new EuclideanDistance();
+    const size_t kvalues = 5;
+    size_t k_neigbours[kvalues] = {1, 3, 5, 7, 10};
+    double accuracy[kvalues] = {0, 0, 0, 0, 0};
+    std::vector<Point> training;
+    std::vector<Point> testing;
+    fixedSplitTwo(all, training, testing);
+
+    for (size_t i = 0; i < kvalues; i++) {
+        MetaClassifier metaClassifier(k_neigbours[i], all, pdistance);
+        accuracy[i] = trainTestClassifier(training, testing, metaClassifier);
+    }
+
+    double *ptr = std::max_element(accuracy, accuracy + kvalues);
+    size_t k_position = ptr - accuracy;
+    MetaClassifier cls(k_neigbours[k_position], all, pdistance);
+    double acc_final = trainTestClassifier(training, testing, cls);
+    cout << "MetaClassifier accuracy is:" << acc_final << endl;
 }
 
 void Tests::fixedSplitThree(const std::vector<Point> &all,

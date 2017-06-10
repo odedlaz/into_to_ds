@@ -8,9 +8,6 @@
 using std::string;
 using std::vector;
 
-//
-// Created by annabel@staff.technion.ac.il on 5/3/17.
-//
 KNNClassifier::KNNClassifier(size_t &size, Distance *&distance) : _size(size), _distance(distance) {
 
 }
