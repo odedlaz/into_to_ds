@@ -27,7 +27,7 @@ private:
     KNNClassifier *_knn;
     size_t _k;
     std::vector<Point> _data;
-    std::vector<Point>* _training;
+    std::vector<Point> _training;
     Distance *_distance;
     std::vector<std::pair<int, double> > _weights;
 
