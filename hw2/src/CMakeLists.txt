@@ -22,6 +22,6 @@ set(SOURCE_FILES
         ManhattanDistance.cpp
         include/ManhattanDistance.h
         MetaClassifier.cpp
-        include/MetaClassifier.h)
+        include/MetaClassifier.h CosineDistance.cpp include/CosineDistance.h)
 
 add_executable(src ${SOURCE_FILES})
