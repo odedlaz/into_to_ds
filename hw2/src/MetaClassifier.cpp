@@ -98,10 +98,10 @@ MetaClassifier::~MetaClassifier() {
     delete _perceptron;
 }
 
-MetaClassifier::MetaClassifier(size_t k, const std::vector<Point> &allData, Distance *&distance) : _k(k),
-                                                                                                   _data(allData),
-                                                                                                   _distance(distance) {
-    _perceptron = new Perceptron(_data[0].getDimension(), 0.0001, 5000);
+MetaClassifier::MetaClassifier(size_t k, size_t size, Distance *&distance) : _k(k),
+                                                                             _size(size),
+                                                                             _distance(distance) {
+    _perceptron = new Perceptron(size, 0.0001, 5000);
     _perceptron->init();
 
     _knn = new KNNClassifier(k, _distance);
