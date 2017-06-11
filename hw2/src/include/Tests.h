@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/5/17.
-//
-
 #ifndef CLASSIFICATION_TESTS_H
 #define CLASSIFICATION_TESTS_H
 
@@ -14,6 +10,11 @@
 class Tests {
 
 public:
+    /**
+     * load a dataset from a given path to a vector of points
+     * @param filename std::string the path of the dataset
+     * @param std::vector<Point> a vector of point to load the data to
+     */
     static void loadData(const std::string &filename, std::vector<Point> &data);
 
     /**

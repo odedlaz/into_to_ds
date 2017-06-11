@@ -1,7 +1,3 @@
-//
-// Created by odedlaz on 6/10/17.
-//
-
 #include "include/CosineDistance.h"
 #include <math.h>
 

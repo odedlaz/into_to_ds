@@ -1,7 +1,3 @@
-//
-// Created by odedlaz on 6/6/17.
-//
-
 #ifndef SRC_DISTANCE_H
 #define SRC_DISTANCE_H
 
@@ -14,7 +10,7 @@ public:
      * Calculates distance between two points using a given method.
      * @param p1 Point
      * @param p2 Point
-     * @return dobule value of the distance from given method.
+     * @return double value of the distance from given method.
      */
     virtual double calculate(const Point &p1, const Point &p2) const =0;
 };
