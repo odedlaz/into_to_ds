@@ -102,26 +102,40 @@ void Tests::perceptronLogic(const std::vector<Point> &all, double alpha,
   perceptron.train(all);
   perceptron.printWeights();
 }
-
+/**
+ * Tests the MetaClassifier.
+ * Uses Manhattan Distance, and check
+ * @param all vector<Point> entire Dataset
+ */
 void Tests::metaClassifierTest(const std::vector<Point> &all) {
   Distance *pdistance = new ManhattanDistance();
   const size_t kvalues = 5;
   size_t k_neigbours[kvalues] = {1, 3, 5, 7, 10};
   double accuracy[kvalues] = {0, 0, 0, 0, 0};
   std::vector<Point> training;
+  std::vector<Point> validation;
   std::vector<Point> testing;
-  fixedSplitTwo(all, training, testing);
+  fixedSplitThree(all, training, testing, validation);
 
   size_t dimension = all[0].getDimension();
   for (size_t i = 0; i < kvalues; i++) {
     MetaClassifier metaClassifier(k_neigbours[i], dimension, pdistance);
-    accuracy[i] = trainTestClassifier(training, testing, metaClassifier);
+    accuracy[i] = trainTestClassifier(training, validation, metaClassifier);
   }
   // highest accuracy
   double *bestAccuracy = std::max_element(accuracy, accuracy + kvalues);
-  cout << "MetaClassifier accuracy is:" << *bestAccuracy << endl;
+  size_t k_position = bestAccuracy - accuracy;
+  MetaClassifier metaClassifier(k_neigbours[k_position], dimension, pdistance);
+  double acc_final = trainTestClassifier(training, testing, metaClassifier);
+  cout << "MetaClassifier accuracy is:" << acc_final << endl;
 }
-
+/**
+ * Splits the dataset into training(60%), Validation(10%) and testing(30%)
+ * @param all vector<Point> entire Dataset
+ * @param training vector<Point> to hold Training set
+ * @param validation vector<Point> to hold Validation set
+ * @param testing vector<Point> to hold testing set
+ */
 void Tests::fixedSplitThree(const std::vector<Point> &all,
                             std::vector<Point> &training,
                             std::vector<Point> &validation,
@@ -137,7 +151,12 @@ void Tests::fixedSplitThree(const std::vector<Point> &all,
   std::copy(all.begin() + train_size + val_size, all.end(),
             back_inserter(testing));
 }
-
+/**
+ * Splits the dataset into training(70%) and testing(30%)
+ * @param all vector<Point> entire Dataset
+ * @param training vector<Point> to hold Training set
+ * @param testing vector<Point> to hold testing set
+ */
 void Tests::fixedSplitTwo(const std::vector<Point> &all,
                           std::vector<Point> &training,
                           std::vector<Point> &testing) {
