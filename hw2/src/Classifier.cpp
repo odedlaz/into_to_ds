@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/3/17.
-//
-
 #include "include/Classifier.h"
 #include "include/Point.h"
 #include <iostream>
@@ -22,7 +18,7 @@ double Classifier::accuracy(const std::vector<Point> &subset) const {
 
 void Classifier::printResults(const std::vector<Point> &subset) const {
     for (int i = 0; i < subset.size(); i++) {
-        const Point & point = subset[i];
+        const Point &point = subset[i];
         printf("%d,%s,%s\n", i, point.getPrediction().c_str(), point.getClass().c_str());
     }
 }

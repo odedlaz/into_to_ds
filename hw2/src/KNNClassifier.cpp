@@ -1,7 +1,5 @@
 #include <cstddef>
 #include "include/KNNClassifier.h"
-#include "include/Distance.h"
-#include "include/Point.h"
 #include <math.h>
 #include <algorithm>
 

@@ -10,16 +10,35 @@ using std::vector;
 
 const int REMOVE_LOWEST = 20;
 
+
+/**
+ * get the lowest N elements as a percentage of size
+ * @param size size_t the size of the set to calculate percentage from
+ */
 size_t numOfLowest(size_t size) {
 
     return (size_t) ceil(REMOVE_LOWEST / 100.0 * size);
 }
 
-bool compareWeights(std::pair<int, double> x, std::pair<int, double> y) {
+
+/**
+ * Compare two WeightPairs according to their weights
+ * @param x WeightPair lvalue to compare
+ * @param y WeightPair rvalue to compare
+ * @return a boolean indicating if x's weight > y's weight
+ */
+bool compareWeights(WeightPair x, WeightPair y) {
     return fabs(x.second) > fabs(y.second);
 }
 
-bool compareIndex(std::pair<int, double> x, std::pair<int, double> y) {
+
+/**
+ * Compare two WeightPairs according to their index
+ * @param x WeightPair lvalue to compare
+ * @param y WeightPair rvalue to compare
+ * @return a boolean indicating if x's index < y's index
+ */
+bool compareIndex(WeightPair x, WeightPair y) {
     return x.first < y.first;
 }
 
@@ -32,11 +51,11 @@ bool MetaClassifier::train(const std::vector<Point> &points) {
 
     // add all the weights
     for (int i = 0; i < _perceptron->_inputCount; i++) {
-        _weights.push_back(std::pair<int, double>(i, _perceptron->_ptrWeights[i]));
+        _weights.push_back(WeightPair(i, _perceptron->_ptrWeights[i]));
     }
 
     // sort them by the weights (highest is the "heaviest", ignores w0)
-    std::sort(_weights.begin()+1, _weights.end(), compareWeights);
+    std::sort(_weights.begin() + 1, _weights.end(), compareWeights);
 
 
     // remove the "lightest" weights
@@ -62,7 +81,7 @@ bool MetaClassifier::train(const std::vector<Point> &points) {
 
 void MetaClassifier::setPointAccordingToWeights(const Point &point, Point &newPoint) const {
     vector<double> v = vector<double>();
-    vector<std::pair<int, double> >::const_iterator it;
+    vector<WeightPair>::const_iterator it;
 
     for (it = _weights.begin(); it != _weights.end(); it++) {
         int idx = (*it).first;

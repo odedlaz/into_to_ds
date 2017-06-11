@@ -1,13 +1,7 @@
-#include <iostream>
 #include "include/Tests.h"
-#include <string>
-#include <iostream>
-#include <stdlib.h>
-#include <algorithm>
 
 using std::string;
 using std::vector;
-
 
 int main(int argc, char *argv[]) {
     if (argc < 3)
@@ -28,5 +22,6 @@ int main(int argc, char *argv[]) {
         Tests::perceptronTest(allData, 0.0001, 5000);
     else if (testName == Tests::testNames[Tests::testMetaClassifier])
         Tests::metaClassifierTest(allData);
+
     return 0;
 }

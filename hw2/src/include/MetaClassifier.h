@@ -6,6 +6,10 @@
 #include "Perceptron.h"
 #include "KNNClassifier.h"
 
+
+// a pair of weight index and value
+typedef std::pair<int,double> WeightPair;
+
 class MetaClassifier : public Classifier {
     friend class Perceptron;
 
@@ -45,7 +49,7 @@ private:
     size_t _size;
     std::vector<Point> _training;
     Distance *_distance;
-    std::vector<std::pair<int, double> > _weights;
+    std::vector<WeightPair> _weights;
 
     /**
      * Trims the point's features using the calculated weights, to remove least significant features.

@@ -1,7 +1,3 @@
-//
-// Created by annabel@staff.technion.ac.il on 5/5/17.
-//
-
 #ifndef CLASSIFICATION_PERCEPTRON_H
 #define CLASSIFICATION_PERCEPTRON_H
 
@@ -10,6 +6,7 @@
 
 class Perceptron : public Classifier {
     friend class MetaClassifier;
+
 public:
 
     Perceptron(size_t dimension, double alpha, size_t epoch) : _inputCount(dimension + 1),
@@ -17,6 +14,9 @@ public:
                                                                _alpha(alpha),
                                                                _epoch(epoch) {}
 
+    /**
+     * initialize the perceptron
+     */
     void init();
 
     virtual ~Perceptron();
