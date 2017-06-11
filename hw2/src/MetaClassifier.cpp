@@ -35,8 +35,8 @@ bool MetaClassifier::train(const std::vector<Point> &points) {
         _weights.push_back(std::pair<int, double>(i, _perceptron->_ptrWeights[i]));
     }
 
-    // sort them by the weights (highest is the "heaviest"
-    std::sort(_weights.begin(), _weights.end(), compareWeights);
+    // sort them by the weights (highest is the "heaviest", ignores w0)
+    std::sort(_weights.begin()+1, _weights.end(), compareWeights);
 
 
     // remove the "lightest" weights
