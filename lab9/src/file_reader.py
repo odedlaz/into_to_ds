@@ -5,12 +5,14 @@ TF_TYPE = 'tf'
 TFIDF_TYPE = 'tfidf'
 
 
-punctuation_marks = {".", "?", "!",
+punctuation_marks = [".", "?", "!",
                      ";", ":", "-",
                      "[", "]",
                      "(", ")",
                      "{", "}",
-                     "'", '"', "*"}
+                     "'", '"', "*"]
+
+puncs_pattern = "[%s]" % re.escape("".join(punctuation_marks))
 
 
 class FileReader:
@@ -21,23 +23,23 @@ class FileReader:
 
         self.file = input_file
         self._vector_type = vector_type
-        self._words_filter = words_filter
         self.df = {}  # type: Dict[str, int]
 
-        words_pattern = "|".join([" %s " % re.escape(x)
-                                  for x in words_filter])
-        puncs_pattern = "[%s]" % re.escape("".join(punctuation_marks))
-
-        self.clean_pattern = re.compile("%s|%s" % (puncs_pattern, words_pattern),
-                                        re.IGNORECASE)
+        self._words_filter = set(map(str.lower, words_filter))
+        self._puncs_re = re.compile(puncs_pattern, re.IGNORECASE)
 
         self.words = self.create_words_bank()
 
     def _get_clean_words(self, line):
-        line = self.clean_pattern.sub(lambda x: "" if x.group()
-                                      in punctuation_marks
-                                      else " ", line.strip())
-        return line.lower().split(" ")
+        # remove punctuation marks from line
+        stripped_line = self._puncs_re.sub("", line.strip())
+
+        # yield words that shouldn't be filtered
+        for word in map(str.lower, stripped_line.split(" ")):
+            if word in self._words_filter:
+                continue
+
+            yield word
 
     def build_set(self, *args, **kwargs):
         if self._vector_type == BOOLEAN_TYPE:
