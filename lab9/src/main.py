@@ -1,5 +1,6 @@
 import file_reader
 import rocchio_classifier
+import similarity
 
 
 def get_stop_words():
@@ -25,7 +26,7 @@ def calc_accuracy(test_set, classifier):
     total = len(test_set.keys())
     for key in test_set:
         real = test_set[key][-1]
-        predicted = classifier.predict(test_set[key][0: -1])
+        predicted = classifier.predict(test_set[key][0: -1], similarity.euclidean_dist)
         print(real, predicted)
         if real == predicted:
             correct += 1.0

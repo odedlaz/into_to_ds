@@ -24,15 +24,22 @@ class Rocchio_Classifier:
 
         print self.class_centroids.keys()
 
-    def predict(self, doc_vec):
+    def predict(self, doc_vec, similarity_method):
+        if similarity_method is similarity.euclidean_dist:
+            def similarity_compare(score, min_score):
+                return score < min_score
+        elif similarity_method is similarity.cosine_similarity:
+            def similarity_compare(score, min_score):
+                return score > min_score
+
         centroids = self.class_centroids.iteritems()
         min_cluster, centroid_vec = next(centroids)
-        min_score = similarity.euclidean_dist(centroid_vec, doc_vec)
+        min_score = similarity_method(centroid_vec, doc_vec)
 
         for item_class, centroid_vec in centroids:
-            score = similarity.euclidean_dist(centroid_vec, doc_vec)
-
-            if score < min_score:
+            score = similarity_method(centroid_vec, doc_vec)
+            if similarity_compare(score, min_score):
+                # if score < min_score:
                 min_score = score
                 min_cluster = item_class
 
