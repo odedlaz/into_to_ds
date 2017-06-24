@@ -27,7 +27,7 @@ class CosineDistance(object):
         vec1m = CosineDistance.magnitude(vec1)
         vec2m = CosineDistance.magnitude(vec2)
 
-        return dot_product / (vec1m / vec2m)
+        return dot_product / (vec1m * vec2m)
 
     @staticmethod
     def compare(score_x, score_y):
