@@ -26,7 +26,8 @@ def calc_accuracy(test_set, classifier):
     total = len(test_set.keys())
     for key in test_set:
         real = test_set[key][-1]
-        predicted = classifier.predict(test_set[key][0: -1], similarity.euclidean_dist)
+        predicted = classifier.predict(test_set[key][0: -1],
+                                       similarity.EuclideanDistance)
         print(real, predicted)
         if real == predicted:
             correct += 1.0
