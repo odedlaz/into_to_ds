@@ -27,7 +27,7 @@ class Rocchio_Classifier:
         min_score = similarity.calculate(centroid_vec, doc_vec)
 
         for item_class, centroid_vec in centroids:
-            score = similarity(centroid_vec, doc_vec)
+            score = similarity.calculate(centroid_vec, doc_vec)
             if similarity.compare(score, min_score):
                 min_score = score
                 min_cluster = item_class
