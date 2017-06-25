@@ -27,7 +27,7 @@ def calc_accuracy(test_set, classifier):
     for key in test_set:
         real = test_set[key][-1]
         predicted = classifier.predict(test_set[key][0: -1],
-                                       similarity.EuclideanDistance)
+                                       similarity.CosineDistance)
         print(real, predicted)
         if real == predicted:
             correct += 1.0
@@ -41,10 +41,10 @@ TRAIN_DATASET = "../dataset/amazon_cells_labelled_train.txt"
 if __name__ == '__main__':
     file_reader = file_reader.FileReader(FULL_DATASET,
                                          words_filter=get_stop_words(),
-                                         vector_type='boolean')
+                                         vector_type='tfidf')
     full_set = file_reader.build_set(FULL_DATASET)
     train_set = file_reader.build_set(TRAIN_DATASET)
     test_set = file_reader.build_set(TEST_DATASET)
     classifier = rocchio_classifier.Rocchio_Classifier(train_set)
     print(calc_accuracy(test_set, classifier))
-    svm_light_format(full_set)
+    #svm_light_format(full_set)
