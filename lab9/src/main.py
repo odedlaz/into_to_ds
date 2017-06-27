@@ -1,6 +1,8 @@
 import file_reader
 import rocchio_classifier
 import similarity
+from adhoc_eval import AdhocEval
+import sys
 
 
 def get_stop_words():
@@ -47,4 +49,12 @@ if __name__ == '__main__':
     test_set = file_reader.build_set(TEST_DATASET)
     classifier = rocchio_classifier.Rocchio_Classifier(train_set)
     print(calc_accuracy(test_set, classifier))
-    #svm_light_format(full_set)
+    # # svm_light_format(full_set)
+    # k, queryID, query, rep_method = int(sys.argv[1]), sys.argv[2],str(sys.argv[3]), int(sys.argv[4])
+    # eval = AdhocEval(k, query, rep_method)
+    # output_file = "Output_"+str(queryID)+"_"+str(rep_method)+".txt"
+    # output_dir = open(output_file, 'w')
+    # sys.stdout = output_dir
+    # eval.print_results()
+    # sys.stdout = sys.__stdout__
+    # output_dir.close()
