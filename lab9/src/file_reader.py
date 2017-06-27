@@ -2,10 +2,8 @@ import re
 import math
 from collections import Counter
 from utils import get_empty_vec
+from consts import (BOOLEAN, TFIDF, TF)
 
-BOOLEAN_TYPE = 'boolean'
-TF_TYPE = 'tf'
-TFIDF_TYPE = 'tfidf'
 
 punctuation_marks = ["", ".", ",", "?", "!",
                      ";", ":", "-",
@@ -18,9 +16,9 @@ puncs_pattern = "[%s]" % re.escape("".join(punctuation_marks))
 
 
 class FileReader(object):
-    def __init__(self, filepath, words_filter=None, vector_type=BOOLEAN_TYPE):
+    def __init__(self, filepath, words_filter=None, vector_type=BOOLEAN):
 
-        if vector_type not in (BOOLEAN_TYPE, TF_TYPE, TFIDF_TYPE):
+        if vector_type not in (BOOLEAN, TF, TFIDF):
             raise ValueError("vector type is not supported")
 
         self._filepath = filepath
@@ -47,13 +45,13 @@ class FileReader(object):
             yield word
 
     def build_set(self, *args, **kwargs):
-        if self._vector_type == BOOLEAN_TYPE:
+        if self._vector_type == BOOLEAN:
             return self._build_set_boolean(*args, **kwargs)
 
-        if self._vector_type == TF_TYPE:
+        if self._vector_type == TF:
             return self._build_set_tf(*args)
 
-        if self._vector_type == TFIDF_TYPE:
+        if self._vector_type == TFIDF:
             return self._build_set_tfidf(*args)
 
     def _get_word_bank(self):
