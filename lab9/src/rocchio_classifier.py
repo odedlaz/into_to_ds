@@ -5,6 +5,9 @@ class Rocchio_Classifier(object):
         self.training()
 
     def training(self):
+        """
+        train the set
+        """
         for doc in self.training_set:
             doc_class = self.training_set[doc][-1]
             if doc_class not in self.class_centroids:
@@ -22,6 +25,9 @@ class Rocchio_Classifier(object):
         print(self.class_centroids.keys())
 
     def predict(self, doc_vec, similarity):
+        """
+        predict the cluster for a given vector, using a given similarity method
+        """
         centroids = self.class_centroids.iteritems()
         min_cluster, centroid_vec = next(centroids)
         min_score = similarity.calculate(centroid_vec, doc_vec)

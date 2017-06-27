@@ -1,9 +1,9 @@
-import re
 import math
+import re
 from collections import Counter
-from utils import get_empty_vec
-from consts import (BOOLEAN, TFIDF, TF)
 
+from consts import BOOLEAN, TF, TFIDF
+from utils import get_empty_vec
 
 punctuation_marks = ["", ".", ",", "?", "!",
                      ";", ":", "-",
@@ -30,10 +30,12 @@ class FileReader(object):
 
         self._words = self._get_word_bank()
 
-    def _get_word_index(self, word):
-        return self._words[word] - 1
-
     def _get_clean_words(self, line):
+        """
+        get a generator of words in a line, excluding:
+            - punctuation marks
+            - filtered words
+        """
         # remove punctuation marks from line
         stripped_line = self._puncs_re.sub("", line.strip())
 
@@ -44,21 +46,16 @@ class FileReader(object):
 
             yield word
 
-    def build_set(self, *args, **kwargs):
-        if self._vector_type == BOOLEAN:
-            return self._build_set_boolean(*args, **kwargs)
-
-        if self._vector_type == TF:
-            return self._build_set_tf(*args)
-
-        if self._vector_type == TFIDF:
-            return self._build_set_tfidf(*args)
+    def _get_word_index(self, word):
+        """
+        get the index of a given word
+        """
+        return self._words[word] - 1
 
     def _get_word_bank(self):
         # starting with 1 because 0 cant serve as a dictionary key
-        index = 1
+        index, words = 1, {}
 
-        words = {}
         with open(self._filepath, 'r') as f:
             for raw_line in f:
                 line = raw_line[:raw_line.index("\t")]
@@ -72,9 +69,16 @@ class FileReader(object):
 
         return words
 
+    def _get_tf_vec(self, line):
+        tf_vec = get_empty_vec(len(self._words))
+
+        for word in self._get_clean_words(line):
+            tf_vec[self._get_word_index(word)] += 1
+
+        return tf_vec
+
     def _get_idf_vector(self, filepath):
         idf_vec = get_empty_vec(len(self._words))
-
         words_of_file = []
 
         with open(filepath, 'r') as f:
@@ -86,6 +90,32 @@ class FileReader(object):
             idf_vec[self._get_word_index(word)] = math.log(lineno / df)
 
         return idf_vec
+
+    def _tf_to_wf(self, tf):
+        tf_len = len(tf)
+        wf = get_empty_vec(tf_len)
+
+        for i in range(tf_len):
+            tf_val = tf[i]
+            if tf_val == 0:
+                continue
+
+            wf[i] = 1 + math.log(tf_val)
+
+        return wf
+
+    def build_set(self, *args, **kwargs):
+        """
+        build a set of a given type
+        """
+        if self._vector_type == BOOLEAN:
+            return self._build_set_boolean(*args, **kwargs)
+
+        if self._vector_type == TF:
+            return self._build_set_tf(*args)
+
+        if self._vector_type == TFIDF:
+            return self._build_set_tfidf(*args)
 
     def _build_set_boolean(self, filepath):
         doc_set = {}
@@ -103,29 +133,6 @@ class FileReader(object):
 
         return doc_set
 
-    def _tf_to_wf(self, tf):
-        tf_len = len(tf)
-        wf = get_empty_vec(tf_len)
-
-        for i in range(tf_len):
-
-            tf_val = tf[i]
-
-            if tf_val == 0:
-                continue
-
-            wf[i] = 1 + math.log(tf_val)
-
-        return wf
-
-    def _get_tf_vec(self, line):
-        tf_vec = get_empty_vec(len(self._words))
-
-        for word in self._get_clean_words(line):
-            tf_vec[self._get_word_index(word)] += 1
-
-        return tf_vec
-
     def _build_set_tf(self, filepath):
         doc_set = {}
 
@@ -142,8 +149,7 @@ class FileReader(object):
         return doc_set
 
     def _build_set_tfidf(self, filepath):
-        doc_set = {}
-        idf_vec = self._get_idf_vector(filepath)
+        doc_set, idf_vec = {}, self._get_idf_vector(filepath)
 
         with open(filepath, 'r') as f:
 
@@ -156,7 +162,6 @@ class FileReader(object):
                     tfidf_vec[i] = idf_vec[i] * tf_vec[i]
 
                 tfidf_vec.append(raw_doc_class.rstrip())
-
                 doc_set['doc' + str(index)] = tfidf_vec
 
         return doc_set

@@ -5,6 +5,9 @@ import math
 class EuclideanDistance(object):
     @staticmethod
     def calculate(vec1, vec2):
+        """
+        calculate distance using  euclidean distance similarity
+        """
         return math.sqrt(sum(starmap(lambda x, y: math.pow(x - y, 2),
                                      zip(vec1, vec2))))
 
@@ -21,6 +24,9 @@ class CosineDistance(object):
 
     @staticmethod
     def calculate(vec1, vec2):
+        """
+        calculate distance using cosine similarity
+        """
         dot_product = sum(starmap(lambda x, y: x * y,
                                   zip(vec1, vec2)))
 

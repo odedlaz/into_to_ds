@@ -1,10 +1,13 @@
+import dataset
 import file_reader
 import rocchio_classifier
 import similarity
-import dataset
 
 
 def svm_light_format(full_set):
+    """
+    generate a set in svm light format
+    """
     with open("./svm_light_format.txt", 'w') as output:
         for key in full_set:
             index = 1
@@ -18,6 +21,9 @@ def svm_light_format(full_set):
 
 
 def calc_accuracy(test_set, classifier):
+    """
+    calculate the accuracy of a given classifier
+    """
     correct = 0.0
     total = len(test_set.keys())
     for key in test_set:
