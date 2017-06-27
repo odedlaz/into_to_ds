@@ -1,6 +1,7 @@
 import re
 import math
 from collections import Counter
+from utils import get_empty_vec
 
 BOOLEAN_TYPE = 'boolean'
 TF_TYPE = 'tf'
@@ -16,20 +17,23 @@ punctuation_marks = ["", ".", ",", "?", "!",
 puncs_pattern = "[%s]" % re.escape("".join(punctuation_marks))
 
 
-class FileReader:
-    def __init__(self, input_file, words_filter=None, vector_type=BOOLEAN_TYPE):
+class FileReader(object):
+    def __init__(self, filepath, words_filter=None, vector_type=BOOLEAN_TYPE):
 
         if vector_type not in (BOOLEAN_TYPE, TF_TYPE, TFIDF_TYPE):
             raise ValueError("vector type is not supported")
 
-        self.file = input_file
+        self._filepath = filepath
         self._vector_type = vector_type
-        self.df = {}  # type: Dict[str, int]
+        self._df = {}
 
         self._words_filter = set(map(str.lower, words_filter or []))
         self._puncs_re = re.compile(puncs_pattern, re.IGNORECASE)
 
-        self.words = self.create_words_bank()
+        self._words = self._get_word_bank()
+
+    def _get_word_index(self, word):
+        return self._words[word] - 1
 
     def _get_clean_words(self, line):
         # remove punctuation marks from line
@@ -52,12 +56,12 @@ class FileReader:
         if self._vector_type == TFIDF_TYPE:
             return self._build_set_tfidf(*args)
 
-    def create_words_bank(self):
+    def _get_word_bank(self):
         # starting with 1 because 0 cant serve as a dictionary key
         index = 1
 
         words = {}
-        with open(self.file, 'r') as f:
+        with open(self._filepath, 'r') as f:
             for raw_line in f:
                 line = raw_line[:raw_line.index("\t")]
                 for word in self._get_clean_words(line):
@@ -66,38 +70,35 @@ class FileReader:
                         continue
 
                     # only increase the index if the word exists
-                    # TODO: understand why?!
                     words[word], index = index, index + 1
 
         return words
 
-    def create_idf_vector(self, file_to_vector):
-        idf_vec = len(self.words) * [0]
-        with open(file_to_vector, 'r') as f:
-            num_of_lines = sum(1 for _ in f)
+    def _get_idf_vector(self, filepath):
+        idf_vec = get_empty_vec(len(self._words))
 
         words_of_file = []
 
-        with open(file_to_vector, 'r') as f:
-            for raw_line in f:
+        with open(filepath, 'r') as f:
+            for lineno, raw_line in enumerate(f):
                 line = raw_line[:raw_line.index("\t")]
                 words_of_file.extend(set(self._get_clean_words(line)))
 
-        for word, df in Counter(words_of_file).items():
-            idf_vec[self.words[word] - 1] = math.log(num_of_lines / df)
+        for word, df in Counter(words_of_file).iteritems():
+            idf_vec[self._get_word_index(word)] = math.log(lineno / df)
 
         return idf_vec
 
-    def _build_set_boolean(self, file_to_vector):
+    def _build_set_boolean(self, filepath):
         doc_set = {}
 
-        with open(file_to_vector, 'r') as f:
+        with open(filepath, 'r') as f:
             for index, line in enumerate(f):
-                vec = len(self.words) * [0]
+                vec = get_empty_vec(len(self._words))
 
                 raw_line, raw_doc_class = line.split("\t")
                 for word in self._get_clean_words(raw_line):
-                    vec[self.words[word] - 1] = 1
+                    vec[self._get_word_index(word)] = 1
 
                 vec.append(raw_doc_class.rstrip())
                 doc_set['doc' + str(index)] = vec
@@ -106,43 +107,52 @@ class FileReader:
 
     def _tf_to_wf(self, tf):
         tf_len = len(tf)
-        wf = tf_len * [0]
+        wf = get_empty_vec(tf_len)
+
         for i in range(tf_len):
-            wf[i] = 0 if tf[i] == 0 else 1 + math.log(tf[i])
+
+            tf_val = tf[i]
+
+            if tf_val == 0:
+                continue
+
+            wf[i] = 1 + math.log(tf_val)
 
         return wf
 
-    def _build_set_tf(self, file_to_vector):
+    def _get_tf_vec(self, line):
+        tf_vec = get_empty_vec(len(self._words))
+
+        for word in self._get_clean_words(line):
+            tf_vec[self._get_word_index(word)] += 1
+
+        return tf_vec
+
+    def _build_set_tf(self, filepath):
         doc_set = {}
 
-        with open(file_to_vector, 'r') as f:
+        with open(filepath, 'r') as f:
             for index, line in enumerate(f):
-                tf_vec = len(self.words) * [0]
-
                 raw_line, raw_doc_class = line.split("\t")
-                # counts the appearances of each word
-                for word in self._get_clean_words(raw_line):
-                    tf_vec[self.words[word] - 1] += 1
+                tf_vec = self._get_tf_vec(raw_line)
 
-                wf_vec = self._tf_to_wf(tf_vec)
-                wf_vec.append(raw_doc_class.rstrip())
+                wf_vec = self._tf_to_wf(tf_vec) \
+                    + [raw_doc_class.rstrip()]
 
                 doc_set['doc' + str(index)] = wf_vec
 
         return doc_set
 
-    def _build_set_tfidf(self, file_to_vector):
+    def _build_set_tfidf(self, filepath):
         doc_set = {}
-        idf_vec = self.create_idf_vector(file_to_vector)
+        idf_vec = self._get_idf_vector(filepath)
 
-        with open(file_to_vector, 'r') as f:
+        with open(filepath, 'r') as f:
 
             for index, line in enumerate(f):
-                tf_vec = len(self.words) * [0]
-                tfidf_vec = len(self.words) * [0]
+                tfidf_vec = get_empty_vec(len(self._words))
                 raw_line, raw_doc_class = line.split("\t")
-                for word in self._get_clean_words(raw_line):
-                    tf_vec[self.words[word] - 1] += 1
+                tf_vec = self._get_tf_vec(raw_line)
 
                 for i in range(len(tf_vec)):
                     tfidf_vec[i] = idf_vec[i] * tf_vec[i]
