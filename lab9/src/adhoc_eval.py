@@ -1,11 +1,10 @@
-import file_reader
-from similarity import CosineDistance
 from shutil import copyfile
+
 import dataset
-from consts import (BOOLEAN_TYPE,
-                    BOOLEAN,
-                    TFIDF_TYPE,
-                    TFIDF)
+import file_reader
+from consts import BOOLEAN, BOOLEAN_TYPE, TFIDF, TFIDF_TYPE
+from similarity import CosineDistance
+
 eval_types = {
     BOOLEAN_TYPE: BOOLEAN,
     TFIDF_TYPE: TFIDF
@@ -83,4 +82,5 @@ class AdhocEval(object):
                     if index == doc_num:
                         doc_text = raw_line[:raw_line.index("\t")]
                         break
+
             print doc[0], "-", doc_text, "Score:", doc[1]
