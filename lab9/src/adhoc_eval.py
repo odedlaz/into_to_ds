@@ -2,12 +2,24 @@ import file_reader
 from similarity import CosineDistance
 from shutil import copyfile
 import dataset
+from consts import (BOOLEAN_TYPE,
+                    BOOLEAN,
+                    TFIDF_TYPE,
+                    TFIDF)
+eval_types = {
+    BOOLEAN_TYPE: BOOLEAN,
+    TFIDF_TYPE: TFIDF
+}
 
 
 class AdhocEval(object):
     def __init__(self, k, query, method):
+
+        if method not in eval_types:
+            raise ValueError("method is not supported")
+
         self.k = k
-        self.query_method = 'boolean' if method == 1 else 'tfidf'
+        self.query_method = eval_types[method]
         self.combine_file = self.build_combine_file(query)
 
         with open(self.combine_file) as f:
@@ -15,7 +27,7 @@ class AdhocEval(object):
 
         full_fr = file_reader.FileReader(self.combine_file,
                                          words_filter=dataset.stop_words,
-                                         vector_type='tfidf')
+                                         vector_type=TFIDF)
 
         combine_tfidf_set = full_fr.build_set(self.combine_file)
 
