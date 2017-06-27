@@ -1,13 +1,7 @@
 import file_reader
 import rocchio_classifier
 import similarity
-from adhoc_eval import AdhocEval
-import sys
-
-
-def get_stop_words():
-    with open("../dataset/stop_words.txt", "r") as f:
-        return [x.strip() for x in f.readlines()]
+import dataset
 
 
 def svm_light_format(full_set):
@@ -36,17 +30,15 @@ def calc_accuracy(test_set, classifier):
     return correct / total
 
 
-TEST_DATASET = "../dataset/amazon_cells_labelled_test.txt"
-FULL_DATASET = "../dataset/amazon_cells_labelled_full.txt"
-TRAIN_DATASET = "../dataset/amazon_cells_labelled_train.txt"
-
 if __name__ == '__main__':
-    file_reader = file_reader.FileReader(FULL_DATASET,
-                                         words_filter=get_stop_words(),
+    file_reader = file_reader.FileReader(dataset.FULL_FILE,
+                                         words_filter=dataset.stop_words,
                                          vector_type='tfidf')
-    full_set = file_reader.build_set(FULL_DATASET)
-    train_set = file_reader.build_set(TRAIN_DATASET)
-    test_set = file_reader.build_set(TEST_DATASET)
+
+    full_set = file_reader.build_set(dataset.FULL_FILE)
+    train_set = file_reader.build_set(dataset.TRAIN_FILE)
+    test_set = file_reader.build_set(dataset.TEST_FILE)
+
     classifier = rocchio_classifier.Rocchio_Classifier(train_set)
     print(calc_accuracy(test_set, classifier))
     # # svm_light_format(full_set)

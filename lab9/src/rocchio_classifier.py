@@ -1,4 +1,4 @@
-class Rocchio_Classifier:
+class Rocchio_Classifier(object):
     def __init__(self, train_set):
         self.training_set = train_set
         self.class_centroids = {}
@@ -19,7 +19,7 @@ class Rocchio_Classifier:
             for i in range(class_size):
                 self.class_centroids[centroid][i] /= float(class_size)
 
-        print self.class_centroids.keys()
+        print(self.class_centroids.keys())
 
     def predict(self, doc_vec, similarity):
         centroids = self.class_centroids.iteritems()
