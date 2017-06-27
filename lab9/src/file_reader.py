@@ -1,11 +1,12 @@
 import re
 import math
+from collections import Counter
 
 BOOLEAN_TYPE = 'boolean'
 TF_TYPE = 'tf'
 TFIDF_TYPE = 'tfidf'
 
-punctuation_marks = ["",".",",", "?", "!",
+punctuation_marks = ["", ".", ",", "?", "!",
                      ";", ":", "-",
                      "[", "]",
                      "(", ")",
@@ -16,7 +17,7 @@ puncs_pattern = "[%s]" % re.escape("".join(punctuation_marks))
 
 
 class FileReader:
-    def __init__(self, input_file, words_filter=[], vector_type=BOOLEAN_TYPE):
+    def __init__(self, input_file, words_filter=None, vector_type=BOOLEAN_TYPE):
 
         if vector_type not in (BOOLEAN_TYPE, TF_TYPE, TFIDF_TYPE):
             raise ValueError("vector type is not supported")
@@ -25,7 +26,7 @@ class FileReader:
         self._vector_type = vector_type
         self.df = {}  # type: Dict[str, int]
 
-        self._words_filter = set(map(str.lower, words_filter))
+        self._words_filter = set(map(str.lower, words_filter or []))
         self._puncs_re = re.compile(puncs_pattern, re.IGNORECASE)
 
         self.words = self.create_words_bank()
@@ -61,7 +62,7 @@ class FileReader:
                 line = raw_line[:raw_line.index("\t")]
                 for word in self._get_clean_words(line):
                     # if the word already exists -> discard it
-                    if word in words.keys():
+                    if word in words:
                         continue
 
                     # only increase the index if the word exists
@@ -71,25 +72,21 @@ class FileReader:
         return words
 
     def create_idf_vector(self, file_to_vector):
-        idf_vec = len(self.words)*[0]
-        num_of_lines = sum(1 for line in open(file_to_vector, 'r'))
+        idf_vec = len(self.words) * [0]
+        with open(file_to_vector, 'r') as f:
+            num_of_lines = sum(1 for _ in f)
 
-        for word in self.words:
-            df = 0 #word count
-            with open(file_to_vector, 'r') as f:
-                for raw_line in f:
-                    line_set = []
-                    line = raw_line[:raw_line.index("\t")]
-                    line_set = [w for w in self._get_clean_words(line)]
-                    if word in line_set:
-                        df += 1
-                if df > 0:
-                    idf_vec[self.words[word] - 1] = math.log(num_of_lines/df)
+        words_of_file = []
+
+        with open(file_to_vector, 'r') as f:
+            for raw_line in f:
+                line = raw_line[:raw_line.index("\t")]
+                words_of_file.extend(set(self._get_clean_words(line)))
+
+        for word, df in Counter(words_of_file).items():
+            idf_vec[self.words[word] - 1] = math.log(num_of_lines / df)
 
         return idf_vec
-
-
-
 
     def _build_set_boolean(self, file_to_vector):
         doc_set = {}
