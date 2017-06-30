@@ -1,6 +1,6 @@
 import os
 import re
-from collections import Counter
+from collections import Counter, OrderedDict
 
 import nltk
 # we use beautiful soup to remove html tags from the code
@@ -32,23 +32,23 @@ class Review(object):
 
         raise ValueError("format is not supported")
 
-    def _format(self, words, bag_of_words):
+    def _format(self, words):
         bag_txt = " ".join("{}:{}".format(w, sum)
-                           for sum, w in words)
+                           for w, sum in words)
 
         return self.review_fmt.format(score=self.score,
                                       bag_txt=bag_txt,
                                       filename=self.filename)
 
     def _format_in_raw(self, bag_of_words):
-        return self._format(self.words.items(), bag_of_words)
+        return self._format(self.words.items())
 
     def _format_in_svm_light(self, bag_of_words):
-        svm_data = [(self.words[w], idx + 1) for idx, w
-                    in enumerate(bag_of_words)
-                    if w in self.words]
+        svm_data = OrderedDict(((bag_of_words[w], sum) for w, sum
+                                in sorted(self.words.items(),
+                                          key=lambda x: x[0])))
 
-        return self._format(svm_data, bag_of_words)
+        return self._format(svm_data.items())
 
 
 class ReviewParser(object):
