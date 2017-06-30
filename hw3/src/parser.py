@@ -18,8 +18,9 @@ class Review(object):
     SVM = "svm"
     RAW = "raw"
 
-    def __init__(self, filename, words, score):
-        self.filename = filename
+    def __init__(self, path, words, score):
+        self.path = path
+        self.filename = os.path.basename(self.path)
         self.words = words
         self.score = score
 
@@ -35,6 +36,7 @@ class Review(object):
     def _format(self, words, bag_of_words):
         bag_txt = " ".join("{}:{}".format(w, sum)
                            for sum, w in words)
+
         return self.review_fmt.format(score=self.score,
                                       bag_txt=bag_txt,
                                       filename=self.filename)
@@ -56,7 +58,7 @@ class ReviewParser(object):
 
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
-        self._bag_of_words = set()
+        self._bag_of_words = Counter()
 
     def parse_dir(self, dir):
         for filename in os.listdir(dir):
@@ -76,10 +78,10 @@ class ReviewParser(object):
         with open(path, 'r') as f:
             txt = f.read().lower()
             file_bag_of_words = Counter(self._get_words(txt))
-            self._bag_of_words.update(file_bag_of_words.keys())
+            self._bag_of_words.update(file_bag_of_words)
             return Review(score=score,
                           words=file_bag_of_words,
-                          filename=filename)
+                          path=path)
 
     def _get_words(self, txt):
         soup = BeautifulSoup(txt, "html.parser")
@@ -92,8 +94,8 @@ class ReviewParser(object):
 
     @property
     def bag_of_words(self):
-        return list(self._bag_of_words)
+        return self._bag_of_words.keys()
 
     @property
     def sorted_bag_of_words(self):
-        return list(sorted(self._bag_of_words))
+        return sorted(self.bag_of_words)
