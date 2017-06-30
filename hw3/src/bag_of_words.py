@@ -1,37 +1,10 @@
 import argparse
 import sys
 import os
-import nltk
 from parser import ReviewParser, Review
-
+from argparse_actions import ValidateDirectoriesAction, LoadStopWordsAction
+import itertools
 CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-class ValidateDirectoriesAction(argparse.Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-
-        error_fmt = "'{}' dir doesn't exist"
-        for dir in values:
-            if not os.path.isdir(dir):
-                raise argparse.ArgumentError(self, error_fmt.format(dir))
-
-        namespace.dirs = values
-
-
-def load_stopwords(path):
-    # we've taken lab9's stop words file, and combined it with nltk's
-    # how? we wrote nltk's to disk, added to lab9's, and cleaned duplicates.
-
-    # if the file doesn't exist for some reason, fallback to ntlk's corpus
-    if os.path.isfile(path):
-        with open(path, "r") as f:
-            return [x.strip() for x in f.readlines()]
-
-    try:
-        return nltk.corpus.stopwords.words('english')
-    except LookupError:
-        msg = 'stopwords file is missing, and nltk corpus is not installed'
-        raise argparse.ArgumentTypeError(msg)
 
 
 def parse_arguments(args=None):
@@ -46,7 +19,7 @@ def parse_arguments(args=None):
     parser.add_argument('--stopwords',
                         default=os.path.join(CURRENT_FILE_DIR,
                                              "stopwords.txt"),
-                        type=load_stopwords,
+                        action=LoadStopWordsAction,
                         help='path to a stopwords file')
 
     parser.add_argument('-t',
@@ -71,18 +44,21 @@ def parse_arguments(args=None):
 
 
 if __name__ == "__main__":
-    parser = parse_arguments()
-    review_parser = ReviewParser(parser.stopwords)
+    argument_parser = parse_arguments()
+    review_parser = ReviewParser(argument_parser.stopwords)
 
-    reviews = []
-    for dir in parser.dirs:
-        for p in review_parser.parse_dir(dir):
-            reviews.append(p)
+    assert 'too' not in argument_parser.stopwords
 
+    # load all the reviews
+    # make sure they are all consumed so the parser will have an updated bag
+    reviews = list(itertools.chain(*(review_parser.parse_dir(dir)
+                                     for dir in argument_parser.dirs)))
+
+    # get the unsorted and sorted bag of words
     bag = review_parser.bag_of_words
     sorted_bag = review_parser.sorted_bag_of_words
 
-    for p in reviews:
-        print(p.format_review(bag))
-        print(p.format_review(sorted_bag,
-                              format=Review.SVM))
+    for review in reviews:
+        print(review.format_review(bag))
+        print(review.format_review(sorted_bag,
+                                   format=Review.SVM))

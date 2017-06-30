@@ -1,6 +1,6 @@
 import os
 import re
-from collections import Counter, OrderedDict
+from collections import Counter
 import nltk
 
 # we use beautiful soup to remove html tags from the code
@@ -43,8 +43,8 @@ class Review(object):
         return self._format(self.words.items(), bag_of_words)
 
     def _format_in_svm_light(self, bag_of_words):
-        svm_data = [(self.words[w], idx + 1) for idx, (w, _)
-                    in enumerate(bag_of_words.items())
+        svm_data = [(self.words[w], idx + 1) for idx, w
+                    in enumerate(bag_of_words)
                     if w in self.words]
 
         return self._format(svm_data, bag_of_words)
@@ -56,7 +56,7 @@ class ReviewParser(object):
 
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
-        self._bag_of_words = Counter()
+        self._bag_of_words = set()
 
     def parse_dir(self, dir):
         for filename in os.listdir(dir):
@@ -76,7 +76,7 @@ class ReviewParser(object):
         with open(path, 'r') as f:
             txt = f.read().lower()
             file_bag_of_words = Counter(self._get_words(txt))
-            self._bag_of_words.update(file_bag_of_words)
+            self._bag_of_words.update(file_bag_of_words.keys())
             return Review(score=score,
                           words=file_bag_of_words,
                           filename=filename)
@@ -92,9 +92,8 @@ class ReviewParser(object):
 
     @property
     def bag_of_words(self):
-        return dict(self._bag_of_words)
+        return list(self._bag_of_words)
 
     @property
     def sorted_bag_of_words(self):
-        return OrderedDict(sorted(self._bag_of_words.items(),
-                                  key=lambda x: x[0]))
+        return list(sorted(self._bag_of_words))
