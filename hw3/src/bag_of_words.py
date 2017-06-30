@@ -1,5 +1,4 @@
 import argparse
-import itertools
 import os
 import sys
 
@@ -25,19 +24,22 @@ def parse_arguments(args=None):
                         help='path to a stopwords file')
 
     parser.add_argument('-t',
-                        type=bool,
+                        dest='generate_in_tfidf',
+                        action='store_true',
                         default=False,
                         help='generate tfidf representation for each review',
                         required=False)
 
     parser.add_argument('-s',
-                        type=bool,
                         default=False,
+                        action='store_true',
+                        dest='generate_per_dir',
                         help='generate output per directory',
                         required=False)
 
     parser.add_argument('-l',
-                        type=bool,
+                        dest='svm_light',
+                        action='store_true',
                         default=False,
                         help='generate output in svm light format',
                         required=False)
@@ -45,22 +47,72 @@ def parse_arguments(args=None):
     return parser.parse_args(args or sys.argv[1:])
 
 
+def get_flags_text(parser):
+    yield 'S' if parser.generate_per_dir else 's'
+    yield 'L' if parser.svm_light else 'l'
+    yield 'T' if parser.generate_in_tfidf else 't'
+
+
+def get_results_filename(flags, dir):
+    last_dirs = dir.split(os.sep)[-2:]
+    return "{}_{}.txt".format("_".join(last_dirs),
+                              flags)
+
+
+class ProgressBar(object):
+
+    def __init__(self, prefix, numofitems):
+        self._numofitems = numofitems
+        self._counter = 0
+        self._report_fmt = prefix + "... {0:.1f}%"
+
+    def report(self):
+        self._counter += 1
+        line = self._report_fmt.format(self._counter * 100 / self._numofitems)
+        print(line, end='')
+        print('\r' * len(line), end='')
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        print("")
+
+
 if __name__ == "__main__":
     argument_parser = parse_arguments()
-    review_parser = ReviewParser(argument_parser.stopwords)
 
-    assert 'too' not in argument_parser.stopwords
+    review_format = Review.RAW
+    if argument_parser.svm_light:
+        review_format = Review.SVM
 
-    # load all the reviews
-    # make sure they are all consumed so the parser will have an updated bag
-    reviews = list(itertools.chain(*(review_parser.parse_dir(dir)
-                                     for dir in argument_parser.dirs)))
+    flags = "".join(get_flags_text(argument_parser))
 
-    # get the unsorted and sorted bag of words
-    bag = review_parser.bag_of_words
-    sorted_bag = review_parser.sorted_bag_of_words
+    for dir in map(os.path.abspath, argument_parser.dirs):
 
-    for review in reviews:
-        print(review.format_review(bag))
-        print(review.format_review(sorted_bag,
-                                   format=Review.SVM))
+        review_parser = ReviewParser(argument_parser.stopwords)
+
+        numoffiles = float(len(os.listdir(dir)))
+        filename = get_results_filename(flags, dir)
+        prefix = "crunching reviews for '{}'".format(filename)
+        reviews = []
+
+        with ProgressBar(prefix, numoffiles) as pb:
+            for review in review_parser.parse_dir(dir):
+                pb.report()
+                reviews.append(review)
+
+        bag = review_parser.bag_of_words
+        if review_format == Review.SVM:
+            bag = {w: idx + 1 for idx, w
+                   in enumerate(sorted(bag))}
+
+        prefix = "writing reviews to disk"
+
+        with ProgressBar(prefix, numoffiles) as pb:
+            with open(filename, 'w') as f:
+                for review in reviews:
+                    pb.report()
+                    line = review.format_review(bag,
+                                                review_format)
+                    f.write(line + '\n')
