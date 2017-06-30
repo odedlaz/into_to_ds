@@ -1,5 +1,6 @@
 import argparse
 import os
+
 import nltk
 
 CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
