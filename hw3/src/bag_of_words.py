@@ -1,9 +1,11 @@
 import argparse
-import sys
-import os
-from parser import ReviewParser, Review
-from argparse_actions import ValidateDirectoriesAction, LoadStopWordsAction
 import itertools
+import os
+import sys
+
+import argparse_actions as actions
+from parser import Review, ReviewParser
+
 CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -12,14 +14,14 @@ def parse_arguments(args=None):
 
     parser.add_argument('dirs',
                         metavar='DIR',
-                        action=ValidateDirectoriesAction,
+                        action=actions.ValidateDirectoriesAction,
                         nargs='+',
                         help='put something here please')
 
     parser.add_argument('--stopwords',
                         default=os.path.join(CURRENT_FILE_DIR,
                                              "stopwords.txt"),
-                        action=LoadStopWordsAction,
+                        action=actions.LoadStopWordsAction,
                         help='path to a stopwords file')
 
     parser.add_argument('-t',
