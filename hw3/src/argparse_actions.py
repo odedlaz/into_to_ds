@@ -3,8 +3,6 @@ import os
 
 import nltk
 
-CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 class ValidateDirectoriesAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):

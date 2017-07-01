@@ -11,7 +11,9 @@ class ProgressBar(object):
 
     def report(self):
         self._counter += 1
-        line = self._report_fmt.format(self._counter * 100 / self._numofitems)
+        progress = self._counter * 100.0 / self._numofitems
+
+        line = self._report_fmt.format(progress)
         print(line, end='', file=self._file)
         print('\r' * len(line), end='', file=self._file)
 

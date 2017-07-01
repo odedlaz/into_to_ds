@@ -8,8 +8,6 @@ import nltk
 # https://stackoverflow.com/q/26002076
 from bs4 import BeautifulSoup
 
-CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 class Review(object):
     review_fmt = "{score} {bag_txt} # {filename}"
@@ -87,14 +85,10 @@ class ReviewParser(object):
         tokens = nltk.wordpunct_tokenize(soup.get_text())
         for word in filter(str.isalpha, nltk.Text(tokens)):
             # words should have at least two characters
-            if len(word) <= 1 or word in self._words_filter:
-                continue
-            yield word
+            # and should not belong to the word filter
+            if len(word) > 1 and word in self._words_filter:
+                yield word
 
     @property
     def bag_of_words(self):
         return self._bag_of_words.keys()
-
-    @property
-    def sorted_bag_of_words(self):
-        return sorted(self.bag_of_words)
