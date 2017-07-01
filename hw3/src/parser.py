@@ -1,14 +1,16 @@
 import codecs
 import os
 import re
-from collections import Counter, namedtuple
-from review import Review
+from collections import Counter, defaultdict, namedtuple
+
 import nltk
 # nltk dropped support for cleaning html in favor of BeatifulSoup:
 # https://stackoverflow.com/q/26002076
 # we use beautiful soup to remove html tags from the code
 # it is part of anaconda, so no installation is needed
 from bs4 import BeautifulSoup
+
+from review import Review
 
 FileParts = namedtuple('FileParts', ['idx', 'score', 'ext'])
 
@@ -25,6 +27,8 @@ class BagOfWords(object):
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
         self._bag_of_words = Counter()
+        self.df = defaultdict(int)
+        self.num_of_docs = 0
 
     def parse_dir(self, dir):
         for filename in os.listdir(dir):
@@ -40,16 +44,22 @@ class BagOfWords(object):
         return FileParts(**m.groupdict())
 
     def parse_file(self, path):
-        filename = os.path.basename(path)
+        self.num_of_docs += 1
 
+        filename = os.path.basename(path)
         fileparts = self._parse_filename(filename)
 
         with codecs.open(path, 'r', encoding='utf-8') as f:
             txt = f.read().lower()
-            file_bag_of_words = Counter(self._get_words(txt))
-            self._bag_of_words.update(file_bag_of_words)
+            terms = Counter(self._get_words(txt))
+            self._bag_of_words.update(terms)
+
+            # sum the number of documents that contain the term
+            for term in terms:
+                self.df[term] += 1
+
             return Review(score=fileparts.score,
-                          words=file_bag_of_words,
+                          terms=terms,
                           path=path)
 
     def _get_words(self, txt):
@@ -62,8 +72,13 @@ class BagOfWords(object):
                 yield self.stemmer.stem(word)
 
     @property
-    def bag_of_words(self):
-        return self._bag_of_words.keys()
+    def tf(self):
+        return self._bag_of_words
+
+    @property
+    def terms_to_index(self):
+        return {w: idx + 1 for idx, w
+                in enumerate(sorted(self))}
 
     def __iter__(self):
-        return self.bag_of_words.__iter__()
+        return self.tf.__iter__()
