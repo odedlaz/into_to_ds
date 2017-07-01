@@ -1,9 +1,9 @@
+import codecs
 import os
 import re
-from collections import Counter, OrderedDict, namedtuple
-
+from collections import Counter, namedtuple
+from review import Review
 import nltk
-
 # nltk dropped support for cleaning html in favor of BeatifulSoup:
 # https://stackoverflow.com/q/26002076
 # we use beautiful soup to remove html tags from the code
@@ -13,47 +13,14 @@ from bs4 import BeautifulSoup
 FileParts = namedtuple('FileParts', ['idx', 'score', 'ext'])
 
 
-class Review(object):
-    review_fmt = "{score} {bag_txt} # {filename}"
-
-    SVM = "svm"
-    RAW = "raw"
-
-    def __init__(self, path, words, score):
-        self.path = path
-        self.filename = os.path.basename(self.path)
-        self.words = words
-        self.score = score
-
-    def format(self, bag_of_words, format=RAW):
-        if format == Review.SVM:
-            return self._format_in_svm_light(bag_of_words)
-
-        if format == Review.RAW:
-            return self._format_in_raw(bag_of_words)
-
-        raise ValueError("format is not supported")
-
-    def _format(self, words):
-        bag_txt = " ".join("{}:{}".format(w, sum)
-                           for w, sum in words)
-        return self.review_fmt.format(score=self.score,
-                                      bag_txt=bag_txt,
-                                      filename=self.filename)
-
-    def _format_in_raw(self, bag_of_words):
-        return self._format(self.words.items())
-
-    def _format_in_svm_light(self, bag_of_words):
-        svm_data = OrderedDict(((bag_of_words[w], sum) for w, sum
-                                in sorted(self.words.items(),
-                                          key=lambda x: x[0])))
-        return self._format(svm_data.items())
-
-
-class ReviewParser(object):
+class BagOfWords(object):
 
     filename_re = re.compile('(?P<idx>.*)_(?P<score>.*)\.(?P<ext>.*)')
+
+    # After searching through the net, we learned that in general
+    # porter2 (snowball) is the best overall stemming algorithm,
+    # but not necessarily the fastest or most aggressive.
+    stemmer = nltk.SnowballStemmer('english')
 
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
@@ -77,7 +44,7 @@ class ReviewParser(object):
 
         fileparts = self._parse_filename(filename)
 
-        with open(path, 'r') as f:
+        with codecs.open(path, 'r', encoding='utf-8') as f:
             txt = f.read().lower()
             file_bag_of_words = Counter(self._get_words(txt))
             self._bag_of_words.update(file_bag_of_words)
@@ -92,8 +59,11 @@ class ReviewParser(object):
             # words should have at least two characters
             # and should not belong to the word filter
             if len(word) > 1 and word not in self._words_filter:
-                yield word
+                yield self.stemmer.stem(word)
 
     @property
     def bag_of_words(self):
         return self._bag_of_words.keys()
+
+    def __iter__(self):
+        return self.bag_of_words.__iter__()

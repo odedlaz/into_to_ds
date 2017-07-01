@@ -1,6 +1,7 @@
+import codecs
 import os
 
-from parser import Review, ReviewParser
+from parser import Review, BagOfWords
 from utils import ProgressBar
 
 
@@ -47,46 +48,45 @@ class Reviewer(object):
         else:
             self._write_single_file()
 
-    def _write(self, filename, review_parser, reviews):
+    def _write(self, filename, bag_of_words, reviews):
         # get the format of the review
         review_format = Review.RAW
         if self._output_in_svm_light:
             review_format = Review.SVM
 
         # update the bag of words in accordance to the type of the review
-        bag = review_parser.bag_of_words
         if review_format == Review.SVM:
-            bag = {w: idx + 1 for idx, w
-                   in enumerate(sorted(bag))}
+            bag_of_words = {w: idx + 1 for idx, w
+                            in enumerate(sorted(bag_of_words))}
 
         prefix = "writing reviews to disk"
         with ProgressBar(prefix, len(reviews)) as pb:
-            with open(filename, 'w') as f:
+            with codecs.open(filename, 'w', encoding='utf-8') as f:
                 for review in reviews:
                     pb.report()
-                    line = review.format(bag, review_format)
+                    line = review.format(bag_of_words, review_format)
                     f.write(line + '\n')
 
     def _write_per_dir(self):
         for dir in map(os.path.abspath, self._dirs):
 
-            review_parser = ReviewParser(self._words_filter)
+            bag_of_words = BagOfWords(self._words_filter)
             numoffiles = len(os.listdir(dir))
             filename = self._get_filename(dir)
 
             reviews = []
             prefix = "crunching reviews for '{}'".format(filename)
             with ProgressBar(prefix, numoffiles) as pb:
-                for review in review_parser.parse_dir(dir):
+                for review in bag_of_words.parse_dir(dir):
                     pb.report()
                     reviews.append(review)
 
             assert numoffiles == len(reviews)
 
-            self._write(filename, review_parser, reviews)
+            self._write(filename, bag_of_words, reviews)
 
     def _write_single_file(self):
-        review_parser = ReviewParser(self._words_filter)
+        bag_of_words = BagOfWords(self._words_filter)
         filename = self._get_filename("dataset")
         numoffiles = sum(len(os.listdir(x)) for x in self._dirs)
 
@@ -94,10 +94,10 @@ class Reviewer(object):
         prefix = "crunching reviews for '{}'".format(filename)
         with ProgressBar(prefix, numoffiles) as pb:
             for dir in map(os.path.abspath, self._dirs):
-                for review in review_parser.parse_dir(dir):
+                for review in bag_of_words.parse_dir(dir):
                     pb.report()
                     reviews.append(review)
 
         assert numoffiles == len(reviews)
 
-        self._write(filename, review_parser, reviews)
+        self._write(filename, bag_of_words, reviews)
