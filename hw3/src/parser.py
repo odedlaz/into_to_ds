@@ -1,12 +1,14 @@
 import os
 import re
-from collections import Counter, OrderedDict
+from collections import Counter, OrderedDict, namedtuple
 
 import nltk
 # we use beautiful soup to remove html tags from the code
 # nltk dropped support for cleaning html in favor of BeatifulSoup:
 # https://stackoverflow.com/q/26002076
 from bs4 import BeautifulSoup
+
+FileParts = namedtuple('FileParts', ['idx', 'score', 'ext'])
 
 
 class Review(object):
@@ -62,19 +64,22 @@ class ReviewParser(object):
 
     def _parse_filename(self, filename):
         m = self.filename_re.match(filename)
+
         if not m:
             raise ValueError("filename is not in the correct format")
-        return m.groupdict()
+
+        return FileParts(**m.groupdict())
 
     def parse_file(self, path):
         filename = os.path.basename(path)
-        score = self._parse_filename(filename)['score']
+
+        fileparts = self._parse_filename(filename)
 
         with open(path, 'r') as f:
             txt = f.read().lower()
             file_bag_of_words = Counter(self._get_words(txt))
             self._bag_of_words.update(file_bag_of_words)
-            return Review(score=score,
+            return Review(score=fileparts.score,
                           words=file_bag_of_words,
                           path=path)
 
