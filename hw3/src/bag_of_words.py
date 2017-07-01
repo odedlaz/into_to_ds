@@ -48,5 +48,5 @@ def parse_arguments(args=None):
 
 if __name__ == "__main__":
     argument_parser = parse_arguments()
-    reviewer = Reviewer(argument_parser)
+    reviewer = Reviewer.from_argparse(argument_parser)
     reviewer.write(per_dir=argument_parser.generate_per_dir)
