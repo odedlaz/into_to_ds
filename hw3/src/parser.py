@@ -26,7 +26,7 @@ class BagOfWords(object):
 
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
-        self._bag_of_words = Counter()
+        self._bag_of_words = set()
         self.df = defaultdict(int)
         self.num_of_docs = 0
 
@@ -68,11 +68,11 @@ class BagOfWords(object):
         for word in filter(str.isalpha, nltk.Text(tokens)):
             # words should have at least two characters
             # and should not belong to the word filter
-            if len(word) > 1 and word not in self._words_filter:
+            if word not in self._words_filter:
                 yield self.stemmer.stem(word)
 
     @property
-    def tf(self):
+    def terms(self):
         return self._bag_of_words
 
     @property
@@ -81,4 +81,4 @@ class BagOfWords(object):
                 in enumerate(sorted(self))}
 
     def __iter__(self):
-        return self.tf.__iter__()
+        return self.terms.__iter__()
