@@ -27,6 +27,7 @@ class BagOfWords(object):
     def __init__(self, words_filter=None):
         self._words_filter = words_filter or []
         self._bag_of_words = set()
+        self._terms_to_index = {}
         self.df = defaultdict(int)
         self.num_of_docs = 0
 
@@ -53,6 +54,7 @@ class BagOfWords(object):
             txt = f.read().lower()
             terms = Counter(self._get_words(txt))
             self._bag_of_words.update(terms)
+            self._terms_to_index.clear()
 
             # sum the number of documents that contain the term
             for term in terms:
@@ -77,8 +79,11 @@ class BagOfWords(object):
 
     @property
     def terms_to_index(self):
-        return {w: idx + 1 for idx, w
-                in enumerate(sorted(self))}
+        if not self._terms_to_index:
+            self._terms_to_index = {w: idx + 1 for idx, w
+                                    in enumerate(sorted(self))}
+
+        return self._terms_to_index
 
     def __iter__(self):
         return self.terms.__iter__()
