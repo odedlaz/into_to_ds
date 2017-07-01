@@ -29,7 +29,7 @@ class LoadStopWordsAction(argparse.Action):
             return nltk.corpus.stopwords.words('english')
         except LookupError:
             msg = 'stopwords file is missing, and nltk corpus is not installed'
-            raise argparse.ArgumentTypeError(msg)
+            raise argparse.ArgumentError(self, msg)
 
     def __call__(self, parser, namespace, values, option_string=None):
         setattr(namespace,
