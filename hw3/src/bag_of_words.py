@@ -4,6 +4,7 @@ import sys
 
 import argparse_actions as actions
 from parser import Review, ReviewParser
+from utils import ProgressBar
 
 CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,7 +39,7 @@ def parse_arguments(args=None):
                         required=False)
 
     parser.add_argument('-l',
-                        dest='svm_light',
+                        dest='output_in_svm_light',
                         action='store_true',
                         default=False,
                         help='generate output in svm light format',
@@ -48,35 +49,15 @@ def parse_arguments(args=None):
 
 
 def get_flags_text(parser):
-    yield 'S' if parser.generate_per_dir else 's'
-    yield 'L' if parser.svm_light else 'l'
-    yield 'T' if parser.generate_in_tfidf else 't'
+    s = 'S' if parser.generate_per_dir else 's'
+    l = 'L' if parser.output_in_svm_light else 'l'
+    t = 'T' if parser.generate_in_tfidf else 't'
+    return s + l + t
 
 
 def get_results_filename(flags, dir, ext=""):
     last_dirs = dir.split(os.sep)[-2:]
-    return "{}_{}.txt".format("_".join(last_dirs),
-                              flags)
-
-
-class ProgressBar(object):
-
-    def __init__(self, prefix, numofitems):
-        self._numofitems = numofitems
-        self._counter = 0
-        self._report_fmt = prefix + "... {0:.1f}%"
-
-    def report(self):
-        self._counter += 1
-        line = self._report_fmt.format(self._counter * 100 / self._numofitems)
-        print(line, end='')
-        print('\r' * len(line), end='')
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, tb):
-        print("")
+    return "{}_{}.txt".format("_".join(last_dirs), flags)
 
 
 def generate_output_file_per_directory(argument_parser):
@@ -102,8 +83,8 @@ def generate_output_file_per_directory(argument_parser):
             with open(filename, 'w') as f:
                 for review in reviews:
                     pb.report()
-                    line = review.format_review(bag,
-                                                review_format)
+                    line = review.format(bag,
+                                         review_format)
                     f.write(line + '\n')
 
 
@@ -131,7 +112,7 @@ def generate_single_output_file(argument_parser):
         with open(filename, 'w') as f:
             for review in reviews:
                 pb.report()
-                line = review.format_review(bag, review_format)
+                line = review.format(bag, review_format)
                 f.write(line + '\n')
 
 
@@ -139,10 +120,10 @@ if __name__ == "__main__":
     argument_parser = parse_arguments()
 
     review_format = Review.RAW
-    if argument_parser.svm_light:
+    if argument_parser.output_in_svm_light:
         review_format = Review.SVM
 
-    flags = "".join(get_flags_text(argument_parser))
+    flags = get_flags_text(argument_parser)
 
     if argument_parser.generate_per_dir:
         generate_output_file_per_directory(argument_parser)

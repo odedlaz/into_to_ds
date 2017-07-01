@@ -23,7 +23,7 @@ class Review(object):
         self.words = words
         self.score = score
 
-    def format_review(self, bag_of_words, format=RAW):
+    def format(self, bag_of_words, format=RAW):
         if format == Review.SVM:
             return self._format_in_svm_light(bag_of_words)
 
