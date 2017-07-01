@@ -83,8 +83,7 @@ def generate_output_file_per_directory(argument_parser):
             with open(filename, 'w') as f:
                 for review in reviews:
                     pb.report()
-                    line = review.format(bag,
-                                         review_format)
+                    line = review.format(bag, review_format)
                     f.write(line + '\n')
 
 
