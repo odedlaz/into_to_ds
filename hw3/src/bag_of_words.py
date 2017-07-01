@@ -16,7 +16,7 @@ def parse_arguments(args=None):
                         metavar='DIR',
                         action=actions.ValidateDirectoriesAction,
                         nargs='+',
-                        help='put something here please')
+                        help='directories that contain reviews')
 
     parser.add_argument('--stopwords',
                         default=os.path.join(CURRENT_FILE_DIR,
