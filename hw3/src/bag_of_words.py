@@ -6,8 +6,6 @@ import argparse_actions as actions
 from parser import Review, ReviewParser
 from utils import ProgressBar
 
-CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 def parse_arguments(args=None):
     parser = argparse.ArgumentParser(description='Bag of Words')
@@ -18,8 +16,9 @@ def parse_arguments(args=None):
                         nargs='+',
                         help='directories that contain reviews')
 
+    current_file_dir = os.path.dirname(os.path.abspath(__file__))
     parser.add_argument('--stopwords',
-                        default=os.path.join(CURRENT_FILE_DIR,
+                        default=os.path.join(current_file_dir,
                                              "stopwords.txt"),
                         action=actions.LoadStopWordsAction,
                         help='path to a stopwords file')
@@ -63,7 +62,7 @@ def get_results_filename(flags, dir, ext=""):
 def generate_output_file_per_directory(argument_parser):
     for dir in map(os.path.abspath, argument_parser.dirs):
         review_parser = ReviewParser(argument_parser.stopwords)
-        numoffiles = float(len(os.listdir(dir)))
+        numoffiles = len(os.listdir(dir))
         filename = get_results_filename(flags, dir)
         prefix = "crunching reviews for '{}'".format(filename)
         reviews = []
@@ -79,6 +78,9 @@ def generate_output_file_per_directory(argument_parser):
                    in enumerate(sorted(bag))}
 
         prefix = "writing reviews to disk"
+
+        assert numoffiles == len(reviews)
+
         with ProgressBar(prefix, numoffiles) as pb:
             with open(filename, 'w') as f:
                 for review in reviews:
@@ -93,10 +95,10 @@ def generate_single_output_file(argument_parser):
                       argument_parser.dirs])
     filename = get_results_filename(flags, "dataset")
     prefix = "crunching reviews for '{}'".format(filename)
+    reviews = []
 
     with ProgressBar(prefix, numoffiles) as pb:
         for dir in map(os.path.abspath, argument_parser.dirs):
-            reviews = []
             for review in review_parser.parse_dir(dir):
                 pb.report()
                 reviews.append(review)
@@ -107,6 +109,9 @@ def generate_single_output_file(argument_parser):
                in enumerate(sorted(bag))}
 
     prefix = "writing reviews to disk"
+
+    assert numoffiles == len(reviews)
+
     with ProgressBar(prefix, numoffiles) as pb:
         with open(filename, 'w') as f:
             for review in reviews:
