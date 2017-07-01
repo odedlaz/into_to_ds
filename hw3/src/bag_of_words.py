@@ -53,7 +53,7 @@ def get_flags_text(parser):
     yield 'T' if parser.generate_in_tfidf else 't'
 
 
-def get_results_filename(flags, dir):
+def get_results_filename(flags, dir, ext=""):
     last_dirs = dir.split(os.sep)[-2:]
     return "{}_{}.txt".format("_".join(last_dirs),
                               flags)
@@ -79,19 +79,9 @@ class ProgressBar(object):
         print("")
 
 
-if __name__ == "__main__":
-    argument_parser = parse_arguments()
-
-    review_format = Review.RAW
-    if argument_parser.svm_light:
-        review_format = Review.SVM
-
-    flags = "".join(get_flags_text(argument_parser))
-
+def generate_output_file_per_directory(argument_parser):
     for dir in map(os.path.abspath, argument_parser.dirs):
-
         review_parser = ReviewParser(argument_parser.stopwords)
-
         numoffiles = float(len(os.listdir(dir)))
         filename = get_results_filename(flags, dir)
         prefix = "crunching reviews for '{}'".format(filename)
@@ -108,7 +98,6 @@ if __name__ == "__main__":
                    in enumerate(sorted(bag))}
 
         prefix = "writing reviews to disk"
-
         with ProgressBar(prefix, numoffiles) as pb:
             with open(filename, 'w') as f:
                 for review in reviews:
@@ -116,3 +105,46 @@ if __name__ == "__main__":
                     line = review.format_review(bag,
                                                 review_format)
                     f.write(line + '\n')
+
+
+def generate_single_output_file(argument_parser):
+    review_parser = ReviewParser(argument_parser.stopwords)
+    numoffiles = sum([len(os.listdir(x)) for x in
+                      argument_parser.dirs])
+    filename = get_results_filename(flags, "dataset")
+    prefix = "crunching reviews for '{}'".format(filename)
+
+    with ProgressBar(prefix, numoffiles) as pb:
+        for dir in map(os.path.abspath, argument_parser.dirs):
+            reviews = []
+            for review in review_parser.parse_dir(dir):
+                pb.report()
+                reviews.append(review)
+
+    bag = review_parser.bag_of_words
+    if review_format == Review.SVM:
+        bag = {w: idx + 1 for idx, w
+               in enumerate(sorted(bag))}
+
+    prefix = "writing reviews to disk"
+    with ProgressBar(prefix, numoffiles) as pb:
+        with open(filename, 'w') as f:
+            for review in reviews:
+                pb.report()
+                line = review.format_review(bag, review_format)
+                f.write(line + '\n')
+
+
+if __name__ == "__main__":
+    argument_parser = parse_arguments()
+
+    review_format = Review.RAW
+    if argument_parser.svm_light:
+        review_format = Review.SVM
+
+    flags = "".join(get_flags_text(argument_parser))
+
+    if argument_parser.generate_per_dir:
+        generate_output_file_per_directory(argument_parser)
+    else:
+        generate_single_output_file(argument_parser)
