@@ -49,22 +49,20 @@ class Reviewer(object):
             self._write_single_file()
 
     def _write(self, filename, bag_of_words, reviews):
+
         # get the format of the review
         review_format = Review.RAW
         if self._output_in_svm_light:
             review_format = Review.SVM
-
-        # update the bag of words in accordance to the type of the review
-        if review_format == Review.SVM:
-            bag_of_words = {w: idx + 1 for idx, w
-                            in enumerate(sorted(bag_of_words))}
 
         prefix = "writing reviews to disk"
         with ProgressBar(prefix, len(reviews)) as pb:
             with codecs.open(filename, 'w', encoding='utf-8') as f:
                 for review in reviews:
                     pb.report()
-                    line = review.format(bag_of_words, review_format)
+                    line = review.format(bag_of_words=bag_of_words,
+                                         format=review_format,
+                                         tfidf=self._output_in_tfdidf)
                     f.write(line + '\n')
 
     def _write_per_dir(self):
