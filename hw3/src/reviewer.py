@@ -66,9 +66,9 @@ class Reviewer(object):
                     f.write(line + '\n')
 
     def _write_per_dir(self):
-        for dir in map(os.path.abspath, self._dirs):
+        bag_of_words = BagOfWords(self._words_filter)
 
-            bag_of_words = BagOfWords(self._words_filter)
+        for dir in map(os.path.abspath, self._dirs):
             numoffiles = len(os.listdir(dir))
             filename = self._get_filename(dir)
 

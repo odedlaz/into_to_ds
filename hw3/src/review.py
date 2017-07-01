@@ -48,10 +48,10 @@ class Review(object):
         return self._format(tfidf_data)
 
     def _format_in_svm_light(self, bag_of_words, tfidf):
-        terms = bag_of_words.terms_to_index
+        terms_to_idx = bag_of_words.terms_to_index
 
         if not tfidf:
-            svm_data = OrderedDict(((terms[w], sum) for w, sum
+            svm_data = OrderedDict(((terms_to_idx[w], sum) for w, sum
                                     in sorted(self.terms.items(),
                                               key=lambda x: x[0])))
             return self._format(svm_data)
@@ -59,7 +59,7 @@ class Review(object):
         tfidf_data = self._generate_tfidf(bag_of_words.num_of_docs,
                                           bag_of_words.df)
 
-        svm_data = OrderedDict(((terms[w], tfidf) for w, tfidf
+        svm_data = OrderedDict(((terms_to_idx[w], tfidf) for w, tfidf
                                 in sorted(tfidf_data.items(),
                                           key=lambda x: x[0])))
         return self._format(svm_data)
