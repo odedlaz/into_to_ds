@@ -33,7 +33,6 @@ class Review(object):
     def _format(self, words):
         bag_txt = " ".join("{}:{}".format(w, sum)
                            for w, sum in words)
-
         return self.review_fmt.format(score=self.score,
                                       bag_txt=bag_txt,
                                       filename=self.filename)
@@ -45,7 +44,6 @@ class Review(object):
         svm_data = OrderedDict(((bag_of_words[w], sum) for w, sum
                                 in sorted(self.words.items(),
                                           key=lambda x: x[0])))
-
         return self._format(svm_data.items())
 
 
@@ -86,7 +84,7 @@ class ReviewParser(object):
         for word in filter(str.isalpha, nltk.Text(tokens)):
             # words should have at least two characters
             # and should not belong to the word filter
-            if len(word) > 1 and word in self._words_filter:
+            if len(word) > 1 and word not in self._words_filter:
                 yield word
 
     @property
