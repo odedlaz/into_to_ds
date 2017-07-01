@@ -3,9 +3,11 @@ import re
 from collections import Counter, OrderedDict, namedtuple
 
 import nltk
-# we use beautiful soup to remove html tags from the code
+
 # nltk dropped support for cleaning html in favor of BeatifulSoup:
 # https://stackoverflow.com/q/26002076
+# we use beautiful soup to remove html tags from the code
+# it is part of anaconda, so no installation is needed
 from bs4 import BeautifulSoup
 
 FileParts = namedtuple('FileParts', ['idx', 'score', 'ext'])
