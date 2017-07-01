@@ -1,6 +1,6 @@
 import argparse
 import os
-
+import codecs
 import nltk
 
 
@@ -22,7 +22,7 @@ class LoadStopWordsAction(argparse.Action):
         # how? we wrote nltk's to disk, added to lab9's, and cleaned duplicates.
         # if the file doesn't exist for some reason, fallback to ntlk's corpus
         if os.path.isfile(path):
-            with open(path, "r") as f:
+            with codecs.open(path, "r", encoding='utf-8') as f:
                 return [x.strip() for x in f]
 
         try:
