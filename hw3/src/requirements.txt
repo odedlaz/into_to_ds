@@ -1,2 +1,5 @@
 beautifulsoup4
+scikit-learn
+numpy
+scipy
 nltk
