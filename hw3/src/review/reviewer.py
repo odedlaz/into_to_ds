@@ -67,7 +67,7 @@ class Reviewer(object):
         """
         perform all the logic - crunch data and write to disk.
         """
-        if self._write_per_dir:
+        if self._output_per_dir:
             return self._write_per_dir()
 
         return self._write_single_file()
@@ -131,7 +131,12 @@ class Reviewer(object):
         write outputs of all directory to one file
         """
         bag_of_words = BagOfWordsParser(self._words_filter)
-        filename = self._get_filename("dataset")
+
+        flags = Reviewer._get_flags_text(self._output_per_dir,
+                                         self._output_in_svm_light,
+                                         self._output_in_tfdidf)
+
+        filename = self._get_filename("dataset", flags)
         numoffiles = sum(len(os.listdir(x)) for x in self._dirs)
 
         reviews = []
