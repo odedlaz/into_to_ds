@@ -26,7 +26,7 @@ def parse_arguments(args=None):
 def load_dataset(train_path, test_path, threshold=5):
     files = [train_path, test_path]
     dataset = datasets.load_svmlight_files(files=files,
-                                           zero_based=False,
+                                           zero_based=True,
                                            query_id=True,
                                            multilabel=False)
     for (x, y, qid) in [dataset[i:i + 3]
