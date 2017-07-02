@@ -80,5 +80,8 @@ class BagOfWordsParser(object):
 
         return self._terms_to_index.__getitem__(term)
 
+    def __len__(self):
+        return self._bag_of_words.__len__()
+
     def __iter__(self):
         return self._bag_of_words.__iter__()
