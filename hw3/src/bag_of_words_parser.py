@@ -15,7 +15,7 @@ from review import Review
 FileParts = namedtuple('FileParts', ['idx', 'score', 'ext'])
 
 
-class BagOfWords(object):
+class BagOfWordsParser(object):
 
     filename_re = re.compile('(?P<idx>.*)_(?P<score>.*)\.(?P<ext>.*)')
 
