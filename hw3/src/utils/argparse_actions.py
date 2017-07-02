@@ -5,17 +5,29 @@ import nltk
 
 
 class ValidateDirectoriesAction(argparse.Action):
+    """
+    an action that validates that each argument is a valid directory
+    """
+
     def __call__(self, parser, namespace, values, option_string=None):
 
-        error_fmt = "'{}' dir doesn't exist"
         for dir in values:
+            if not os.path.exists(dir):
+                msg = "'{}' doesn't exist".format(dir)
+                raise argparse.ArgumentError(self, msg)
+
             if not os.path.isdir(dir):
-                raise argparse.ArgumentError(self, error_fmt.format(dir))
+                msg = "'{}' is not a directory".format(dir)
+                raise argparse.ArgumentError(self, msg)
 
         setattr(namespace, self.dest, values)
 
 
 class ValidateFilepath(argparse.Action):
+    """
+    an action that validates that an argument is a valid file
+    """
+
     def __call__(self, parser, namespace, values, option_string=None):
 
         if not os.path.exists(values):
@@ -30,6 +42,10 @@ class ValidateFilepath(argparse.Action):
 
 
 class LoadStopWordsAction(argparse.Action):
+    """
+    an action that loads stopwords from a given file path.
+    it fallback to nltk's stopwords corpus if non is found
+    """
 
     def _get_stopwords(self, path):
         # we've added the possibility to add a custom words bank
@@ -45,6 +61,4 @@ class LoadStopWordsAction(argparse.Action):
             raise argparse.ArgumentError(self, msg)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace,
-                self.dest,
-                self._get_stopwords(values))
+        setattr(namespace, self.dest, self._get_stopwords(values))

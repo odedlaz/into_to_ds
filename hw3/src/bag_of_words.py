@@ -7,6 +7,10 @@ from review import Reviewer
 
 
 def parse_arguments(args=None):
+    """
+    parses arguments
+    :param args: a list of arguments to parse. default to sys.argv
+    """
     parser = argparse.ArgumentParser(description='Bag of Words')
 
     parser.add_argument('dirs',
