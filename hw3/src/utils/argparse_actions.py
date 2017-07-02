@@ -18,9 +18,8 @@ class ValidateDirectoriesAction(argparse.Action):
 class LoadStopWordsAction(argparse.Action):
 
     def _get_stopwords(self, path):
-        # we've taken lab9's stop words file, and combined it with nltk's
-        # how? we wrote nltk's to disk, added to lab9's, and cleaned duplicates.
-        # if the file doesn't exist for some reason, fallback to ntlk's corpus
+        # we've added the possibility to add a custom words bank
+        # if the file doesn't exist, we fallback to ntlk's corpus
         if os.path.isfile(path):
             with codecs.open(path, "r", encoding='utf-8') as f:
                 return [x.strip() for x in f]
