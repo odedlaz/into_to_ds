@@ -57,7 +57,7 @@ class Reviewer(object):
         if self._output_in_svm_light:
             review_format = Review.SVM
 
-        prefix = "writing reviews to disk"
+        prefix = "writing '{}' reviews to disk".format(filename)
         with ProgressBar(prefix, len(reviews)) as pb:
             with codecs.open(filename, 'w', encoding='utf-8') as f:
                 for review in reviews:
