@@ -47,15 +47,34 @@ def train_svm(train_set):
 
 def test_svm(classifier, test_set):
     predicted = classifier.predict(test_set.x)
+    with open('learn.txt', 'w') as f:
+        for filename, prediction in zip(create_filename(test_set), predicted):
+            f.write(filename + ":" + str(int(prediction)) + "\n")
     report = metrics.classification_report(test_set.y, predicted)
+    score = classifier.score(test_set.x, test_set.y)
+    print(score)
     print(report)
+
+
+def create_filename(test_set):
+    for y, qid in zip(test_set.y, test_set.qid):
+        yield (str(qid) + "_" + str(int(y)) + ".txt")
+
+
+def get_weights(classifier):
+    weights = sorted(classifier.coef_[0])
+    highest_w, lowest_w = weights[-10:], weights[:10]
+    print("Highest weights:")
+    print(highest_w)
+    print("Lowest weights:")
+    print(lowest_w)
 
 
 def run_svm(train_path, test_path):
     train_set, test_set = tuple(load_dataset(train_path, test_path))
-
     classifier = train_svm(train_set)
     test_svm(classifier, test_set)
+    get_weights(classifier)
 
 
 def main(*args):
