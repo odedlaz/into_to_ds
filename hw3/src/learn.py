@@ -1,56 +1,67 @@
-from sklearn import datasets
-
-from sklearn import svm
-
-from sklearn import preprocessing
-
+import argparse
 import sys
+from collections import namedtuple
 
-def score_normalizer(scores,threshold):
-    for index, score in enumerate(scores):
-        scores[index] = 1 if score>threshold else 0
-    return scores
+from sklearn import datasets, metrics, preprocessing, svm
+
+import utils
+
+SvmSet = namedtuple('SvmSet', ['x', 'y'])
 
 
-def learn_svm(train_set_file, test_set_file): # train set has 50166 ,test set has 70564
-    train_set = datasets.load_svmlight_file(train_set_file, zero_based=True, multilabel=False, n_features=70568)
+def parse_arguments(args=None):
+    parser = argparse.ArgumentParser(description='Bag of Words')
 
-    test_set = datasets.load_svmlight_file(test_set_file, zero_based=True, multilabel=False, n_features=70568)
+    parser.add_argument('train',
+                        action=utils.argparse.ValidateFilepath,
+                        help='path to the train set in svm light format')
 
-    train_x = train_set[0]
+    parser.add_argument('test',
+                        action=utils.argparse.ValidateFilepath,
+                        help='path to the test set in svm light format')
 
-    train_x.data = preprocessing.MinMaxScaler().fit_transform(train_x.data)
+    return parser.parse_args(args or sys.argv[1:])
 
-    threshold = 5
 
-    train_y = score_normalizer(train_set[1], threshold)
+def load_dataset(train_path, test_path, threshold=5):
+    files = [train_path, test_path]
+    dataset = datasets.load_svmlight_files(files=files,
+                                           zero_based=False,
+                                           multilabel=False)
 
-    test_x = test_set[0]
+    for (x, y) in zip(dataset[::2], dataset[1::2]):
+        x.data = preprocessing.MinMaxScaler().fit_transform(x.data)
 
-    test_x.data = preprocessing.MinMaxScaler().fit_transform(test_x.data)
+        for idx, score in enumerate(y):
+            y[idx] = 1 if score > threshold else 0
 
-    test_y = score_normalizer(test_set[1], threshold)
+        yield SvmSet(x=x, y=y)
 
+
+def train_svm(train_set):
     classifier = svm.LinearSVC()
+    classifier.fit(train_set.x, train_set.y)
+    return classifier
 
-    classifier.fit(train_x, train_y)
 
-    predicted = classifier.predict(test_x)
+def test_svm(classifier, test_set):
+    predicted = classifier.predict(test_set.x)
+    report = metrics.classification_report(test_set.y, predicted)
+    print(report)
 
-    print(predicted)
 
-    print(test_y)
+def run_svm(train_path, test_path):
+    train_set, test_set = tuple(load_dataset(train_path, test_path))
 
-    from sklearn.model_selection import cross_val_score
+    classifier = train_svm(train_set)
+    test_svm(classifier, test_set)
 
-    scores = cross_val_score(classifier, test_x, test_y)
 
-    print(scores)
+def main(*args):
+    argument_parser = parse_arguments(args)
+    run_svm(argument_parser.train,
+            argument_parser.test)
 
 
 if __name__ == "__main__":
-    train_path = sys.argv[1]
-
-    test_path = sys.argv[2]
-
-    learn_svm(train_path, test_path)
+    main(*sys.argv[1:])

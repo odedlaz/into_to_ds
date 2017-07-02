@@ -15,6 +15,20 @@ class ValidateDirectoriesAction(argparse.Action):
         setattr(namespace, self.dest, values)
 
 
+class ValidateFilepath(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+
+        if not os.path.exists(values):
+            msg = "'{}' doesn't exist".format(values)
+            raise argparse.ArgumentError(self, msg)
+
+        if not os.path.isfile(values):
+            msg = "'{}' is not a file".format(values)
+            raise argparse.ArgumentError(self, msg)
+
+        setattr(namespace, self.dest, values)
+
+
 class LoadStopWordsAction(argparse.Action):
 
     def _get_stopwords(self, path):
