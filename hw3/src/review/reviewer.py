@@ -1,7 +1,8 @@
 import codecs
 import os
 
-from bag_of_words_parser import Review, BagOfWordsParser
+from . import Review
+from words_parser import BagOfWordsParser
 from collections import defaultdict
 from utils import ProgressBar
 
