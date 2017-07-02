@@ -9,6 +9,12 @@ class Review(object):
     SVM = "svm"
     RAW = "raw"
 
+    # added slots to for attribute access
+    # but most importantly - memory saving.
+    # there are A LOT of Review objects in memory and this reduced the
+    # pressure on memory
+    __slots__ = ('path', 'filename', 'terms', 'score')
+
     def __init__(self, path, terms, score):
         self.path = path
         self.filename = os.path.basename(self.path)
