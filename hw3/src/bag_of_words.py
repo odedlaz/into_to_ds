@@ -2,8 +2,8 @@ import argparse
 import os
 import sys
 
-import argparse_actions as actions
-from reviewer import Reviewer
+import utils
+from review import Reviewer
 
 
 def parse_arguments(args=None):
@@ -11,7 +11,7 @@ def parse_arguments(args=None):
 
     parser.add_argument('dirs',
                         metavar='DIR',
-                        action=actions.ValidateDirectoriesAction,
+                        action=utils.argparse.ValidateDirectoriesAction,
                         nargs='+',
                         help='directories that contain reviews')
 
@@ -19,7 +19,7 @@ def parse_arguments(args=None):
     parser.add_argument('--stopwords',
                         default=os.path.join(current_file_dir,
                                              "stopwords.txt"),
-                        action=actions.LoadStopWordsAction,
+                        action=utils.argparse.LoadStopWordsAction,
                         help='path to a stopwords file')
 
     parser.add_argument('-t',
