@@ -1,4 +1,5 @@
 import warnings
+# Since Sickit-Learn has deprecation warnings for MinMaxScalar, we ignore them.
 warnings.warn = lambda *a, **kw: None
 
 import argparse
@@ -13,6 +14,11 @@ SvmSet = namedtuple('SvmSet', ['x', 'y', 'qid'])
 
 
 def parse_arguments(args=None):
+    """
+    Parses the arguments(svm_train_file,svm_test_file) using argparse
+    :param args:
+    :return: Parser that contains argument of script
+    """
     parser = argparse.ArgumentParser(description='Bag of Words')
 
     parser.add_argument('train',
@@ -27,6 +33,16 @@ def parse_arguments(args=None):
 
 
 def load_dataset(train_path, test_path, threshold=5):
+    """
+    Generator the yields SvmSet for each set(train, test)
+    Loads the svml format file to Sickit-Learn svml-bases dataset
+    and Normalize the values(the data with MinMaxScalar)
+    If the score is above threshold(defult = 5) so normalized as 1(Positive) else, 0(Negative)
+    :param train_path: train set path
+    :param test_path: test set path
+    :param threshold: threshold to define the pivot-value
+    :return: None
+    """
     files = [train_path, test_path]
     dataset = datasets.load_svmlight_files(files=files,
                                            zero_based=True,
@@ -43,12 +59,23 @@ def load_dataset(train_path, test_path, threshold=5):
 
 
 def train_svm(train_set):
+    """
+    Trains SVM(LinearSVC) classifier using the Train set
+    :param train_set: SvmSet type Train set to be used for training
+    :return: svm.LinearSVC classifier
+    """
     classifier = svm.LinearSVC()
     classifier.fit(train_set.x, train_set.y)
     return classifier
 
 
 def test_svm(classifier, test_set):
+    """
+    Tests the classifier using Test set
+    :param classifier: Classifier to be tested
+    :param test_set: SvmSet type Test set for testing the classifier
+    :return: None
+    """
     predicted = classifier.predict(test_set.x)
     predict_fmt = "{filename}:{prediction:.0f}\n"
 
@@ -66,12 +93,23 @@ def test_svm(classifier, test_set):
 
 
 def filename_generator(test_set):
+    """
+    Generator for filename parsing from SVML format
+    yields string in the format required
+    :param test_set: SvmSet type Test set
+    :return: None
+    """
     fmt = "{qid}_{y}.txt"
     for y, qid in zip(test_set.y, test_set.qid):
         yield fmt.format(**locals())
 
 
 def print_weights(classifier):
+    """
+    Prints 10-Highest weights and 10-Lowest weights, non-Absolute
+    :param classifier: Classifier to extract .coef_(weights)
+    :return: None
+    """
     sorted_weights = sorted(classifier.coef_[0])
 
     for name, weights in {"highest": sorted_weights[-10:],
@@ -83,6 +121,12 @@ def print_weights(classifier):
 
 
 def run_svm(train_path, test_path):
+    """
+    Runs the SVM classification method
+    :param train_path: Path to train SVML file
+    :param test_path: Path to test SVML file
+    :return: None
+    """
     train_set, test_set = tuple(load_dataset(train_path, test_path))
     classifier = train_svm(train_set)
     test_svm(classifier, test_set)
