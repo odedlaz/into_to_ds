@@ -1,7 +1,8 @@
 import codecs
 import os
 
-from parser import Review, BagOfWords
+from bag_of_words_parser import Review, BagOfWordsParser
+from collections import defaultdict
 from utils import ProgressBar
 
 
@@ -66,14 +67,16 @@ class Reviewer(object):
                     f.write(line + '\n')
 
     def _write_per_dir(self):
-        bag_of_words = BagOfWords(self._words_filter)
+        bag_of_words = BagOfWordsParser(self._words_filter)
+        reviews_per_dir = defaultdict(list)
 
         for dir in map(os.path.abspath, self._dirs):
             numoffiles = len(os.listdir(dir))
             filename = self._get_filename(dir)
 
-            reviews = []
+            reviews = reviews_per_dir[filename]
             prefix = "crunching reviews for '{}'".format(filename)
+
             with ProgressBar(prefix, numoffiles) as pb:
                 for review in bag_of_words.parse_dir(dir):
                     pb.report()
@@ -81,10 +84,13 @@ class Reviewer(object):
 
             assert numoffiles == len(reviews)
 
+        # we update here because the bag of words is not updated yet
+        # when we're still reading the files in the directories
+        for filename, reviews in reviews_per_dir.items():
             self._write(filename, bag_of_words, reviews)
 
     def _write_single_file(self):
-        bag_of_words = BagOfWords(self._words_filter)
+        bag_of_words = BagOfWordsParser(self._words_filter)
         filename = self._get_filename("dataset")
         numoffiles = sum(len(os.listdir(x)) for x in self._dirs)
 
