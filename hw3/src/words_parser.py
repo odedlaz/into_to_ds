@@ -60,7 +60,7 @@ class BagOfWordsParser(object):
             for term in terms:
                 self.df[term] += 1
 
-            return Review(score=fileparts.score,
+            return Review(fileparts=fileparts,
                           terms=terms,
                           path=path)
 

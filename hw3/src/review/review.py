@@ -4,7 +4,7 @@ import math
 
 
 class Review(object):
-    review_fmt = "{score} {bag_txt} # {filename}"
+    review_fmt = "{score} qid:{qid} {bag_txt} # {filename}"
 
     SVM = "svm"
     RAW = "raw"
@@ -13,13 +13,13 @@ class Review(object):
     # but most importantly - memory saving.
     # there are A LOT of Review objects in memory and this reduced the
     # pressure on memory
-    __slots__ = ('path', 'filename', 'terms', 'score')
+    __slots__ = ('path', 'filename', 'terms', 'fileparts')
 
-    def __init__(self, path, terms, score):
+    def __init__(self, path, terms, fileparts):
         self.path = path
         self.filename = os.path.basename(self.path)
         self.terms = terms
-        self.score = score
+        self.fileparts = fileparts
 
     def __iter__(self):
         return self.terms.__iter__()
@@ -37,7 +37,8 @@ class Review(object):
         bag_txt = " ".join("{}:{}".format(w, data)
                            for w, data in terms.items())
 
-        return self.review_fmt.format(score=self.score,
+        return self.review_fmt.format(score=self.fileparts.score,
+                                      qid=int(self.fileparts.idx),
                                       bag_txt=bag_txt,
                                       filename=self.filename)
 
