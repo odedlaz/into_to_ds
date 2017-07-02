@@ -42,11 +42,11 @@ class Reviewer(object):
         return "{}_{}.txt".format("_".join(last_dirs),
                                   self._flags)
 
-    def write(self, per_dir=False):
-        if per_dir:
-            self._write_per_dir()
-        else:
-            self._write_single_file()
+    def write(self):
+        if self._write_per_dir:
+            return self._write_per_dir()
+
+        return self._write_single_file()
 
     def _write(self, filename, bag_of_words, reviews):
 

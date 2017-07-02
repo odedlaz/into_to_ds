@@ -73,17 +73,12 @@ class BagOfWords(object):
             if word not in self._words_filter:
                 yield self.stemmer.stem(word)
 
-    @property
-    def terms(self):
-        return self._bag_of_words
-
-    @property
-    def terms_to_index(self):
+    def __getitem__(self, term):
         if not self._terms_to_index:
             self._terms_to_index = {w: idx + 1 for idx, w
                                     in enumerate(sorted(self))}
 
-        return self._terms_to_index
+        return self._terms_to_index.__getitem__(term)
 
     def __iter__(self):
-        return self.terms.__iter__()
+        return self._bag_of_words.__iter__()
