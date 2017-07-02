@@ -1,3 +1,6 @@
+import warnings
+warnings.warn = lambda *a, **kw: None
+
 import argparse
 import sys
 from collections import namedtuple
@@ -47,34 +50,43 @@ def train_svm(train_set):
 
 def test_svm(classifier, test_set):
     predicted = classifier.predict(test_set.x)
+    predict_fmt = "{filename}:{prediction:.0f}\n"
+
     with open('learn.txt', 'w') as f:
-        for filename, prediction in zip(create_filename(test_set), predicted):
-            f.write(filename + ":" + str(int(prediction)) + "\n")
+        for filename, prediction in zip(filename_generator(test_set), predicted):
+            f.write(predict_fmt.format(**locals()))
+
     report = metrics.classification_report(test_set.y, predicted)
     score = classifier.score(test_set.x, test_set.y)
-    print(score)
-    print(report)
+
+    msg_format = ("The score is: {}\n\n"
+                  "The classification matrix is: \n{}")
+
+    print(msg_format.format(score, report))
 
 
-def create_filename(test_set):
+def filename_generator(test_set):
+    fmt = "{qid}_{y}.txt"
     for y, qid in zip(test_set.y, test_set.qid):
-        yield (str(qid) + "_" + str(int(y)) + ".txt")
+        yield fmt.format(**locals())
 
 
-def get_weights(classifier):
-    weights = sorted(classifier.coef_[0])
-    highest_w, lowest_w = weights[-10:], weights[:10]
-    print("Highest weights:")
-    print(highest_w)
-    print("Lowest weights:")
-    print(lowest_w)
+def print_weights(classifier):
+    sorted_weights = sorted(classifier.coef_[0])
+
+    for name, weights in {"highest": sorted_weights[-10:],
+                          "lowest": sorted_weights[:10]}.items():
+
+        print("\n{} weights:\n".format(name).title())
+        for weight in weights:
+            print("{}- {}".format(" " * 3, weight))
 
 
 def run_svm(train_path, test_path):
     train_set, test_set = tuple(load_dataset(train_path, test_path))
     classifier = train_svm(train_set)
     test_svm(classifier, test_set)
-    get_weights(classifier)
+    print_weights(classifier)
 
 
 def main(*args):
