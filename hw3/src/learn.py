@@ -6,7 +6,7 @@ from sklearn import datasets, metrics, preprocessing, svm
 
 import utils
 
-SvmSet = namedtuple('SvmSet', ['x', 'y'])
+SvmSet = namedtuple('SvmSet', ['x', 'y', 'qid'])
 
 
 def parse_arguments(args=None):
@@ -27,15 +27,16 @@ def load_dataset(train_path, test_path, threshold=5):
     files = [train_path, test_path]
     dataset = datasets.load_svmlight_files(files=files,
                                            zero_based=False,
+                                           query_id=True,
                                            multilabel=False)
-
-    for (x, y) in zip(dataset[::2], dataset[1::2]):
+    for (x, y, qid) in [dataset[i:i + 3]
+                        for i in range(0, len(dataset), 3)]:
         x.data = preprocessing.MinMaxScaler().fit_transform(x.data)
 
         for idx, score in enumerate(y):
             y[idx] = 1 if score > threshold else 0
 
-        yield SvmSet(x=x, y=y)
+        yield SvmSet(x=x, y=y, qid=qid)
 
 
 def train_svm(train_set):
